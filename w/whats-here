@@ -1,0 +1,13 @@
+public_html/[...possible subdirectories.../]w is a directory for files that have to be visible to the browser.
+
+For example, you have to put cats/index.php where a browser can see it (somewhere in the Apache docroot) but you could put catslib somewhere else. That means images, js files, css files, and other things that the browser has to be able to fetch directly can't go in catslib.
+
+w/img is for images.  Feel free to use subdirectories to group them.
+w/js is for javascript files.
+w/css is for css files.
+
+w/os is for third-party libraries that contain fetchable resources (like images, css, js, etc). Our practice is to number the directories with version numbers (e.g. jquery1.4) and then define php contants like:
+    define("JQUERY_1_4", W."os/jquery1.4" );    // this allows you to have more than one jquery version in w/os and refer to the one you want
+    define("JQUERY", "JQUERY_1_4" );            // this lets you define a favourite version without your code having to know which one it is
+    
+
