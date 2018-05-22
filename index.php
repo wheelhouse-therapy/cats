@@ -81,17 +81,9 @@ $oUI = new CATS_MainUI( $oApp );
 
 $s = "";
 
-$screen = $oApp->sess->SmartGPC( 'screen' );
-$oUI->SetScreen($screen == ""?"home":$screen);
-if( substr($screen,0,5) == 'admin' ) {
-    $s .= drawAdmin($oApp);
-} else if( substr( $screen, 0, 9 ) == "therapist" ) {
-    $s .= drawTherapist( $screen, $oApp );
-} else if($screen == "logout"){
-    $s .= drawLogout($oApp);
-} else {
-    $s .= drawHome($oApp);
-}
+$screen = $oApp->sess->SmartGPC( 'screen', array( 'home' ) );   // if array has only one element it is the default if screen==''
+$s = $oUI->Screen( $screen );
+
 echo $oUI->OutputPage( $s );
 
 ?>
