@@ -12,8 +12,7 @@
  *     sErr  = error message if !bOk
  */
 
-require_once "_config.php" ;
-require_once "database.php" ;
+require_once "_start.php" ;
 
 //header( "Content-type: application/json" );
 
@@ -28,31 +27,18 @@ $cmd = SEEDInput_Str('cmd');
 
 /* The permission level of ajax commands is defined by the format of the command.
  *
- * Commands containing --- are only available to admin users.
- *                      -- are only available to leader users or greater.
- *                       - are only available to therapist users or greater.
- *            (no hyphens) are available to CATS clients.
+ * foo-bar      : if Read  permission on "foo" perm, do command bar
+ * foo--bar     : if Write permission on "foo" perm, do command bar
+ * foo---bar    : if Admin permission on "foo" perm, do command bar
+ *
+ * Commands with no hyphens are available to everyone.
  */
-
-if( strpos( $cmd, "---" ) !== false && !$oApp->sess->CanRead( 'admin' ) ) {
-    $rJX['sErr'] = "Command requires admin permission";
-    goto done;
-} else
-if( strpos( $cmd, "--" ) !== false && !$oApp->sess->CanRead( 'leader' ) ) {
-    $rJX['sErr'] = "Command requires leader permission";
-    goto done;
-} else
-if( strpos( $cmd, "-" ) !== false && !$oApp->sess->CanRead( 'therapist' ) ) {
-    $rJX['sErr'] = "Command requires therapist permission";
-    goto done;
-} else {
-    // anyone can use this command
-}
+list($bOk, $cmd, $rJX['sErr']) = $oApp->sess->IsAllowed( $cmd );
 
 
 switch( $cmd ) {
-    case 'appt-newform':
-        require_once "calendar.php";
+    case 'appt_newform':
+        require_once CATSLIB."calendar.php";
         if( ($clientId = @$_POST['cid']) ) {
             $o = new Calendar( $oApp );
             $o->createAppt($_POST);
@@ -63,7 +49,6 @@ switch( $cmd ) {
         }
         break;
 }
-
 
 
 done:
