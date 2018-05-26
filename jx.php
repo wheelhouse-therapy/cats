@@ -12,8 +12,7 @@
  *     sErr  = error message if !bOk
  */
 
-require_once "_config.php" ;
-require_once "database.php" ;
+require_once "_start.php" ;
 
 //header( "Content-type: application/json" );
 
@@ -52,7 +51,7 @@ if( strpos( $cmd, "-" ) !== false && !$oApp->sess->CanRead( 'therapist' ) ) {
 
 switch( $cmd ) {
     case 'appt-newform':
-        require_once "calendar.php";
+        require_once CATSLIB."calendar.php";
         if( ($clientId = @$_POST['cid']) ) {
             $o = new Calendar( $oApp );
             $o->createAppt($_POST);
