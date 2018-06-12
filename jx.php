@@ -33,7 +33,7 @@ $cmd = SEEDInput_Str('cmd');
  *
  * Commands with no hyphens are available to everyone.
  */
-list($bOk, $cmd, $rJX['sErr']) = $oApp->sess->IsAllowed( $cmd );
+list($bOk, $dummy, $rJX['sErr']) = $oApp->sess->IsAllowed( $cmd );
 
 
 switch( $cmd ) {
@@ -50,6 +50,14 @@ switch( $cmd ) {
         break;
 }
 
+if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
+    require_once CATSLIB."calendar.php";
+
+    $kAppt = SEEDInput_Int( 'kAppt' );
+
+    $o = new Appointments( $oApp );
+    $rJX = $o->Cmd( $cmd, $kAppt, $_POST );
+}
 
 done:
 
