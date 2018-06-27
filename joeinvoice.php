@@ -25,6 +25,9 @@ function DrawInvoice( $ra )
 <<<Invoice
 
 <style>
+body {
+    margin: 8px 15px;
+}
 #addressBlock {
     float: left;
     display: block;
@@ -76,19 +79,14 @@ function DrawInvoice( $ra )
 }
 #invoice-details {
     float: right;
-    position: relative;
-    right: 30px;
     display: block;
     width: 30%;
 }
 @media only screen and (max-width: 600px) {
     div#invoice-details {
         float: left;
-        position: relative;
-        left: 10px;
-        display: block;
         clear: both;
-        width: 90%;
+        width: 100%;
         margin-top: 20px;
     }
 }
@@ -111,7 +109,8 @@ br {
     text-align: center;
     display: inline-block;
     margin-bottom: 10px;
-    width: 94%;
+    width: 100%;
+    box-sizing: border-box;
 }
 .detail.inline {
     box-sizing: border-box;
