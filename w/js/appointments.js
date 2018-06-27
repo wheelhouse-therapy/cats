@@ -1,17 +1,14 @@
-window.addEventListener('domReady', function() {
-	debugger;
-	var x = document.createElement('img');
-	x.src = 'https://cdn1.iconfinder.com/data/icons/pixel-perfect-at-16px-volume-2/16/5001-128.png';
-	x.className = 'drop-arrow';
-	var z = document.getElementsByClassName('day');
-	for(y = 0; y < z.length; y++) {
-		var w = x.cloneNode();
-		var e = z[y].firstChild;
-		z[y].insertBefore(w, e);
-		w.onclick = rotateMe;
-		e.onclick = rotateMe;
-	} 
-});
+var x = document.createElement('img');
+x.src = 'https://cdn1.iconfinder.com/data/icons/pixel-perfect-at-16px-volume-2/16/5001-128.png';
+x.className = 'drop-arrow';
+var z = document.getElementsByClassName('day');
+for(y = 0; y < z.length; y++) {
+	var w = x.cloneNode();
+	var e = z[y].firstChild;
+	z[y].insertBefore(w, e);
+	w.onclick = rotateMe;
+	e.onclick = rotateMe;
+} 
 function rotateMe(e) {
 	e.preventDefault();
 	this.parentElement.classList.toggle('collapsed');
