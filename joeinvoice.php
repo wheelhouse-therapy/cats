@@ -81,9 +81,21 @@ function DrawInvoice( $ra )
     display: block;
     width: 30%;
 }
+@media only screen and (max-width: 600px) {
+    div#invoice-details {
+        float: left;
+        position: relative;
+        left: 10px;
+        display: block;
+        clear: both;
+        width: 90%;
+        margin-top: 20px;
+    }
+}
 br {
     float: left;
     clear: both;
+    display: block;
 }
 .line {
     box-sizing: border-box;
