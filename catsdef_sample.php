@@ -16,6 +16,8 @@ define( "CATSLIB",        "/home/cats/catslib/" );      // where you cloned the 
 define( "CATSDIR_CONFIG", "/home/cats/cats_config/" );  // where you make a dir to put config files in, e.g. google security files
 define( "CATSDIR_LOG",    "/home/cats/cats_log/" );     // where you make a dir to put log files in
 
+define( "W_CORE_URL", SEEDROOT."wcore/" );              // this has be under the www root, so you might have to copy it and change this
+
 
 $catsDefKFDB = array( 'kfdbUserid' => 'cats',               // credentials for your cats database (assuming host==localhost)
                       'kfdbPassword' => 'cats',
