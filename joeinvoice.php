@@ -90,6 +90,11 @@ body {
         width: 100%;
         margin-top: 20px;
     }
+    #addressBlock {
+        float: none;
+        width: 180px;
+        margin: auto;
+    }
 }
 @media screen and (max-width: 400px) {
     .wrapper:nth-child(1) div.item span {
