@@ -64,23 +64,30 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $clientId = $_REQUEST['client'];
             $clientDB = new ClientsDB($oApp->kfdb);
             $email = $clientDB->getClient($clientId)->Value("email");
+            $username = substr($clientDB->getClient($clientId)->Value("client_first_name"), 0,1);
+            $username .= $clientDB->getClient($clientId)->Value("client_last_name");
+            $username = strtolower($username);
             $dob = $clientDB->getClient($clientId)->Value("dob");
             $radob = explode("-", $dob,3);
             $dob = ""; // Reset dob for rearangement of dob
             for($c = count($radob)-1;$c >= 0;$c--){
                 $dob .= $radob[$c];
             }
-            $name = $clientDB->getClient($clientId)->Value("name");
+            $name = $clientDB->getClient($clientId)->Value("client_first_name");
+            $name .= " ";
+            $name .= $clientDB->getClient($clientId)->Value("client_last_name");
             $rJX['sOut'] = "Credentials sent to: " .$email;
             $accountDB = new SEEDSessionAccountDB($oApp->kfdb,$oApp->sess->GetUID());
-            if(($account = $accountDB->GetKUserFromEmail($email)) != 0){
-                list($k, $user, $meta) = $accountDB->GetUserInfo($account);
-                
+            $message = "Here is the credentials to sign in to %s's account.\r\nUsername: %s\r\nPassword: %s\r\n Thanks for using CATS";
+            if(($account = $accountDB->GetKUserFromEmail($username)) != 0){
+                list($k,$user,$meta) = $accountDB->GetUserInfo($account);
+                $dob = $user['password'];
             }
-            else{
-                $accountDB->CreateUser( $email, $dob, array("realname" => $name, "gid1" => 5) );
-            }
-            $rJX['bOk'] = true;
+            $account = $accountDB->CreateUser( $username, $dob, array("realname" => $name, "gid1" => 5,"eStatus" => "ACTIVE") );
+            $accountDB->SetUserMetadata( $account, "clientId", $clientId );
+            send:
+            $message = sprintf($message,$name,$username,$dob);
+            $rJX['bOk'] = mail($email, "CATS Credentials for ".$name."'s Account", $message,"From: developer@catherapyservices.ca");
             break;
     }
 }
