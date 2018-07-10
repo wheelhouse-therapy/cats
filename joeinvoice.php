@@ -23,7 +23,7 @@ function DrawInvoice( $ra )
 {
     $sTemplate = 
 <<<Invoice
-
+<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
 <style>
 body {
     margin: 8px 15px;
@@ -71,23 +71,45 @@ body {
     border-top: 2px solid black;
 }
 #logo {
-    height: 60px;
+    height: 150px;
 }
 #thank-you {
     float: left;
     clear: both;
+    margin-bottom: 10px;
 }
 #invoice-details {
     float: right;
     display: block;
     width: 30%;
 }
-@media only screen and (max-width: 600px) {
-    div#invoice-details {
+@media screen and (max-width: 700px) {
+    #invoice-details {
         float: left;
         clear: both;
         width: 100%;
         margin-top: 20px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .wrapper:nth-child(1) div.item span {
+        transform: rotate(90deg);
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        top: 40%;
+        width: 100%;
+        height: 100%;
+    }
+    #grid {
+        grid-template-rows: 150px;
+        grid-template-columns: auto auto 35px auto;
+    }
+    .item {
+        padding: 2px;
+    }
+    body {
+        margin: 5px;
     }
 }
 br {
@@ -165,15 +187,42 @@ span.bold {
     <div class='item' style='text-align: center;'> [[hours]] </div><div class='item' style='text-align: right;'> [[total]] </div></div>
     </div> <br/> <br/>
     <span id='thank-you'>Thank you for your support. Payment is due by the end of the day. We accept cash, cheque or e-transfer to [[email]].</span>
-    
+    <br/><br/>
 
 </div>
+<script>
+function myFunction(x) {
+    var toChange = document.querySelectorAll("div.item:nth-child(1)");
+    if (x.matches) {
+        var y = document.querySelectorAll("div.item:nth-child(1):not(#thx-sign) span").values();
+        for (var i of y) {
+            if(i.innerHTML.search(/^\d{4}-\w{3}-\d{2}$/i) === -1) {continue;}
+            i.innerHTML = i.innerHTML.substring(2);
+        }
+    } else {
+        var z = document.querySelectorAll("div.item:nth-child(1):not(#thx-sign) span").values();
+        for (var i of z) {
+            if(i.innerHTML.search(/^\d{2}-\w{3}-\d{2}$/i) === -1) {continue;}
+            i.innerHTML = [[start-of-year]] + i.innerHTML;
+        }
+    }
+}
+
+var x = window.matchMedia("(max-width: 400px)");
+myFunction(x);
+x.addListener(myFunction);
+</script>
 Invoice;
     $t = "";
     $total = 0;
     $hours = 0;
     foreach ($ra['items'] as $r) {
-        $t .= '<div class="wrapper"><div class="item">' . $r[0] . '</div><div class="item">' . $r[1] . '</div><div class="item">' . $r[2] . '</div><div class="item">' . $r[3] . '</div></div>';
+        $t .= '<div class="wrapper">
+                <div class="item"><span>' . $r[0]. '</span></div>
+                <div class="item"><span>' . $r[1]. '</span></div>
+                <div class="item"><span>' . $r[2] . '</span></div>
+                <div class="item"><span>' . $r[3] . '</span></div>
+            </div>';
         if ($r[3] == "Amount") {continue;}
         $total += $r[3];
         if (!$r[2]) {continue;}
@@ -190,6 +239,8 @@ Invoice;
     $sTemplate = str_replace( "[[invoice-date]]", $ra['invoice-date'], $sTemplate );
     $sTemplate = str_replace( "[[invoice-num]]", $ra['invoice-num'], $sTemplate );
     $sTemplate = str_replace( "[[email]]", $ra['email'], $sTemplate );
+    $sTemplate = str_replace( "[[start-of-year]]", substr(date("Y"), 0, 2), $sTemplate);
+    
     
     
     return( $sTemplate );
