@@ -61,7 +61,7 @@ if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
 else if( substr($cmd, 0, 10) == 'therapist-'){
     switch($cmd){
         case 'therapist---credentials':
-            $clientId = $_REQUEST['client'];
+            $clientId = $_POST['client'];
             $clientDB = new ClientsDB($oApp->kfdb);
             $email = $clientDB->getClient($clientId)->Value("email");
             $username = substr($clientDB->getClient($clientId)->Value("client_first_name"), 0,1);
