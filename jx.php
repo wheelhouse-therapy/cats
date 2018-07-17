@@ -82,9 +82,14 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             if(($account = $accountDB->GetKUserFromEmail($username)) != 0){
                 list($k,$user,$meta) = $accountDB->GetUserInfo($account);
                 $dob = $user['password'];
+                goto send;
             }
             $account = $accountDB->CreateUser( $username, $dob, array("realname" => $name, "gid1" => 5,"eStatus" => "ACTIVE") );
             $accountDB->SetUserMetadata( $account, "clientId", $clientId );
+            $kfr = (new Users_ClinicsDB($oApp->kfdb))->KFRelBase()->CreateRecord();
+            $kfr->SetValue("fk_users", $account);
+            $kfr->SetValue("fk_clinics", (new Clinics($oApp))->GetCurrentClinic());
+            $kfr->PutDBRow();
             send:
             $message = sprintf($message,$name,$username,$dob);
             $rJX['bOk'] = mail($email, "CATS Credentials for ".$name."'s Account", $message,"From: developer@catherapyservices.ca");
