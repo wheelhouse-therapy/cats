@@ -1,9 +1,9 @@
-.tooltip {
+.joetooltip {
     position: relative;
 	display: inline-block;
 }
 
-.tooltip .tooltiptext {
+.joetooltip .joetooltiptext {
 	opacity: 0;
     width: 120px;
     background-color: black;
@@ -19,7 +19,7 @@
 	transition: opacity 0.5s;
 }
 
-.tooltip .tooltiptext::after {
+.joetooltip .joetooltiptext::after {
     content: "";
     position: absolute;
     bottom: 100%;
@@ -30,6 +30,6 @@
     border-color: transparent transparent black transparent;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover .joetooltiptext {
     visibility: visible !important;
 }
