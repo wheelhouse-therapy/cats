@@ -37,19 +37,6 @@ if( !$oApp->sess->IsLogin() ) {
     exit;
 }
 
-/*
-if( $oApp->sess->CanRead('admin') ) echo "<p>I can read Administration things</p>";
-if( $oApp->sess->CanWrite('admin') ) echo "<p>I can write Administration things</p>";
-if( $oApp->sess->CanRead('leader') ) echo "<p>I can read Leader things</p>";
-if( $oApp->sess->CanWrite('leader') ) echo "<p>I can write Leader things</p>";
-if( $oApp->sess->CanRead('therapist') ) echo "<p>I can read Therapist things</p>";
-if( $oApp->sess->CanWrite('therapist') ) echo "<p>I can write Therapist things</p>";
-if( $oApp->sess->CanRead('client') ) echo "<p>I can read Client things</p>";
-if( $oApp->sess->CanWrite('client') ) echo "<p>I can write Client things</p>";
-*/
-
-
-
 /* UI and Command Paradigm:
 
    The session variable 'screen' controls which screen you see next. To move to a different screen, issue http parm "screen=foo".
