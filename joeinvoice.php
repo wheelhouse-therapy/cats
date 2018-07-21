@@ -1,26 +1,30 @@
 <?php
+require_once '_start.php';
+echo DrawInvoice( SEEDInput_Int('id') );
 
-$raInvoice = array(
-    'client-name' => "Joe Wildfong",
-    'client-addr' => "68 Dunbar Rd South",
-    'client-city' => "Waterloo",
-    'client-prov' => "ON",
-    'client-postcode' => "N2L 2E3",
-    'invoice-date' => date( 'Y-M-d' ),
-    'invoice-num' => "55",
-    'email' => 'paris@catherapyservices.ca',
-    'items' => array( array('Date', 'Designation', 'Hours', 'Amount'),
-                      array('2018-Jan-14', 'Therapy provided by Sue Wahl', '1.0', '120.00' ),
-                      array('2018-Mar-20', 'Missed appointment charge', '', '100.00') )
-    
-);
-
-
-echo DrawInvoice( $raInvoice );
-
-
-function DrawInvoice( $ra )
+function DrawInvoice( $apptId )
 {
+    global $oApp;
+    $oApptDB = new AppointmentsDB( $oApp );   // for appointments saved in cats_appointments
+    
+    if( !($kfrAppt = $oApptDB->KFRel()->GetRecordFromDBKey( $apptId )) ) goto done;
+    $client = (new ClientsDB($oApp->kfdb))->GetClient($kfrAppt->Value('fk_clients'));
+    $ra = array(
+        'client-name' => $client->Expand('[[client_first_name]] [[client_last_name]]'),
+        'client-addr' => $client->Value('address'),
+        'client-city' => $client->Value('city'),
+        'client-prov' => $client->Value('province'),
+        'client-postcode' => $client->Value('postal_code'),
+        'invoice-date' => $kfrAppt->Value('invoice_date'),
+        'invoice-num' => $kfrAppt->Value('_key'),
+        'email' => $kfrAppt->Value('invoice_email'),
+        'items' => array( array('Date', 'Description', 'Minutes', 'Amount'),
+            array((new DateTime($kfrAppt->Value('start_date')))->format("l F jS Y"),
+                $kfrAppt->Value('session_desc'),
+                ($time = $kfrAppt->Value('session_minutes')+$kfrAppt->Value('prep_minutes'))." min",
+                $time*$kfrAppt->Value('rate')) )
+        
+    );
     $sTemplate = 
 <<<Invoice
 <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
@@ -249,4 +253,5 @@ Invoice;
     
     
     return( $sTemplate );
+    done:
 }
