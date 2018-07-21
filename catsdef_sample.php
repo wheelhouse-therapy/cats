@@ -15,6 +15,7 @@ define( "SEEDROOT",       "/home/cats/seeds/" );        // where you cloned the 
 define( "CATSLIB",        "/home/cats/catslib/" );      // where you cloned the catslib repo. Must have a trailing slash
 define( "CATSDIR_CONFIG", "/home/cats/cats_config/" );  // where you make a dir to put config files in, e.g. google security files
 define( "CATSDIR_LOG",    "/home/cats/cats_log/" );     // where you make a dir to put log files in
+define( "CATSDIR_FILES",  "/home/cats/cats_files/" );   // where CATS will save files
 
 define( "W_CORE_URL", SEEDROOT."wcore/" );              // this has be under the www root, so you might have to copy it and change this
 
