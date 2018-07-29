@@ -48,6 +48,18 @@ switch( $cmd ) {
             $rJX['sErr'] = "Unspecified client";
         }
         break;
+
+    case 'test':
+        $test = SEEDInput_Str('test');
+        if( $test == 'good' ) {
+            $rJX['bOk'] = true;
+            $rJX['sOut'] = "<h3>Hello world!</h3>";
+        } else {
+            $rJX['bOk'] = false;
+            $rJX['sOut'] = "<h3>I'm so sorry!</h3>";
+            $rJX['sErr'] = "That was bad";
+        }
+        goto done;
 }
 
 if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
@@ -56,7 +68,7 @@ if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
     $kAppt = SEEDInput_Int( 'kAppt' );
 
     $o = new Appointments( $oApp );
-    $rJX = $o->Cmd( $cmd, $kAppt, $_POST );
+    $rJX = $o->Cmd( $cmd, $kAppt, $_REQUEST );  // although ajax normally uses POST, use REQUEST here so we can test jx.php with GET e.g. directly in a browser
 }
 else if( substr($cmd, 0, 10) == 'therapist-'){
     switch($cmd){
