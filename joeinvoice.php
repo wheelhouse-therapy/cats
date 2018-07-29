@@ -19,12 +19,13 @@ function DrawInvoice( $apptId )
         'invoice-num' => $kfrAppt->Value('_key'),
         'email' => $kfrAppt->Value('invoice_email'),
         'items' => array( array('Date', 'Description', 'Minutes', 'Amount'),
-            array((new DateTime($kfrAppt->Value('start_date')))->format("l F jS Y"),
+            array((new DateTime($kfrAppt->Value('start_date')))->format("Y-M-d"),
                 $kfrAppt->Value('session_desc'),
-                ($time = $kfrAppt->Value('session_minutes')+$kfrAppt->Value('prep_minutes'))." min",
-                $time*$kfrAppt->Value('rate')) )
+                ($time = $kfrAppt->Value('session_minutes')+$kfrAppt->Value('prep_minutes')),
+                number_format((float)$time/60*$kfrAppt->Value('rate'), 2)) )
         
     );
+    var_dump($kfrAppt->Value('rate'));
     $sTemplate = 
 <<<Invoice
 <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
@@ -193,7 +194,7 @@ span.bold {
     [[items]]
     <div class='wrapper'><div class='item' id='thx-sign'><img src='w/img/thx-sign.png' alt='Thank You' id='thx-img'></div></div>
     <div class='wrapper total'><div class='item' style='grid-column: 1 / span 2; text-align: center;'> TOTALS:</div>
-    <div class='item' style='text-align: center;'> [[hours]] </div><div class='item' style='text-align: right;'> [[total]] </div></div>
+    <div class='item' style='text-align: center;'> [[minutes]] </div><div class='item' style='text-align: right;'> [[total]] </div></div>
     </div> <br/> <br/>
     <span id='thank-you'>Thank you for your support. Payment is due by the end of the day. We accept cash, cheque or e-transfer to [[email]].</span>
     <br/><br/>
@@ -224,7 +225,7 @@ x.addListener(myFunction);
 Invoice;
     $t = "";
     $total = 0;
-    $hours = 0;
+    $minutes = 0;
     foreach ($ra['items'] as $r) {
         $t .= '<div class="wrapper">
                 <div class="item"><span>' . $r[0]. '</span></div>
@@ -232,16 +233,16 @@ Invoice;
                 <div class="item"><span>' . $r[2] . '</span></div>
                 <div class="item"><span>' . $r[3] . '</span></div>
             </div>';
-        if ($r[3] == "Amount") {continue;}
+        if ($r[3] === "Amount") {continue;}
         $total += $r[3];
         if (!$r[2]) {continue;}
-        $hours += $r[2];
+        $minutes += $r[2];
     }
     $sTemplate = str_replace( "[[items]]", $t, $sTemplate );
     $sTemplate = str_replace( "[[client-name]]", $ra['client-name'], $sTemplate );
     $sTemplate = str_replace( "[[client-addr]]", $ra['client-addr'], $sTemplate );
-    $sTemplate = str_replace( "[[total]]", number_format((float)$total, 2, '.', ''), $sTemplate );
-    $sTemplate = str_replace( "[[hours]]", number_format((float)$hours, 1, '.', ''), $sTemplate );
+    $sTemplate = str_replace( "[[total]]", number_format((float)$total, 2), $sTemplate );
+    $sTemplate = str_replace( "[[minutes]]", $minutes, $sTemplate );
     $sTemplate = str_replace( "[[client-city]]", $ra['client-city'], $sTemplate );
     $sTemplate = str_replace( "[[client-prov]]", $ra['client-prov'], $sTemplate );
     $sTemplate = str_replace( "[[client-postcode]]", $ra['client-postcode'], $sTemplate );
