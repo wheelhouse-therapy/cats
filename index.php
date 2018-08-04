@@ -12,13 +12,9 @@ require_once CATSLIB."therapist-clientlist.php";
 createTables($oApp->kfdb);
 
 
-if (!file_exists('pending_resources')) {
-    @mkdir('pending_resources', 0777, true);
-    echo "Pending Resources Directiory Created<br />";
-}
-if (!file_exists('accepted_resources')) {
-    @mkdir('accepted_resources', 0777, true);
-    echo "Accepted Resources Directiory Created<br />";
+if (!file_exists(CATSDIR_RESOURCES)) {
+    @mkdir(CATSDIR_RESOURCES, 0777, true);
+    echo "Resources Directiory Created<br />";
 }
 
 if( !$oApp->sess->IsLogin() ) {
