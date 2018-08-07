@@ -1,7 +1,7 @@
 .catstooltip {
     position: relative;
 	display: inline-block;
-	left: 50px;
+	margin-left: 50px;
 }
 
 .catstooltip .catstooltiptext {
