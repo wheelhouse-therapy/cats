@@ -1,8 +1,8 @@
 var elements = document.querySelectorAll("[data-tooltip]");
 var template = document.createElement("span");
-template.classList.add("joetooltiptext");
+template.classList.add("tooltiptext");
 for (var x of elements.values()) {
-	x.classList.add("joetooltip");
+	x.classList.add("tooltip");
 	template.innerHTML = x.dataset.tooltip;
 	x.insertBefore(template.cloneNode(true), x.firstElementChild);
 	x.tooltip = x.firstElementChild;
