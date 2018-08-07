@@ -19,6 +19,7 @@ for (var x of elements.values()) {
 	};
 }
 function unShow() {
+	if (getComputedStyle(this).opacity !== 0) return;
 	this.style.visibility = 'hidden';
 	this.removeEventListener("transitionend", unShow);
 }
