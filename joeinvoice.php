@@ -1,5 +1,6 @@
 <?php
 require_once '_start.php';
+require CATSLIB.'calendar.php';
 echo DrawInvoice( SEEDInput_Int('id') );
 
 function DrawInvoice( $apptId )
@@ -21,8 +22,8 @@ function DrawInvoice( $apptId )
         'items' => array( array('Date', 'Description', 'Minutes', 'Amount'),
             array((new DateTime($kfrAppt->Value('start_date')))->format("Y-M-d"),
                 $kfrAppt->Value('session_desc'),
-                ($time = $kfrAppt->Value('session_minutes')+$kfrAppt->Value('prep_minutes')),
-                number_format((float)$time/60*$kfrAppt->Value('rate'), 2)) )
+                Appointments::SessionHoursCalc($kfrAppt)['total_minutes'],
+                number_format(Appointments::SessionHoursCalc($kfrAppt)['payment'], 2)) )
         
     );
     var_dump($kfrAppt->Value('rate'));
