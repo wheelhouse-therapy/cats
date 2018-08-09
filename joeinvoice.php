@@ -20,7 +20,7 @@ function DrawInvoice( $apptId )
         'invoice-num' => $kfrAppt->Value('_key'),
         'email' => $kfrAppt->Value('invoice_email'),
         'items' => array( array('Date', 'Description', 'Minutes', 'Amount'),
-            array((new DateTime($kfrAppt->Value('start_date')))->format("Y-M-d"),
+            array((new DateTime($kfrAppt->Value('start_time')))->format("Y-M-d"),
                 $kfrAppt->Value('session_desc'),
                 Appointments::SessionHoursCalc($kfrAppt)['total_minutes'],
                 number_format(Appointments::SessionHoursCalc($kfrAppt)['payment'], 2)) )
