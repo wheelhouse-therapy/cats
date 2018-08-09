@@ -2,10 +2,10 @@
 require_once '_start.php';
 require CATSLIB.'calendar.php';
 echo DrawInvoice( SEEDInput_Int('id') );
-
+$ra;
 function DrawInvoice( $apptId )
 {
-    global $oApp;
+    global $oApp, $ra;
     $oApptDB = new AppointmentsDB( $oApp );   // for appointments saved in cats_appointments
     
     if( !($kfrAppt = $oApptDB->KFRel()->GetRecordFromDBKey( $apptId )) ) goto done;
@@ -19,14 +19,13 @@ function DrawInvoice( $apptId )
         'invoice-date' => $kfrAppt->Value('invoice_date'),
         'invoice-num' => $kfrAppt->Value('_key'),
         'email' => $kfrAppt->Value('invoice_email'),
-        'items' => array( array('Date', 'Description', 'Minutes', 'Amount'),
+        'items' => array( array('Date', 'Description', 'Time', 'Amount'),
             array((new DateTime($kfrAppt->Value('start_time')))->format("Y-M-d"),
                 $kfrAppt->Value('session_desc'),
                 Appointments::SessionHoursCalc($kfrAppt)['total_minutes'],
                 number_format(Appointments::SessionHoursCalc($kfrAppt)['payment'], 2)) )
         
     );
-    var_dump($kfrAppt->Value('rate'));
     $sTemplate = 
 <<<Invoice
 <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
@@ -195,7 +194,7 @@ span.bold {
     [[items]]
     <div class='wrapper'><div class='item' id='thx-sign'><img src='w/img/thx-sign.png' alt='Thank You' id='thx-img'></div></div>
     <div class='wrapper total'><div class='item' style='grid-column: 1 / span 2; text-align: center;'> TOTALS:</div>
-    <div class='item' style='text-align: center;'> [[minutes]] </div><div class='item' style='text-align: right;'> [[total]] </div></div>
+    <div class='item' style='text-align: center;'> [[time]] </div><div class='item' style='text-align: right;'> [[total]] </div></div>
     </div> <br/> <br/>
     <span id='thank-you'>Thank you for your support. Payment is due by the end of the day. We accept cash, cheque or e-transfer to [[email]].</span>
     <br/><br/>
@@ -218,7 +217,6 @@ function myFunction(x) {
         }
     }
 }
-
 var x = window.matchMedia("(max-width: 400px)");
 myFunction(x);
 x.addListener(myFunction);
@@ -229,9 +227,9 @@ Invoice;
     $minutes = 0;
     foreach ($ra['items'] as $r) {
         $t .= '<div class="wrapper">
-                <div class="item"><span>' . $r[0]. '</span></div>
-                <div class="item"><span>' . $r[1]. '</span></div>
-                <div class="item"><span>' . $r[2] . '</span></div>
+                <div class="item"><span>' . $r[0] . '</span></div>
+                <div class="item"><span>' . $r[1] . '</span></div>
+                <div class="item"><span>' . convert($r[2]) . '</span></div>
                 <div class="item"><span>' . $r[3] . '</span></div>
             </div>';
         if ($r[3] === "Amount") {continue;}
@@ -243,7 +241,7 @@ Invoice;
     $sTemplate = str_replace( "[[client-name]]", $ra['client-name'], $sTemplate );
     $sTemplate = str_replace( "[[client-addr]]", $ra['client-addr'], $sTemplate );
     $sTemplate = str_replace( "[[total]]", number_format((float)$total, 2), $sTemplate );
-    $sTemplate = str_replace( "[[minutes]]", $minutes, $sTemplate );
+    $sTemplate = str_replace( "[[time]]", convert($minutes), $sTemplate );
     $sTemplate = str_replace( "[[client-city]]", $ra['client-city'], $sTemplate );
     $sTemplate = str_replace( "[[client-prov]]", $ra['client-prov'], $sTemplate );
     $sTemplate = str_replace( "[[client-postcode]]", $ra['client-postcode'], $sTemplate );
@@ -256,4 +254,9 @@ Invoice;
     
     return( $sTemplate );
     done:
+}
+function convert($min) {
+    global $ra;
+    if($min === $ra['items'][0][2]) {return $min;}
+    return floor($min/60) . ":" . $min%60;
 }

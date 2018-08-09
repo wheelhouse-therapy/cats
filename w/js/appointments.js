@@ -25,3 +25,11 @@ function collapse() {
 		days[loop].classList.add('collapsed');
 	}
 }
+function appt() {
+    var x = this;
+    while (!x.classList.contains('appointment')) {
+        x = x.parentElement;
+    }
+return x;
+}
+Object.defineProperty(HTMLElement.prototype, 'appt', {enumerable: false, writable: false, value: appt});
