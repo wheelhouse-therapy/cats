@@ -106,6 +106,12 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $message = sprintf($message,$name,$username,$dob);
             $rJX['bOk'] = mail($email, "CATS Credentials for ".$name."'s Account", $message,"From: developer@catherapyservices.ca");
             break;
+
+        case 'therapist-clientlistxls':
+            require_once CATSLIB."therapist-clientlistxls.php";
+            Therapist_ClientList_OutputXLSX( $oApp );
+            exit;
+            break;
     }
 }
 done:
