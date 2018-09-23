@@ -49,6 +49,11 @@ switch( $cmd ) {
         }
         break;
 
+    case 'contact':
+        $rJX['sOut'] = "Thank You";
+        $rJX['bOk'] = true;
+        break;
+        
     case 'test':
         $test = SEEDInput_Str('test');
         if( $test == 'good' ) {
@@ -74,10 +79,10 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
     switch($cmd){
         case 'therapist---credentials':
             $clientId = $_POST['client'];
-            $clientDB = new ClientsDB($oApp->kfdb);
-            $email = $clientDB->getClient($clientId)->Value("email");
-            $username = substr($clientDB->getClient($clientId)->Value("client_first_name"), 0,1);
-            $username .= $clientDB->getClient($clientId)->Value("client_last_name");
+            $peopleDB = new PeopleDB($oApp);
+            $email = $peopleDB->getKFR("C", $clientId)->Value("email");
+            $username = substr($clientDB->getClient($clientId)->Value("P_first_name"), 0,1);
+            $username .= $clientDB->getClient($clientId)->Value("P_last_name");
             $username = strtolower($username);
             $dob = $clientDB->getClient($clientId)->Value("dob");
             $radob = explode("-", $dob,3);
