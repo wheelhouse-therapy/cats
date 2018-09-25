@@ -117,6 +117,10 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             Therapist_ClientList_OutputXLSX( $oApp );
             exit;
             break;
+        case 'therapist--modal':
+            $rJX['bOk'] = true;
+            require_once CATSLIB.'mobal-submit.php';
+            break;
     }
 }
 done:
