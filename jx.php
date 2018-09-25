@@ -51,7 +51,14 @@ switch( $cmd ) {
 
     case 'contact':
         $rJX['sOut'] = "Thank You";
-        $rJX['bOk'] = true;
+        if($location = @$_POST['et_pb_contact_location_1']){
+            $message = "Message from:".@$_POST['et_pb_contact_name_1']."\n\n";
+            $message .= @$_POST['et_pb_contact_message_1'];
+            $rJX['bOk'] = mail($location."@catherapyservices.ca","Message for CATS Therapy",$message,"From: ".@$_POST['et_pb_contact_email_1']);
+        }
+        else{
+            $rJX['sErr'] = "Please Select a location";
+        }
         break;
         
     case 'test':
