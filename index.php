@@ -1,7 +1,6 @@
 <?php
 
 require_once "_start.php";
-require_once CATSLIB."therapist-clientlist.php";
 
 /* If you get the error Cannot connect to database, you probably have to execute these two MySQL commands:
         CREATE DATABASE ot;
