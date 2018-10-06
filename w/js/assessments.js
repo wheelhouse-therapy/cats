@@ -1,4 +1,5 @@
 var chars = ["a", "f", "o", "n"];
+cols.splice(4, 0, "");
 addEventListener("DOMContentLoaded", function() {
 	var inputs = document.body.querySelectorAll("input.score-item");
 	var scores = document.body.querySelectorAll("span.score");
@@ -76,10 +77,23 @@ function getScore(char, index) {
 function updateTotal(scores, section, sectionTotals) {
 	var secCount = 0;
 	var count = 0;
+	var last = true;
 	scores.forEach(function(a) {
-		count += Number(a.innerHTML);
-		if (a.previousElementSibling.section === section) {secCount += Number(a.innerHTML)}
+		let sec = a.previousElementSibling.section;
+		if (sec !== 0 && sec !== 7)
+			count += Number(a.innerHTML);
+		if (sec === section) {
+			secCount += Number(a.innerHTML);
+			if (!a.innerHTML) {last = false;}
+		}
 	});
+	
 	sectionTotals[section].innerHTML = "Section total: " + secCount;
 	document.getElementById("total").innerHTML = "Total score: " + count;
+	if (last) {
+		if (section === 4) {return;}
+		var percentile = raPercentilesSPM[secCount][cols[section]];
+		if (!percentile) {return;}
+		sectionTotals[section].innerHTML += " (" + percentile + "%).";
+	}
 }
