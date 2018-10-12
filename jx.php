@@ -126,7 +126,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             break;
         case 'therapist--modal':
             $rJX['bOk'] = true;
-            require_once CATSLIB.'mobal-submit.php';
+            require_once CATSLIB.'modal-submit.php';
             break;
     }
 }
