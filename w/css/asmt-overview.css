@@ -17,3 +17,9 @@ body {
 #results tr.dd {
 	background-color: #f55;
 }
+#results tr.sp {
+	background-color: #ffffb3;
+}
+#results tr.tp {
+	background-color: #5cd65c;
+}

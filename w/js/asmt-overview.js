@@ -26,7 +26,19 @@ addEventListener("DOMContentLoaded", function() {
 		let total = secTotals[ind];
 		let row = temp.content.cloneNode(true).firstElementChild;
 		let percentile = raPercentilesSPM[total][percentileKeys[ind]];
-		if (interp(percentile) === "Definite Dysfunction") row.classList.add("dd");
+		let classToAdd = false;
+		switch (interp(percentile)) {
+		case "Definite Dysfunction": 
+			classToAdd = "dd";
+			break;
+		case "Some Problems":
+			classToAdd = "sp";
+			break;
+		case "Typical":
+			classToAdd = "tp";
+		}
+		
+		classToAdd && row.classList.add(classToAdd);
 		let values = [head, total, interp(percentile), percentile + "%", 100 - percentile + "%"];
 		for (var iter = 0; iter < row.children.length; iter++) {
 			row.children[iter].innerHTML = values[iter];
