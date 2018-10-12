@@ -4,7 +4,6 @@ addEventListener("DOMContentLoaded", function() {
 	var percentileKeys = Object.keys(raPercentilesSPM[8]);
 	var resultsBySection = [[], [], [], [], [], [], [], []];
 	var secTotals = Array(8).fill(0);
-	debugger;
 	raResultsSPM = Object.values(raResultsSPM);
 	raResultsSPM.forEach(function(a, b) {
 		a = getScore(a);
