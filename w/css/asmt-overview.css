@@ -1,0 +1,19 @@
+body {
+	margin: 8px;
+}
+#results {
+	width: 100%;
+	border: 2px solid black;
+	border-collapse: collapse;
+}
+#results tr * {
+	border: 1px solid black;
+	padding: 3px;
+	padding-left: 5px;
+}
+#results tr th {
+	border-bottom: 2px solid black;
+}
+#results tr.dd {
+	background-color: #f55;
+}
