@@ -32,4 +32,3 @@ function appt() {
     }
 return x;
 }
-Object.defineProperty(HTMLElement.prototype, 'appt', {enumerable: false, writable: false, value: appt});
