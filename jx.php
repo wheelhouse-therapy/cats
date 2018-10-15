@@ -60,7 +60,7 @@ switch( $cmd ) {
             $rJX['sErr'] = "Please Select a location";
         }
         break;
-        
+
     case 'test':
         $test = SEEDInput_Str('test');
         if( $test == 'good' ) {
@@ -130,6 +130,22 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             break;
     }
 }
+else if( substr($cmd,0,strlen('resourcestag-')) == 'resourcestag-' ) {
+    if( $cmd == 'resourcestag--newtag' ) {
+        $dbFolder = addslashes(SEEDInput_Str('folder'));
+        $dbFilename = addslashes(SEEDInput_Str('filename'));
+        $dbTag = addslashes(SEEDInput_Str('tag'));
+
+        $cond = "folder='$dbFolder' AND filename='$dbFilename'";
+        if( $oApp->kfdb->Query1( "SELECT tags FROM resources_files WHERE $cond" ) ) {
+            $oApp->kfdb->Execute( "UPDATE resources_files SET tags=CONCAT(tags,'$dbTag','\t') WHERE $cond" );
+        } else {
+            $oApp->kfdb->Execute( "INSERT INTO resources_files (folder,filename,tags) VALUES ('$dbFolder','$dbFilename','\t$dbTag\t')" );
+        }
+    }
+}
+
+
 done:
 
 echo json_encode($rJX);
