@@ -69,4 +69,3 @@ $s = $oUI->Screen( $screen );
 echo $oUI->OutputPage( $s );
 
 ?>
-
