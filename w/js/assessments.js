@@ -1,4 +1,3 @@
-var chars = ["a", "f", "o", "n"];
 cols.splice(4, 0, "");
 addEventListener("DOMContentLoaded", function() {
 	var inputs = document.body.querySelectorAll("input.score-item");
