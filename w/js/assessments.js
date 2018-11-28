@@ -86,13 +86,16 @@ function updateTotal(scores, section, sectionTotals) {
 			if (!a.innerHTML) {last = false;}
 		}
 	});
-	
-	sectionTotals[section].innerHTML = "Section total: " + secCount;
+	if( sectionTotals[section] ) {
+		sectionTotals[section].innerHTML = "Section total: " + secCount;
+	}
 	document.getElementById("total").innerHTML = "Total score: " + count;
 	if (last) {
 		if (section === 4) {return;}
 		var percentile = raPercentilesSPM[secCount][cols[section]];
 		if (!percentile) {return;}
-		sectionTotals[section].innerHTML += " (" + percentile + "%).";
+		if( sectionTotals[section] ) {
+			sectionTotals[section].innerHTML += " (" + percentile + "%).";
+		}
 	}
 }
