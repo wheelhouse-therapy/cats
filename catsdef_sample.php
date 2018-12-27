@@ -24,6 +24,12 @@ $catsDefKFDB = array( 'kfdbUserid' => 'cats',               // credentials for y
                       'kfdbPassword' => 'cats',
                       'kfdbDatabase' => 'cats' );
 
+$email_processor = array( 'emailAccount' => "Your Email",
+                          'emailPSW'     => "Your Email PSW",
+                          'akauntingUSR' => "Your Akaunting USR",
+                          'akauntingPSW' => "Your Akaunting PSW"
+                        );
+
 
 // Several file/dir locations are assumed in catslib/_config.php, e.g. CATSDIR_IMG but they can be overridden if you specify them below.
 // Put installation-specific definitions here, instead of in a cloned file, so they are not checked into git.
