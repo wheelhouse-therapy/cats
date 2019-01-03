@@ -1,0 +1,86 @@
+#chart {
+	max-height: 500px;
+}
+.hidden {
+	display: none;
+}
+#line {
+	stroke: blue;
+	stroke-width: 1px;
+	fill: none;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+#dd {
+	stroke: red;
+}
+#sp {
+	stroke: green;
+}
+.guideline {
+	fill: none;
+	stroke-width: 0.7;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-opacity: 1;
+	transition: all 0.5s;
+}
+.point {
+	stroke-width: 0.5;
+	stroke: blue;
+	fill: blue;
+}
+.percent {
+	font-family: sans-serif;
+	transform: scale(1.0021179,0.99788657);
+}
+.percent > tspan {
+	font-size:4.01203299px;
+	text-align:center;
+	text-anchor:middle;
+}
+.percLine {
+	stroke-width:0.20802771px;
+	stroke:#000000;
+	fill:none;
+}
+.xText {
+	font-family: sans-serif;
+	transform: matrix(0.69862022,-0.71569644,0.69862022,0.71569644,0,0);
+}
+.xText > tspan {
+	font-size:3.59272671px;
+	text-align:end;
+	text-anchor:end;
+}
+#info {
+    position: fixed;
+	top: 0;
+	left: 0;
+	display: inline-block;
+}
+#info-text {
+	opacity: 0;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+	transition: opacity 0.5s;
+}
+#info-text::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}

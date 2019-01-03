@@ -45,6 +45,8 @@ addEventListener("DOMContentLoaded", function() {
 		}
 		table.appendChild(row);
 	});
+	var draw = new CustomEvent("draw", {detail: secTotals});
+	document.getElementById("chart").dispatchEvent("draw");
 });
 function interp(percentile) {
 	if (percentile > 97)
