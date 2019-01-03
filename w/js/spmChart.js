@@ -15,7 +15,7 @@ function percToPx(perc) {
 	return box.y.animVal.value + hperc * box.height.animVal.value;
 }
 function drawGraph(e) {
-	var percTotals = e.detail;
+	var percScores = e.detail;
 	chart = document.getElementById("chart");
 	box = document.getElementById("box");
 	line = document.getElementById("line");
@@ -93,4 +93,4 @@ function visManage() {
 }
 document.addEventListener("DOMContentLoaded", function() {
 	document.getElementById("chart").addEventListener("draw", drawGraph);
-})
+});

@@ -24,6 +24,10 @@ addEventListener("DOMContentLoaded", function() {
 	var table = document.getElementById("results");
 	secs.forEach(function(head, ind) {
 		let total = secTotals[ind];
+		// Not all possible scores will be defined in raPercentiles so if we get an anomalous score skip it here 
+		// (the return statement leaves the current function iteration; the next interation will proceed -- it is like 'continue' in a normal for loop)
+		if( !(total in raPercentilesSPM) ) return; 
+
 		let row = temp.content.cloneNode(true).firstElementChild;
 		let percentile = raPercentilesSPM[total][percentileKeys[ind]];
 		let classToAdd = false;
@@ -46,7 +50,7 @@ addEventListener("DOMContentLoaded", function() {
 		table.appendChild(row);
 	});
 	var draw = new CustomEvent("draw", {detail: secTotals});
-	document.getElementById("chart").dispatchEvent("draw");
+	document.getElementById("chart").dispatchEvent(draw);
 });
 function interp(percentile) {
 	if (percentile > 97)
