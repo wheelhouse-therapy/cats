@@ -4,6 +4,7 @@ addEventListener("DOMContentLoaded", function() {
 	var percentileKeys = Object.keys(raPercentilesSPM[8]);
 	var resultsBySection = [[], [], [], [], [], [], [], []];
 	var secTotals = Array(8).fill(0);
+	var percentiles = [];
 	raResultsSPM = Object.values(raResultsSPM);
 	raResultsSPM.forEach(function(a, b) {
 		a = getScore(a);
@@ -30,6 +31,7 @@ addEventListener("DOMContentLoaded", function() {
 
 		let row = temp.content.cloneNode(true).firstElementChild;
 		let percentile = raPercentilesSPM[total][percentileKeys[ind]];
+		percentiles.push(percentile);
 		let classToAdd = false;
 		switch (interp(percentile)) {
 		case "Definite Dysfunction": 
@@ -49,7 +51,8 @@ addEventListener("DOMContentLoaded", function() {
 		}
 		table.appendChild(row);
 	});
-	var draw = new CustomEvent("draw", {detail: secTotals});
+	percentiles.push(percentiles.reduce((a, b) => Number(a) + Number(b)) / percentiles.length);
+	var draw = new CustomEvent("draw", {detail: percentiles});
 	document.getElementById("chart").dispatchEvent(draw);
 });
 function interp(percentile) {
