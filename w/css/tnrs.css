@@ -1,0 +1,20 @@
+#tagTable {
+	margin-top: 20px;
+	border: 2px solid black;
+	padding: 5px;
+}
+#tagTableBody {
+	border-bottom: 2px solid black;
+}
+.better-table-striped tbody tr:nth-child(odd) {
+	background-color: #bfbfbf;
+}
+.better-table-striped tbody tr:nth-child(odd) input {
+	background-color: #ddd;
+	border: 1px solid #aaa;
+}
+#formRoot {
+	border:1px solid #aaa;
+	padding-top:5px;
+	margin:20px
+}
