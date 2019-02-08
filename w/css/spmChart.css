@@ -1,5 +1,12 @@
-#chart {
-	max-height: 500px;
+@media print {
+	#chart {
+		max-height: 300px;
+	}
+}
+@media screen {
+	#chart {
+		max-height: 500px;
+	}
 }
 .hidden {
 	display: none;
