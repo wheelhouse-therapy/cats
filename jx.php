@@ -128,6 +128,24 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['bOk'] = true;
             require_once CATSLIB.'modal-submit.php';
             break;
+        case 'therapist-resourcemodal':
+            unset($_REQUEST['cmd']);
+            if(SEEDInput_Str("submitVal") == "Next"){
+                switch($oApp->sess->SmartGPC('screen')){
+                    case "therapist-reports":
+                        require_once CATSLIB.'assessments.php';
+                        $assessments = new AssessmentsCommon($oApp);
+                        if($assmts = $assessments->listAssessments(SEEDInput_Int('client'))){
+                            $rJX['sOut'] = json_encode($assmts);
+                            $rJX['bOk'] = true;
+                        }
+                        else{
+                            $rJX['sOut'] = "No Assments";
+                        }
+                        break;
+                }
+            }
+            break;
     }
 }
 else if( substr($cmd,0,strlen('resourcestag-')) == 'resourcestag-' ) {
