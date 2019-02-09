@@ -3,7 +3,9 @@ require_once '_start.php';
 require_once CATSLIB.'email_processor.php';
 require_once CATSLIB.'AkauntingHook.php';
 
-$processor = new EmailProcessor($email_processor['emailServer'],$email_processor['emailAccount'], $email_processor["emailPSW"]);
+$receiptsProcessor = new ReceiptsProcessor($email_processor['emailServer'],$email_processor['receiptsEmail'], $email_processor["receiptsPSW"]);
 AkauntingHook::login($email_processor['akauntingUSR'],$email_processor['akauntingPSW']);
-$processor->processEmails();
+$receiptsProcessor->processEmails();
 AkauntingHook::logout();
+$resourceProcessor = new ResourceProcessor($email_processor['emailServer'],$email_processor['resourcesEmail'], $email_processor["resourcesPSW"]);
+$resourceProcessor->processEmails();

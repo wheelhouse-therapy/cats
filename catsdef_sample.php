@@ -27,12 +27,15 @@ $catsDefKFDB = array( 'kfdbUserid' => 'cats',
                       'kfdbDatabase' => 'cats' );
 
 /* Credentials for the email-to-Akaunting processor
+ * as well as the email-resource processor
  */
-$email_processor = array( 'emailAccount' => "Your Email",
-                          'emailPSW'     => "Your Email PSW",
-                          // 'emailServer' => "catherapyservices.ca"  this is set in _config.php if you don't put it here. Use for dev access to alternate server name.
-                          'akauntingUSR' => "Your Akaunting USR",
-                          'akauntingPSW' => "Your Akaunting PSW"
+$email_processor = array( 'receiptsEmail' => "Your Email",
+                          'receiptsPSW'   => "Your Email PSW",
+                          //'emailServer'   => "catherapyservices.ca"  //this is set in _config.php if you don't put it here. Use for dev access to alternate server name.
+                          'akauntingUSR'  => "Your Akaunting USR",
+                          'akauntingPSW'  => "Your Akaunting PSW",
+                          'resourceEmail' => "Your Email",
+                          'resourcePSW'   => "Your Email PSW"
                         );
 
 
