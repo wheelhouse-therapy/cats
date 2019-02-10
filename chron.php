@@ -7,5 +7,5 @@ $receiptsProcessor = new ReceiptsProcessor($email_processor['emailServer'],$emai
 AkauntingHook::login($email_processor['akauntingUSR'],$email_processor['akauntingPSW']);
 $receiptsProcessor->processEmails();
 AkauntingHook::logout();
-$resourceProcessor = new ResourceProcessor($email_processor['emailServer'],$email_processor['resourcesEmail'], $email_processor["resourcesPSW"]);
-$resourceProcessor->processEmails();
+$resourcesProcessor = new ResourcesProcessor($email_processor['emailServer'],$email_processor['resourcesEmail'], $email_processor["resourcesPSW"]);
+$resourcesProcessor->processEmails();
