@@ -61,6 +61,15 @@ switch( $cmd ) {
         }
         break;
 
+    case 'support':
+        $people = (new PeopleDB($oApp))->getKFRCond("P","uid='{$oApp->sess->GetUID()}'");
+        if($people && $email = $people->Value("email")){
+            $rJX['bOk'] = mail("developer@catherapyservices.ca",SEEDInput_Str('support')." from ".$people->Expand("[[first_name]] [[last_name]]"),SEEDInput_Str('supportDesc'),"From: ".$email);
+        }
+        else {
+            $rJX['sErr'] = "You must have an associated person record with an email address set in order to use the support request feature";
+        }
+        break;
     case 'test':
         $test = SEEDInput_Str('test');
         if( $test == 'good' ) {
