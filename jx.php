@@ -157,6 +157,24 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             break;
     }
 }
+else if(substr($cmd, 0, 6) == 'admin-'){
+    switch($cmd){
+        case 'admin-ResourceTrees':
+            // This Handles changes in resource trees that are open
+            // under manage resources.
+            // This is important since the server should reopen open resource trees automaticly on page reload
+            if(SEEDInput_Get("open")['plain']){
+                $oApp->sess->SmartGPC('open');
+            }
+            else{
+                // The User has closed all the trees.
+                // Unset the session variable so that we dont reopen trees which the user has closed
+                // On the next reload
+                $oApp->sess->VarUnSet("open");
+            }
+            break;
+    }
+}
 else if( substr($cmd,0,strlen('resourcestag-')) == 'resourcestag-' ) {
     if( $cmd == 'resourcestag--newtag' ) {
         $dbFolder = addslashes(SEEDInput_Str('folder'));
