@@ -1,18 +1,43 @@
 cols.splice(4, 0, "");
+var invConds;
+var secs;
 addEventListener("DOMContentLoaded", function() {
 	var inputs = document.body.querySelectorAll("input.score-item");
 	var scores = document.body.querySelectorAll("span.score");
-	var sectionTotals = document.querySelectorAll("span.sectionTotal")
+	var sectionTotals = document.querySelectorAll("span.sectionTotal");
+	
+	switch (document.querySelector("input[name='sAsmtType']").value) {
+	case "spm":
+		invConds = [{
+			type: "<",
+			value: 10
+		}, {
+			type: "===",
+			value: 58
+		}];
+		secs = [10, 21, 29, 40, 45, 55, 66];
+		break;
+	case "spmc":
+		invConds = [{
+			type: "<",
+			value: 10
+		}];
+		secs = [10, 17, 24, 32, 36, 43, 52];
+	}
 	
 	inputs.forEach(function(a, b){
-		if (b < 10) {a.section = 0;}
+		for (var val in secs) {
+			if (b < secs[val]) {a.section = val;}
+		}
+		if (a.section === undefined) {a.section = 7;}
+		/*if (b < 10) {a.section = 0;}
 		else if (b < 21) {a.section = 1;}
 		else if (b < 29) {a.section = 2;}
 		else if (b < 40) {a.section = 3;}
 		else if (b < 45) {a.section = 4;}
 		else if (b < 55) {a.section = 5;}
 		else if (b < 66) {a.section = 6;}
-		else {a.section = 7;}
+		else {a.section = 7;}*/
 		a.addEventListener("keydown", function(e) {
 			if (!e.key || noAbsorb(e.key)) {return;}
 			if (checkInput(e, this)) {
@@ -98,4 +123,12 @@ function updateTotal(scores, section, sectionTotals) {
 			sectionTotals[section].innerHTML += " (" + percentile + "%).";
 		}
 	}
+}
+function doInv(value) {
+	for (var cond of invConds.values()) {
+		var str = "return " + value + cond.type + cond.value +";";
+		if (new Function(str)())
+			return true;
+	}
+	return false;
 }
