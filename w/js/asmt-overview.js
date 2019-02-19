@@ -7,7 +7,7 @@ addEventListener("DOMContentLoaded", function() {
 	var percentiles = [];
 	raResultsSPM = Object.values(raResultsSPM);
 	raResultsSPM.forEach(function(a, b) {
-		a = getScore(a);
+		a = getScore(a, b);
 		var secInd;
 		if (b < 10) {secInd = 0;}
 		else if (b < 21) {secInd = 1;}
@@ -24,7 +24,7 @@ addEventListener("DOMContentLoaded", function() {
 	var temp = document.getElementById("rowtemp");
 	var table = document.getElementById("results");
 	secs.forEach(function(head, ind) {
-		let total = secTotals[ind];
+		let total = ind < 4 ? secTotals[ind]: secTotals[ind + 1];
 		// Not all possible scores will be defined in raPercentiles so if we get an anomalous score skip it here 
 		// (the return statement leaves the current function iteration; the next interation will proceed -- it is like 'continue' in a normal for loop)
 		if( !(total in raPercentilesSPM) ) return; 
@@ -75,7 +75,7 @@ function getScore(char, index) {
 			return 1;
 		}
 	}();
-	if (index < 10 || index === 58) {
+	if (index < 10 || index === 56) {
 		x = 5 - x;
 	}
 	return x;

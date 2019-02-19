@@ -30,14 +30,6 @@ addEventListener("DOMContentLoaded", function() {
 			if (b < secs[val]) {a.section = val;}
 		}
 		if (a.section === undefined) {a.section = 7;}
-		/*if (b < 10) {a.section = 0;}
-		else if (b < 21) {a.section = 1;}
-		else if (b < 29) {a.section = 2;}
-		else if (b < 40) {a.section = 3;}
-		else if (b < 45) {a.section = 4;}
-		else if (b < 55) {a.section = 5;}
-		else if (b < 66) {a.section = 6;}
-		else {a.section = 7;}*/
 		a.addEventListener("keydown", function(e) {
 			if (!e.key || noAbsorb(e.key)) {return;}
 			if (checkInput(e, this)) {
