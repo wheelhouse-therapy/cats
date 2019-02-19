@@ -5,6 +5,27 @@ addEventListener("DOMContentLoaded", function() {
 	var resultsBySection = [[], [], [], [], [], [], [], []];
 	var secTotals = Array(8).fill(0);
 	var percentiles = [];
+	var invConds;
+	
+	switch (AssmtType) {
+	case "spm":
+		invConds = [{
+			type: "<",
+			value: 10
+		}, {
+			type: "===",
+			value: 58
+		}];
+		secs = [10, 21, 29, 40, 45, 55, 66];
+		break;
+	case "spmc":
+		invConds = [{
+			type: "<",
+			value: 10
+		}];
+		secs = [10, 17, 24, 32, 36, 43, 52];
+	}
+	
 	raResultsSPM = Object.values(raResultsSPM);
 	raResultsSPM.forEach(function(a, b) {
 		a = getScore(a, b);
@@ -75,8 +96,17 @@ function getScore(char, index) {
 			return 1;
 		}
 	}();
-	if (index < 10 || index === 56) {
+	if (doInv(index)) {
 		x = 5 - x;
 	}
 	return x;
+}
+
+function doInv(value) {
+	for (var cond of invConds.values()) {
+		var str = "return " + value + cond.type + cond.value +";";
+		if (new Function(str)())
+			return true;
+	}
+	return false;
 }

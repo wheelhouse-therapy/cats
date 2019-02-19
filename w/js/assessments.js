@@ -85,7 +85,7 @@ function getScore(char, index) {
 			return 1;
 		}
 	}();
-	if (index < 10 || index === 58) {
+	if (doInv(index)) {
 		x = 5 - x;
 	}
 	return x;
