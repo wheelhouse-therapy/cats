@@ -23,3 +23,6 @@ body {
 #results tr.tp {
 	background-color: #5cd65c;
 }
+#assessment * {
+	width: 100%;
+}

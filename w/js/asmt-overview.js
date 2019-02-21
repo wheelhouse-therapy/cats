@@ -1,3 +1,4 @@
+var invConds;
 addEventListener("DOMContentLoaded", function() {
 	var secs = ["Social Participation", "Vision", "Hearing", "Touch",
 		"Body Awareness", "Balance and Motion", "Planning"];
@@ -5,7 +6,7 @@ addEventListener("DOMContentLoaded", function() {
 	var resultsBySection = [[], [], [], [], [], [], [], []];
 	var secTotals = Array(8).fill(0);
 	var percentiles = [];
-	var invConds;
+	var secBounds;
 	
 	switch (AssmtType) {
 	case "spm":
@@ -16,29 +17,28 @@ addEventListener("DOMContentLoaded", function() {
 			type: "===",
 			value: 58
 		}];
-		secs = [10, 21, 29, 40, 45, 55, 66];
+		secBounds = [10, 21, 29, 40, 45, 55, 66];
 		break;
 	case "spmc":
 		invConds = [{
 			type: "<",
 			value: 10
 		}];
-		secs = [10, 17, 24, 32, 36, 43, 52];
+		secBounds = [10, 17, 24, 32, 36, 43, 52];
 	}
 	
 	raResultsSPM = Object.values(raResultsSPM);
 	raResultsSPM.forEach(function(a, b) {
 		a = getScore(a, b);
-		var secInd;
-		if (b < 10) {secInd = 0;}
-		else if (b < 21) {secInd = 1;}
-		else if (b < 29) {secInd = 2;}
-		else if (b < 40) {secInd = 3;}
-		else if (b < 45) {secInd = 4;}
-		else if (b < 55) {secInd = 5;}
-		else if (b < 66) {secInd = 6;}
-		else {secInd = 7;}
-		
+		var secInd, i;
+		// Programaticaly determine the index based on the sections defined for each type.
+		for(i = 0;i < secBounds.length; i++){
+			if(i == secBounds.length-1 || b < secBounds[i]){
+				secInd = i;
+				break;
+			}
+		}
+		debugger;
 		resultsBySection[secInd].push(a);
 		secTotals[secInd] += a;
 	});
