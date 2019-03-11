@@ -30,7 +30,7 @@ addEventListener("DOMContentLoaded", function() {
 	raResultsSPM = Object.values(raResultsSPM);
 	raResultsSPM.forEach(function(a, b) {
 		a = getScore(a, b);
-		var secInd, i;
+		let secInd, i;
 		// Programaticaly determine the index based on the sections defined for each type.
 		for(i = 0;i < secBounds.length; i++){
 			if(i == secBounds.length-1 || b < secBounds[i]){
@@ -38,7 +38,6 @@ addEventListener("DOMContentLoaded", function() {
 				break;
 			}
 		}
-		debugger;
 		resultsBySection[secInd].push(a);
 		secTotals[secInd] += a;
 	});
