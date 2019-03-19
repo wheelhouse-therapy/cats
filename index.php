@@ -63,8 +63,12 @@ $oUI = new CATS_MainUI( $oApp );
 
 $s = "";
 
+//Get the screen before change this can then be used to revert the screen to its previous value
+//If the browser is reloaded this value may match the screen value
+$oldScreen = @$oApp->sess->VarGet('screen');
+
 $screen = $oApp->sess->SmartGPC( 'screen', array( 'home' ) );   // if array has only one element it is the default if screen==''
-$s = $oUI->Screen( $screen );
+$s = $oUI->Screen( $screen, $oldScreen );
 
 echo $oUI->OutputPage( $s );
 
