@@ -15,7 +15,7 @@ addEventListener("DOMContentLoaded", function() {
 			value: 10
 		}, {
 			type: "===",
-			value: 60
+			value: 58
 		}];
 		secBounds = [10, 21, 29, 40, 45, 55, 66];
 		break;
@@ -30,15 +30,14 @@ addEventListener("DOMContentLoaded", function() {
 	raResultsSPM = Object.values(raResultsSPM);
 	raResultsSPM.forEach(function(a, b) {
 		a = getScore(a, b);
-		var secInd, i;
+		let secInd, i;
 		// Programaticaly determine the index based on the sections defined for each type.
 		for(i = 0;i < secBounds.length; i++){
-			if(b < secBounds[i]){
+			if(i == secBounds.length-1 || b < secBounds[i]){
 				secInd = i;
 				break;
 			}
 		}
-		if (secInd === undefined) secInd = secBounds.length;
 		resultsBySection[secInd].push(a);
 		secTotals[secInd] += a;
 	});
@@ -72,7 +71,7 @@ addEventListener("DOMContentLoaded", function() {
 		}
 		table.appendChild(row);
 	});
-	percentiles.push(raTotalsSPM[secTotals.reduce((a, b) => Number(a) + Number(b))]);
+	percentiles.push(percentiles.reduce((a, b) => Number(a) + Number(b)) / percentiles.length);
 	var draw = new CustomEvent("draw", {detail: percentiles});
 	document.getElementById("chart").dispatchEvent(draw);
 });
