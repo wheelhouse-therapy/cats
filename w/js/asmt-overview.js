@@ -73,7 +73,6 @@ addEventListener("DOMContentLoaded", function() {
 		table.appendChild(row);
 	});
 	percentiles.push(raTotalsSPM[secTotals.reduce((a, b) => Number(a) + Number(b))]);
-	debugger;
 	var draw = new CustomEvent("draw", {detail: percentiles});
 	document.getElementById("chart").dispatchEvent(draw);
 });
