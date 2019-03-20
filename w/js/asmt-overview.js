@@ -15,7 +15,7 @@ addEventListener("DOMContentLoaded", function() {
 			value: 10
 		}, {
 			type: "===",
-			value: 58
+			value: 60
 		}];
 		secBounds = [10, 21, 29, 40, 45, 55, 66];
 		break;
@@ -33,12 +33,12 @@ addEventListener("DOMContentLoaded", function() {
 		var secInd, i;
 		// Programaticaly determine the index based on the sections defined for each type.
 		for(i = 0;i < secBounds.length; i++){
-			if(i == secBounds.length-1 || b < secBounds[i]){
+			if(b < secBounds[i]){
 				secInd = i;
 				break;
 			}
 		}
-		debugger;
+		if (secInd === undefined) secInd = secBounds.length;
 		resultsBySection[secInd].push(a);
 		secTotals[secInd] += a;
 	});
@@ -72,7 +72,8 @@ addEventListener("DOMContentLoaded", function() {
 		}
 		table.appendChild(row);
 	});
-	percentiles.push(percentiles.reduce((a, b) => Number(a) + Number(b)) / percentiles.length);
+	percentiles.push(raTotalsSPM[secTotals.reduce((a, b) => Number(a) + Number(b))]);
+	debugger;
 	var draw = new CustomEvent("draw", {detail: percentiles});
 	document.getElementById("chart").dispatchEvent(draw);
 });
