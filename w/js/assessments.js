@@ -13,7 +13,7 @@ addEventListener("DOMContentLoaded", function() {
 			value: 10
 		}, {
 			type: "===",
-			value: 58
+			value: 56
 		}];
 		secs = [10, 21, 29, 40, 45, 55, 66];
 		break;
@@ -27,7 +27,7 @@ addEventListener("DOMContentLoaded", function() {
 	
 	inputs.forEach(function(a, b){
 		for (var val in secs) {
-			if (b < secs[val]) {a.section = val;}
+			if (b < secs[val]) {a.section = val; break;}
 		}
 		if (a.section === undefined) {a.section = 7;}
 		a.addEventListener("keydown", function(e) {
@@ -96,10 +96,11 @@ function updateTotal(scores, section, sectionTotals) {
 	var last = true;
 	scores.forEach(function(a) {
 		let sec = a.previousElementSibling.section;
+		let score = Number(a.innerHTML);
 		if (sec !== 0 && sec !== 7)
-			count += Number(a.innerHTML);
+			count += score;
 		if (sec === section) {
-			secCount += Number(a.innerHTML);
+			secCount += score;
 			if (!a.innerHTML) {last = false;}
 		}
 	});
@@ -108,7 +109,8 @@ function updateTotal(scores, section, sectionTotals) {
 	}
 	document.getElementById("total").innerHTML = "Total score: " + count;
 	if (last) {
-		if (section === 4) {return;}
+		if (section == 4) {return;}
+		debugger;
 		var percentile = raPercentilesSPM[secCount][cols[section]];
 		if (!percentile) {return;}
 		if( sectionTotals[section] ) {
