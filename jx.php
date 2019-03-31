@@ -149,11 +149,17 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                             $rJX['bOk'] = true;
                         }
                         else{
-                            $rJX['sOut'] = "No Assments";
+                            $rJX['sOut'] = "No Assements";
                         }
                         break;
                 }
             }
+            break;
+        case 'therapist-clientList-sort':
+            //Store the clientlist sort params in the session variable
+            $oApp->sess->VarSet("clientlist-normal", SEEDInput_Str("clientlist-normal",''));
+            $oApp->sess->VarSet("clientlist-discharged", SEEDInput_Str("clientlist-discharged",''));
+            $rJX['bOk'] = true;
             break;
     }
 }
