@@ -23,7 +23,7 @@ $rJX = array( 'bOk' => false,
 );
 
 $cmd = SEEDInput_Str('cmd');
-
+$rJX['sOut'] = $cmd;
 
 /* The permission level of ajax commands is defined by the format of the command.
  *
@@ -34,7 +34,6 @@ $cmd = SEEDInput_Str('cmd');
  * Commands with no hyphens are available to everyone.
  */
 list($bOk, $dummy, $rJX['sErr']) = $oApp->sess->IsAllowed( $cmd );
-
 
 switch( $cmd ) {
     case 'appt_newform':
@@ -159,6 +158,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             //Store the clientlist sort params in the session variable
             $oApp->sess->VarSet("clientlist-normal", SEEDInput_Str("clientlist-normal",''));
             $oApp->sess->VarSet("clientlist-discharged", SEEDInput_Str("clientlist-discharged",''));
+            $rJX['sErr'] = SEEDInput_Str("clientlist-discharged",'').",".SEEDInput_Str("clientlist-normal",'');
             $rJX['bOk'] = true;
             break;
     }
