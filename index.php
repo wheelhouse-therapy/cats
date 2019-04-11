@@ -17,7 +17,7 @@ if (!file_exists(CATSDIR_RESOURCES)) {
 }
 
 if( !$oApp->sess->IsLogin() ) {
-    echo "<head><link href='https://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet'></head><div style='position:absolute; top:5px; left:5px;'><svg id='logoSVG' xmlns='http://www.w3.org/2000/svg' version='1.1' x='0px' y='0px' width='350px' viewBox='0 0 594.928 140.61'>
+    echo "<head><link rel='icon' href='https://catherapyservices.ca/wp-content/uploads/2018/08/cropped-cats_icon-32x32.jpg' sizes='32x32'><link href='https://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet'></head><div style='position:absolute; top:5px; left:5px;'><svg id='logoSVG' xmlns='http://www.w3.org/2000/svg' version='1.1' x='0px' y='0px' width='350px' viewBox='0 0 594.928 140.61'>
 <path fill='#FFFFFF' d='M594.928,140.609C396.643,140.61,198.357,140.61,0,140.61
 	C0,93.771,0,46.93,0,0c198.261,0,396.595,0,594.928,0C594.928,46.83,594.928,93.719,594.928,140.609z'/>
 <path class='darkBlue' fill='#084378' d='M37.598,77.409c-9.579-25.744,14.497-61.155,39.465-58.335
