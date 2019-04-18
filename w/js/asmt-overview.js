@@ -1,7 +1,7 @@
 var invConds;
 var noCount;
 addEventListener("DOMContentLoaded", function() {
-	var secs = ["Social Participation", "Vision", "Hearing", "Touch",
+	var secs = ["Social Participation", "Vision", "Hearing", "Touch", "Taste/Smell",
 		"Body Awareness", "Balance and Motion", "Planning", "Total"];
 	var percentileKeys = Object.keys(raPercentilesSPM[8]);
 	var resultsBySection = [[], [], [], [], [], [], [], []];
@@ -49,15 +49,17 @@ addEventListener("DOMContentLoaded", function() {
 	var table = document.getElementById("results");
 	secs.forEach(function(head, ind) {
 		var final = false;
-		if (ind == 7) {final = true;}
+		if (ind == 8) {final = true;}
 		var total;
 		if (final) total = addUp(secTotals);
-		else total = ind < 4 ? secTotals[ind]: secTotals[ind + 1];
+		else total = secTotals[ind];
 
 		let row = temp.content.cloneNode(true).firstElementChild;
 		var percentile;
+		debugger;
 		if (final) percentile = raTotalsSPM[total];
-		else percentile = raPercentilesSPM[total][percentileKeys[ind]];
+		else if (ind == 4) percentile = "N/A";
+		else percentile = raPercentilesSPM[total][percentileKeys[(ind < 4? ind: ind - 1)]];
 		percentiles.push(percentile);
 		let classToAdd = false;
 		switch (interp(percentile)) {
@@ -71,16 +73,19 @@ addEventListener("DOMContentLoaded", function() {
 			classToAdd = "tp";
 		}
 		classToAdd && row.classList.add(classToAdd);
-		let values = [head, total, interp(percentile), percentile + "%", 100 - percentile + "%"];
+		let values = ind == 4? [head, total, "N/A", "N/A", "N/A"]:
+				[head, total, interp(percentile), percentile + "%", 100 - percentile + "%"];
 		for (var iter = 0; iter < row.children.length; iter++) {
 			row.children[iter].innerHTML = values[iter];
 		}
 		table.appendChild(row);
 	});
+	percentiles.splice(4, 1);
 	var draw = new CustomEvent("draw", {detail: percentiles});
 	document.getElementById("chart").dispatchEvent(draw);
 });
 function interp(percentile) {
+	if (percentile == "N/A") return;
 	if (percentile > 97)
 		return "Definite Dysfunction";
 	if (percentile < 84)
