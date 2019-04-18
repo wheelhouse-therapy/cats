@@ -53,9 +53,6 @@ addEventListener("DOMContentLoaded", function() {
 		var total;
 		if (final) total = addUp(secTotals);
 		else total = ind < 4 ? secTotals[ind]: secTotals[ind + 1];
-		// Not all possible scores will be defined in raPercentiles so if we get an anomalous score skip it here 
-		// (the return statement leaves the current function iteration; the next interation will proceed -- it is like 'continue' in a normal for loop)
-		// if( !(total in raPercentilesSPM) ) return; 
 
 		let row = temp.content.cloneNode(true).firstElementChild;
 		var percentile;
