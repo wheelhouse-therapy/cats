@@ -1,7 +1,8 @@
 var invConds;
+var noCount;
 addEventListener("DOMContentLoaded", function() {
 	var secs = ["Social Participation", "Vision", "Hearing", "Touch",
-		"Body Awareness", "Balance and Motion", "Planning"];
+		"Body Awareness", "Balance and Motion", "Planning", "Total"];
 	var percentileKeys = Object.keys(raPercentilesSPM[8]);
 	var resultsBySection = [[], [], [], [], [], [], [], []];
 	var secTotals = Array(8).fill(0);
@@ -18,6 +19,7 @@ addEventListener("DOMContentLoaded", function() {
 			value: 60
 		}];
 		secBounds = [10, 21, 29, 40, 45, 55, 66];
+		noCount = [0, 6];
 		break;
 	case "spmc":
 		invConds = [{
@@ -25,6 +27,7 @@ addEventListener("DOMContentLoaded", function() {
 			value: 10
 		}];
 		secBounds = [10, 17, 24, 32, 36, 43, 52];
+		noCount = [0, 6];
 	}
 	
 	raResultsSPM = Object.values(raResultsSPM);
@@ -45,13 +48,19 @@ addEventListener("DOMContentLoaded", function() {
 	var temp = document.getElementById("rowtemp");
 	var table = document.getElementById("results");
 	secs.forEach(function(head, ind) {
-		let total = ind < 4 ? secTotals[ind]: secTotals[ind + 1];
+		var final = false;
+		if (ind == 7) {final = true;}
+		var total;
+		if (final) total = addUp(secTotals);
+		else total = ind < 4 ? secTotals[ind]: secTotals[ind + 1];
 		// Not all possible scores will be defined in raPercentiles so if we get an anomalous score skip it here 
 		// (the return statement leaves the current function iteration; the next interation will proceed -- it is like 'continue' in a normal for loop)
-		if( !(total in raPercentilesSPM) ) return; 
+		// if( !(total in raPercentilesSPM) ) return; 
 
 		let row = temp.content.cloneNode(true).firstElementChild;
-		let percentile = raPercentilesSPM[total][percentileKeys[ind]];
+		var percentile;
+		if (final) percentile = raTotalsSPM[total];
+		else percentile = raPercentilesSPM[total][percentileKeys[ind]];
 		percentiles.push(percentile);
 		let classToAdd = false;
 		switch (interp(percentile)) {
@@ -64,7 +73,6 @@ addEventListener("DOMContentLoaded", function() {
 		case "Typical":
 			classToAdd = "tp";
 		}
-		
 		classToAdd && row.classList.add(classToAdd);
 		let values = [head, total, interp(percentile), percentile + "%", 100 - percentile + "%"];
 		for (var iter = 0; iter < row.children.length; iter++) {
@@ -72,7 +80,6 @@ addEventListener("DOMContentLoaded", function() {
 		}
 		table.appendChild(row);
 	});
-	percentiles.push(raTotalsSPM[secTotals.reduce((a, b) => Number(a) + Number(b))]);
 	var draw = new CustomEvent("draw", {detail: percentiles});
 	document.getElementById("chart").dispatchEvent(draw);
 });
@@ -109,4 +116,17 @@ function doInv(value) {
 			return true;
 	}
 	return false;
+}
+
+function addUp(secTots) {
+	var tots = [];
+	for (var i in secTots) {
+		if (noCount.includes(Number(i))) {
+			tots[i] = 0;
+		}
+		else {
+			tots[i] = Number(secTots[i]);
+		}
+	}
+	return tots.reduce((a, b) => a + b);
 }
