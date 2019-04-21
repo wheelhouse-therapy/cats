@@ -22,9 +22,16 @@ define( "CATSDIR_FILES",     "/home/cats/cats_files/" );   // where CATS will sa
 
 /* Credentials for your cats database (assuming host==localhost)
  */
-$catsDefKFDB = array( 'kfdbUserid' => 'cats',
-                      'kfdbPassword' => 'cats',
-                      'kfdbDatabase' => 'cats' );
+$config_KFDB = array(
+    'cats'      => ['kfdbUserid' => 'cats',
+                    'kfdbPassword' => 'cats',
+                    'kfdbDatabase' => 'cats' ],
+    'akaunting' => ['kfdbUserid' => 'cats',
+                    'kfdbPassword' => 'cats',
+                    'kfdbDatabase' => 'cats' ]
+);
+$catsDefKFDB = $config_KFDB['cats'];            // deprecated: use $config_KFDB['cats'] instead
+
 
 /* Credentials for the email-to-Akaunting processor
  * as well as the email-resource processor
