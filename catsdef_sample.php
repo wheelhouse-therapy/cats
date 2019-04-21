@@ -30,7 +30,12 @@ $config_KFDB = array(
                     'kfdbPassword' => 'cats',
                     'kfdbDatabase' => 'cats' ]
 );
-$catsDefKFDB = $config_KFDB['cats'];            // deprecated: use $config_KFDB['cats'] instead
+
+/**
+ * @deprecated use $config_KFDB['cats'] instead
+ * @var array $catsDefKFDB
+ */
+$catsDefKFDB = $config_KFDB['cats'];
 
 
 /* Credentials for the email-to-Akaunting processor
