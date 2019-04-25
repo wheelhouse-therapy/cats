@@ -31,7 +31,12 @@ $config_KFDB = array(
                     'kfdbDatabase' => 'cats',
                     'ak_tableprefix'=>'']         // fill this with the 3-char prefix that akaunting put on all table names
 );
-$catsDefKFDB = $config_KFDB['cats'];            // deprecated: use $config_KFDB['cats'] instead
+
+/**
+ * @deprecated use $config_KFDB['cats'] instead
+ * @var array $catsDefKFDB
+ */
+$catsDefKFDB = $config_KFDB['cats'];
 
 
 /* Credentials for the email-to-Akaunting processor
