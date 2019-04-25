@@ -28,7 +28,8 @@ $config_KFDB = array(
                     'kfdbDatabase' => 'cats' ],
     'akaunting' => ['kfdbUserid' => 'cats',
                     'kfdbPassword' => 'cats',
-                    'kfdbDatabase' => 'cats' ]
+                    'kfdbDatabase' => 'cats',
+                    'ak_tableprefix'=>'']         // fill this with the 3-char prefix that akaunting put on all table names
 );
 $catsDefKFDB = $config_KFDB['cats'];            // deprecated: use $config_KFDB['cats'] instead
 

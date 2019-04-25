@@ -92,6 +92,12 @@ if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
 }
 else if( substr($cmd, 0, 10) == 'therapist-'){
     switch($cmd){
+        case 'therapist-akaunting-xlsx':
+            require_once CATSLIB."AkauntingReports.php";
+            AkauntingReport_OutputXLSX( $oApp );
+            exit;
+            break;
+
         case 'therapist---credentials':
             $clientId = $_POST['client'];
             $peopleDB = new PeopleDB($oApp);
