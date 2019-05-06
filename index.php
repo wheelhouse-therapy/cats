@@ -231,12 +231,18 @@ if( !$oApp->sess->IsLogin() ) {
         </style>
         <form style='margin:auto;border:1px solid gray; width:33%; padding: 10px; padding-top: 0px; border-radius:10px; background-color:#65CDF5; margin-top:10em;' method='post'>"
          ."<h1 style=\"text-align:center; font-family: 'Lato', sans-serif; font-weight: 300; font-size: 30pt\">Login to CATS</h1>"
+         ."<input type='hidden' name='timezone' id='timezone'>"
          ."<input type='text' placeholder='Username' style='display:block; font-family: \"Lato\", sans-serif; font-weight: 400; margin:auto; border-radius:5px; border-style: inset outset outset inset; background-color:#87d8f7;' name='seedsession_uid' />"
          ."<br />"
          ."<input type='password' placeholder='Password' style='display:block; font-family: \"Lato\", sans-serif; font-weight: 400; margin:auto; border-radius:5px; border-style: inset outset outset inset; background-color:#87d8f7;' name='seedsession_pwd' />"
          ."<br />"
          ."<input type='submit' value='Login' style='border-style: inset outset outset inset; font-family: \"Lato\", sans-serif; font-weight: 400; background-color:#87d8f7; border-radius:5px; display:block; margin:auto;' />"
-         ."</form>";
+         ."</form>"
+         ."<script>
+            var timezone_offset_minutes = new Date().getTimezoneOffset();
+	        timezone_offset_minutes = timezone_offset_minutes == 0 ? 0 : -timezone_offset_minutes;
+            document.getElementById('timezone').value = timezone_offset_minutes;
+           </script>";
 
     // This is where we store the user's current screen. If they have logged out, or the login expired, reset their screen to the default.
     $oApp->sess->VarSet( 'screen', "" );
@@ -267,6 +273,15 @@ if( !$oApp->sess->IsLogin() ) {
                the command called leader--addusers requires write access on the "leader" perm
                the command called calendar---addcalendar requires admin access on the "calendar" perm
 */
+
+//Configure timezone
+if(is_numeric($oApp->sess->SmartGPC('timezone'))){
+    $oApp->sess->VarSet('timezone', timezone_name_from_abbr("", $oApp->sess->SmartGPC('timezone')*60, false));
+}
+
+if($oApp->sess->VarGet('timezone')){
+    date_default_timezone_set($oApp->sess->VarGet('timezone'));
+}
 
 $oUI = new CATS_MainUI( $oApp );
 
