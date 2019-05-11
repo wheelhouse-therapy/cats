@@ -164,8 +164,15 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             //Store the clientlist sort params in the session variable
             $oApp->sess->VarSet("clientlist-normal", SEEDInput_Str("clientlist-normal",''));
             $oApp->sess->VarSet("clientlist-discharged", SEEDInput_Str("clientlist-discharged",''));
-            $rJX['sErr'] = SEEDInput_Str("clientlist-discharged",'').",".SEEDInput_Str("clientlist-normal",'');
             $rJX['bOk'] = true;
+            break;
+        case 'therapist-assessment-check':
+            $p_sAsmtType = SEEDInput_Str('sAsmtType');
+            $kClient = SEEDInput_Int('fk_clients2');
+            $assessments = new AssessmentsCommon($oApp);
+            $asmt = $assessments->GetNewAsmtObject( $p_sAsmtType );
+            $rJX['bOk'] = !$asmt->checkEligibility($kClient);
+            $rJX['sOut'] = $asmt->getIneligibleMessage();
             break;
     }
 }
