@@ -16,7 +16,7 @@ addEventListener("DOMContentLoaded", function() {
 			value: 10
 		}, {
 			type: "===",
-			value: 60
+			value: 56
 		}];
 		secBounds = [10, 21, 29, 40, 45, 55, 66];
 		noCount = [0, 6];
