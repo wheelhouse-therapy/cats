@@ -1,4 +1,3 @@
-cols.splice(4, 0, "");
 var invConds;
 var secs;
 addEventListener("DOMContentLoaded", function() {
@@ -16,6 +15,7 @@ addEventListener("DOMContentLoaded", function() {
 			value: 56
 		}];
 		secs = [10, 21, 29, 40, 45, 55, 66];
+		cols.splice(4, 0, "");
 		break;
 	case "spmc":
 		invConds = [{
@@ -23,6 +23,7 @@ addEventListener("DOMContentLoaded", function() {
 			value: 10
 		}];
 		secs = [10, 17, 24, 32, 36, 43, 52];
+		cols.splice(4, 0, "");
 	}
 	
 	inputs.forEach(function(a, b){
@@ -33,8 +34,10 @@ addEventListener("DOMContentLoaded", function() {
 		a.addEventListener("keydown", function(e) {
 			if (!e.key || noAbsorb(e.key)) {return;}
 			if (checkInput(e, this)) {
-				scores[b].innerHTML = getScore(e.key, b);
-				updateTotal(scores, this.section, sectionTotals);
+				if(document.querySelector("input[name='sAsmtType']").value !== "aasp"){
+					scores[b].innerHTML = getScore(e.key, b);
+					updateTotal(scores, this.section, sectionTotals);
+				}
 				try {
 					inputs[b + 1].focus();
 				} catch(e) {}
@@ -49,8 +52,10 @@ addEventListener("DOMContentLoaded", function() {
 			if (!e.data) {
 				e.data = this.value;
 			}
-			scores[b].innerHTML = getScore(e.data, b);
-			updateTotal(scores, this.section, sectionTotals);
+			if(document.querySelector("input[name='sAsmtType']").value !== "aasp"){
+				scores[b].innerHTML = getScore(e.data, b);
+				updateTotal(scores, this.section, sectionTotals);
+			}
 			inputs[b + 1].focus();
 		})
 		a.addEventListener("paste", function(e) {e.preventDefault();});
