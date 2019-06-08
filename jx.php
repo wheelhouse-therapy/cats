@@ -116,7 +116,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $name .= $clientDB->getClient($clientId)->Value("client_last_name");
             $rJX['sOut'] = "Credentials sent to: " .$email;
             $accountDB = new SEEDSessionAccountDB($oApp->kfdb,$oApp->sess->GetUID());
-            $message = "Here is the credentials to sign in to %s's account.\r\nUsername: %s\r\nPassword: %s\r\n Thanks for using CATS";
+            $message = "Here are the credentials to sign in to %s's account.\r\nUsername: %s\r\nPassword: %s\r\n Thanks for using CATS";
             if(($account = $accountDB->GetKUserFromEmail($username)) != 0){
                 list($k,$user,$meta) = $accountDB->GetUserInfo($account);
                 $dob = $user['password'];
