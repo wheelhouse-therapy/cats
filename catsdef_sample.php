@@ -47,6 +47,7 @@ $email_processor = array( 'receiptsEmail' => "Your Email",
                           //'emailServer'   => "catherapyservices.ca"  //this is set in _config.php if you don't put it here. Use for dev access to alternate server name.
                           'akauntingUSR'  => "Your Akaunting USR",
                           'akauntingPSW'  => "Your Akaunting PSW",
+                          //'akauntingServer' => "https://localhost", //URL to the server which akaunting is installed. Also set in _config.php if you don't put it here.
                           'resourceEmail' => "Your Email",
                           'resourcePSW'   => "Your Email PSW"
                         );
