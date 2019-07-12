@@ -50,10 +50,17 @@ switch( $cmd ) {
 
     case 'contact':
         $rJX['sOut'] = "Thank You";
-        if($location = @$_POST['et_pb_contact_location_1']){
-            $message = "Message from:".@$_POST['et_pb_contact_name_1']."\n\n";
-            $message .= @$_POST['et_pb_contact_message_1'];
-            $rJX['bOk'] = mail($location."@catherapyservices.ca","Message for CATS Therapy",$message,"From: ".@$_POST['et_pb_contact_email_1']);
+        $array = array_filter($_REQUEST, function($key) {
+            return strpos($key, 'et_pb_contact_') === 0;
+        },ARRAY_FILTER_USE_KEY );
+        $ra = array();
+        foreach ($array as $key=>$value){
+            $ra[explode("_", $key)[3]] = $value;
+        }
+        if($location = @$ra['location']){
+            $message = "Message from:".@$ra['name']."\n\n";
+            $message .= @$ra['message'];
+            $rJX['bOk'] = mail($location."@catherapyservices.ca","Message for CATS Therapy",$message,"From: ".@$ra['email']);
         }
         else{
             $rJX['sErr'] = "Please Select a location";
