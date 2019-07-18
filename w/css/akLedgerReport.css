@@ -1,0 +1,12 @@
+#AkLedgerReport td {
+	padding: 5px;
+}
+.AkReportRow1, .AkReportRow2, .AkReportRow3, .AkReportRow8 { /* assets, liabilities, equity */
+	background-color: #dedede;
+}
+.AkReportRow4 { /* income */
+	background-color: lightcyan;
+}
+.AkReportRow6, .AkReportRow7 { /* expenses */
+	background-color: #ffff8f;
+}
