@@ -182,7 +182,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = $asmt->getIneligibleMessage();
             break;
         case 'therapist-clientList-form':
-            require_once 'therapist-clientlist.php';
+            require_once CATSLIB.'therapist-clientlist.php';
             $key = SEEDInput_Str("id");
             $type = substr($key, 0,strcspn($key, "1234567890"));
             $pid = substr($key, strcspn($key, "1234567890"));
