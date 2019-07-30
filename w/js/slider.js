@@ -4,12 +4,13 @@ function getForm(id) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			if (this.responseText.bOk == "true") {
-				sidebar.innerHTML = this.responseText.sOut;
+			var responseText = JSON.parse(this.responseText);
+			if (responseText.bOk == true) {
+				sidebar.innerHTML = responseText.sOut;
 				sidebar.classList.add("open");
 			}
 		}
 	};
-	xhttp.open("POST", "jx.php", true);
-	xhttp.send("id=" + id + "&cmd=therapist-clientList-form");
+	xhttp.open("GET", "jx.php?cmd=therapist-clientList-form&id=" + id, true);
+	xhttp.send();
 }
