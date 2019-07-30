@@ -184,6 +184,11 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
         case 'therapist-clientList-form':
             require_once CATSLIB.'therapist-clientlist.php';
             $key = SEEDInput_Str("id");
+            if(!$key){
+                $rJX['bOk'] = false;
+                $rJX['sErr'] = "Missing Key";
+                goto done;
+            }
             $type = substr($key, 0,strcspn($key, "1234567890"));
             $pid = substr($key, strcspn($key, "1234567890"));
             $clientList = new ClientList($oApp);
