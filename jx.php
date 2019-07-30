@@ -181,6 +181,14 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['bOk'] = !$asmt->checkEligibility($kClient, SEEDInput_Str("date"));
             $rJX['sOut'] = $asmt->getIneligibleMessage();
             break;
+        case 'therapist-clientList-form':
+            require_once 'therapist-clientlist.php';
+            $key = SEEDInput_Str("id");
+            $type = substr($key, 0,strcspn($key, "1234567890"));
+            $pid = substr($key, strcspn($key, "1234567890"));
+            $clientList = new ClientList($oApp);
+            $rJX['sOut'] = $clientList->DrawAjaxForm($pid,$type);
+            $rJX['bOk'] = true;
     }
 }
 else if(substr($cmd, 0, 6) == 'admin-'){
