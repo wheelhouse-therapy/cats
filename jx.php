@@ -194,6 +194,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $clientList = new ClientList($oApp);
             $rJX['sOut'] = $clientList->DrawAjaxForm($pid,$type);
             $rJX['bOk'] = true;
+            header("Cache-Control: no-cache");
     }
 }
 else if(substr($cmd, 0, 6) == 'admin-'){
