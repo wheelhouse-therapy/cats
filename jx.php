@@ -189,11 +189,10 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                 $rJX['sErr'] = "Missing Key";
                 goto done;
             }
-            $type = substr($key, 0,strcspn($key, "1234567890"));
-            $pid = substr($key, strcspn($key, "1234567890"));
+            list($type,$pid) = ClientList::parseID($key);
             $clientList = new ClientList($oApp);
             $rJX['sOut'] = $clientList->DrawAjaxForm($pid,$type);
-            $rJX['bOk'] = true;
+            $rJX['bOk'] = ($rJX['sOut']?true:false);
             header("Cache-Control: no-cache");
             break;
         case 'therapist--clientModal':
