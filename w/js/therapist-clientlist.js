@@ -86,6 +86,61 @@ function modalLoaded() {
         $("#contact_form").submit();
     });
     $("#contact_dialog").on("hidden.bs.modal", function(){
-        location.reload();
+        reloadForm();
     });
+}
+
+function sendCMD(e, command){
+	$("#messageBox").slideUp(100);
+    $.ajax({
+        type: "POST",
+        data: {cmd:'therapist--clientlist-'+command},
+        url: "jx.php",
+        success: function(data, textStatus, jqXHR) {
+            var jsData = JSON.parse(data);
+            if(jsData.bOk){
+            	document.getElementById("messageBox").innerHTML = jsData.raOut.message;
+            	$("#messageBox").slideDown(100);
+            	if(jsData.raOut.id){
+            		getForm(jsData.raOut.id);
+            	}
+            	hideAlerts();
+            }
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+    e.preventDefault();
+}
+
+function submitForm(e){
+	$("#messageBox").slideUp(100);
+	var postData = $(e.currentTarget).serializeArray();
+	postData = postData.map(function(value, index, array){
+        if(value.name == 'cmd'){
+            return {name: 'cmd', value: 'therapist--clientlist-'+value.value};
+        }
+        return value;
+    });
+    $.ajax({
+        type: "POST",
+        data: postData,
+        url: "jx.php",
+        success: function(data, textStatus, jqXHR) {
+        	var jsData = JSON.parse(data);
+            if(jsData.bOk){
+            	document.getElementById("messageBox").innerHTML = jsData.raOut.message;
+            	$("#messageBox").slideDown(100);
+            	if(jsData.raOut.id){
+            		getForm(jsData.raOut.id);
+            	}
+            	hideAlerts();
+            } 
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+    e.preventDefault();
 }
