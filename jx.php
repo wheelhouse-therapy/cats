@@ -195,6 +195,22 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = $clientList->DrawAjaxForm($pid,$type);
             $rJX['bOk'] = true;
             header("Cache-Control: no-cache");
+            break;
+        case 'therapist--clientModal':
+            require_once CATSLIB."client-modal.php" ;
+            $client_key = SEEDInput_Int("client_key");
+            if($client_key <= 0){
+                $rJX['bOk'] = false;
+                $rJX['sErr'] = "Client Key must be positive";
+                goto done;
+            }
+            $clientList = new ClientList($oApp);
+            $kfr = $clientList->oPeopleDB->GetKFR(ClientList::CLIENT, $client_key );
+            $oForm = new KeyframeForm( $clientList->oPeopleDB->KFRel(ClientList::CLIENT), "A", array("fields"=>array("parents_separate"=>array("control"=>"checkbox"))));
+            $oForm->SetKFR($kfr);
+            $rJX['sOut'] = drawModal($oForm->GetValuesRA(), $clientList->oPeopleDB, $clientList->pro_roles_name );
+            $rJX['bOk'] = true;
+            break;
     }
 }
 else if(substr($cmd, 0, 6) == 'admin-'){
