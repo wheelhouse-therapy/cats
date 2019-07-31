@@ -28,19 +28,26 @@
 	top: 0;
 	transition: width 0.3s ease-out;
 	width: 0;
+	box-sizing: border-box;
+	overflow: hidden;
 	z-index: 1;
 	background-color: white;
 	min-height: 100%;
-	padding-top: 50px;
+	padding-top: 70px;
 }
 #sidebar.open {
-	width: 30%;
+	width: 50%;
 }
-@keyframes slide-in {
-	from {
-		width: 0;
-	}
-	to {
-		width: 30%;
-	}
+.close-sidebar {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	width: 10px;
+	color: #5e6a75;
+}
+.close-sidebar:hover {
+	color: black;
+}
+#sidebar:not(.open) .close-sidebar {
+	display: none;
 }
