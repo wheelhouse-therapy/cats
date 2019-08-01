@@ -144,3 +144,10 @@ function submitForm(e){
     });
     e.preventDefault();
 }
+
+function clientDischargeToggle() {
+	var client = document.querySelector("[data-id=" + document.getElementById('sidebar').dataset.id + "]");
+	client.classList.toggle('client-discharged');
+	client.classList.toggle('client-normal');
+	document.getElementById('client-form').submit();
+}

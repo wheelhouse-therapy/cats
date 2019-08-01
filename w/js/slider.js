@@ -1,4 +1,12 @@
 function getForm(id) {
+	var selected = document.querySelector(".selected");
+	if (selected) {
+		selected.classList.remove("selected");
+	}
+	var clicked = document.querySelector("[data-id=" + id + "]");
+	if (clicked) {
+		clicked.classList.add("selected");
+	}
 	var sidebar = document.getElementById("sidebar");
 	sidebar.classList.remove("open");
 	sidebar.setAttribute("data-id",id);
@@ -24,4 +32,8 @@ function reloadForm(){
 	if(sidebar.classList.contains("open")){
 		getForm(sidebar.getAttribute("data-id"));
 	}
+}
+function closeSidebar() {
+	document.getElementById("sidebar").classList.remove("open");
+	document.querySelector(".selected").classList.remove("selected");
 }
