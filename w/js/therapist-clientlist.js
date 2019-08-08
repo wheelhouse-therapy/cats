@@ -132,6 +132,7 @@ function submitForm(e){
             if(jsData.bOk){
             	document.getElementById("messageBox").innerHTML = jsData.raOut.message;
             	$("#messageBox").slideDown(100);
+            	document.getElementById(jsData.raOut.listId).innerHTML = jsData.raOut.list;
             	if(jsData.raOut.id){
             		getForm(jsData.raOut.id);
             	}
