@@ -9,7 +9,7 @@ function getForm(id) {
 	}
 	var sidebar = document.getElementById("sidebar");
 	sidebar.classList.remove("open");
-	sidebar.setAttribute("data-id",id);
+	sidebar.setAttribute("data-open-id",id);
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -19,7 +19,7 @@ function getForm(id) {
 				sidebar.classList.add("open");
 			}
 			else{
-				sidebar.removeAttribute("data-id");
+				sidebar.removeAttribute("data-open-id");
 			}
 		}
 	};
@@ -30,7 +30,7 @@ function getForm(id) {
 function reloadForm(){
 	var sidebar = document.getElementById("sidebar");
 	if(sidebar.classList.contains("open")){
-		getForm(sidebar.getAttribute("data-id"));
+		getForm(sidebar.getAttribute("data-open-id"));
 	}
 }
 function closeSidebar() {
