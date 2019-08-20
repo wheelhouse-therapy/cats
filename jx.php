@@ -109,7 +109,11 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             AkauntingReport_OutputXLSX( $oApp );
             exit;
             break;
-
+        case 'therapist-akaunting-updateReport':
+            require_once CATSLIB."AkauntingReports.php";
+            $rJX['sOut'] = AkauntingReport( $oApp, true );
+            $rJX['bOk'] = $rJX['sOut']?true:false;
+            break;
         case 'therapist---credentials':
             $clientId = $_POST['client'];
             $peopleDB = new PeopleDB($oApp);
