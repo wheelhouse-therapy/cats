@@ -37,6 +37,16 @@ function sendcreds(e){
         }
     });
 }
+function doUpdateForm() {
+    var sel = document.getElementById('mySelect').value;
+    if( sel == 'Other' ) {
+        document.getElementById('other').style.display = 'inline';
+        document.getElementById('other').disabled = false;
+    } else {
+        document.getElementById('other').style.display = 'none';
+        document.getElementById('other').disabled = true;
+    }
+}
 function inSchool() {
     var checkBox = document.getElementById('schoolBox');
     var text = document.getElementById('schoolField');
