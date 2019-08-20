@@ -34,7 +34,6 @@ function sendcreds(e){
         },
         error: function(jqXHR, status, error) {
             console.log(status + ": " + error);
-            debugger;
         }
     });
 }
