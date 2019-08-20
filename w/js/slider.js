@@ -35,5 +35,7 @@ function reloadForm(){
 }
 function closeSidebar() {
 	document.getElementById("sidebar").classList.remove("open");
-	document.querySelector(".selected").classList.remove("selected");
+	if(document.querySelector(".selected")){
+		document.querySelector(".selected").classList.remove("selected");
+	}
 }
