@@ -112,6 +112,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
         case 'therapist-akaunting-updateReport':
             require_once CATSLIB."AkauntingReports.php";
             $rJX['sOut'] = AkauntingReport( $oApp, true );
+            $rJX['sOut']=utf8_encode($rJX['sOut']);
             $rJX['bOk'] = $rJX['sOut']?true:false;
             break;
         case 'therapist---credentials':
