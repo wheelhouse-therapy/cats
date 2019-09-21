@@ -62,7 +62,7 @@ function inSchool() {
     }
  }
 function clinicHack(e) {
-	$(":input",e.currentTarget).prop("disabled", false);
+	$(".sfAp_clinic",e.currentTarget).prop("disabled", false);
 }
 function updateAccountStyle(){
     var select = document.getElementById('newAccount');
