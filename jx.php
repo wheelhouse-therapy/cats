@@ -87,6 +87,24 @@ switch( $cmd ) {
             $rJX['sErr'] = "That was bad";
         }
         goto done;
+    case 'clinicImg':
+        $img_id = $_REQUEST['image_ID'];
+        $action = $_REQUEST['action'];
+        $clinic = new Clinics($oApp);
+        switch ($img_id){
+            case "slogo":
+                $img_id = Clinics::LOGO_SQUARE;
+                break;
+            case "wlogo":
+                $img_id = Clinics::LOGO_WIDE;
+                break;
+            case "footer":
+                $img_id = Clinics::FOOTER;
+                break;
+        }
+        $rJX['bOk'] = true;
+        $rJX['sOut'] = $clinic->setImage($img_id,$action=="Restore");
+        break;
 }
 
 if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
