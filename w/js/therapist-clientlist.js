@@ -62,7 +62,7 @@ function inSchool() {
     }
  }
 function clinicHack(e) {
-	$(".sfAp_clinic",e.currentTarget).prop("disabled", false);
+	$("select",e.currentTarget.form).prop("disabled", false);
 }
 function updateAccountStyle(){
     var select = document.getElementById('newAccount');
@@ -125,17 +125,16 @@ function sendCMD(e, command){
 
 function submitForm(e){
 	$("#messageBox").slideUp(100);
-	var postData = $(e.currentTarget).serializeArray();
-	postData = postData.map(function(value, index, array){
-        if(value.name == 'cmd'){
-            return {name: 'cmd', value: 'therapist--clientlist-'+value.value};
-        }
-        return value;
-    });
+	var formData = new FormData(e.currentTarget.form);
+	formData.append("action",e.currentTarget.value);
+	formData.set("cmd","therapist--clientlist-"+formData.get('cmd'));
     $.ajax({
         type: "POST",
-        data: postData,
+        data: formData,
         url: "jx.php",
+        cache       : false,
+        contentType : false,
+        processData : false,
         success: function(data, textStatus, jqXHR) {
         	var jsData = JSON.parse(data);
             if(jsData.bOk){
@@ -144,6 +143,9 @@ function submitForm(e){
             	document.getElementById(jsData.raOut.listId).innerHTML = jsData.raOut.list;
             	if(jsData.raOut.id){
             		getForm(jsData.raOut.id);
+            	}
+            	else{
+            		closeSidebar();
             	}
             	hideAlerts();
             } 
@@ -159,5 +161,4 @@ function clientDischargeToggle() {
 	var client = document.querySelector("[data-id=" + document.getElementById('sidebar').dataset.id + "]");
 	client.classList.toggle('client-discharged');
 	client.classList.toggle('client-normal');
-	document.getElementById('client-form').submit();
 }
