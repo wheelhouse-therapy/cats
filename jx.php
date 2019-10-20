@@ -180,9 +180,11 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             break;
         case 'therapist-generate-address-labels':
             require_once CATSLIB."template_filler.php";
+            $ra = array_chunk($_REQUEST["info"], 5);
             break;
         case 'therapist-generate-faxes':
             require_once CATSLIB."template_filler.php";
+            $ra = array_chunk($_REQUEST["info"], 5);
             break;
         case 'therapist-emails':
             break;
