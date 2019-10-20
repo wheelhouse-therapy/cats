@@ -173,6 +173,19 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             Therapist_ClientList_OutputXLSX( $oApp );
             exit;
             break;
+        case 'therapist-distribute-reports-update-client':
+            require_once CATSLIB."DistributeReports.php";
+            $rJX["sOut"] = drawForm($oApp,$oApp->sess->SmartGPC("idOut"));
+            $rJX["bOk"] = true;
+            break;
+        case 'therapist-generate-address-labels':
+            require_once CATSLIB."template_filler.php";
+            break;
+        case 'therapist-generate-faxes':
+            require_once CATSLIB."template_filler.php";
+            break;
+        case 'therapist-emails':
+            break;
         case 'therapist--modal':
             $rJX['bOk'] = true;
             require_once CATSLIB.'modal-submit.php';
