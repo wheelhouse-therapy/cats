@@ -238,6 +238,7 @@ if( !$oApp->sess->IsLogin() ) {
          ."<br />"
          ."<input type='submit' value='Login' style='border-style: inset outset outset inset; font-family: \"Lato\", sans-serif; font-weight: 400; background-color:#87d8f7; border-radius:5px; display:block; margin:auto;' />"
          ."</form>"
+         ."<div style='margin:auto; width:33%; padding: 10px; padding-top: 0px;'><a style='margin:auto' href='/resetPassword.php'>Reset Password</a></div>"
          ."<script>
             var timezone_offset_minutes = new Date().getTimezoneOffset();
 	        timezone_offset_minutes = timezone_offset_minutes == 0 ? 0 : -timezone_offset_minutes;
