@@ -180,11 +180,13 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             break;
         case 'therapist-generate-address-labels':
             require_once CATSLIB."template_filler.php";
-            $ra = array_chunk($_REQUEST["info"], 5);
+            $filler = new template_filler($oApp, array(), $_REQUEST["info"]);
+            $filler->fill_resource(CATSLIB . "ReportsTemplates/Address Labels Template.docx");
+            die();
             break;
         case 'therapist-generate-faxes':
             require_once CATSLIB."template_filler.php";
-            $ra = array_chunk($_REQUEST["info"], 5);
+            
             break;
         case 'therapist-emails':
             break;
@@ -204,7 +206,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                             $rJX['bOk'] = true;
                         }
                         else{
-                            $rJX['sOut'] = "No Assements";
+                            $rJX['sOut'] = "No Assessments";
                         }
                         break;
                 }
