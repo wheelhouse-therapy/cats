@@ -179,14 +179,17 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX["bOk"] = true;
             break;
         case 'therapist-generate-address-labels':
-            require_once CATSLIB."template_filler.php";
-            $filler = new template_filler($oApp, array(), $_REQUEST["info"]);
-            $filler->fill_resource(CATSLIB . "ReportsTemplates/Address Labels Template.docx");
+            require_once CATSLIB."DistributeReports.php";
+            // 'info' should be an array but this allows it to be a string too (not sure why that happens sometimes)
+            $info = $_REQUEST["info"];
+            if( !is_array($info) )  $info = [$info];
+            $o = new DistributeReports($oApp);
+            $o->OutputAddressLabels($info);
             die();
             break;
         case 'therapist-generate-faxes':
             require_once CATSLIB."template_filler.php";
-            
+
             break;
         case 'therapist-emails':
             break;
