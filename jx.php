@@ -187,9 +187,12 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $o->OutputAddressLabels($info);
             die();
             break;
-        case 'therapist-generate-faxes':
-            require_once CATSLIB."template_filler.php";
-
+        case 'therapist-generate-fax-cover':
+            require_once CATSLIB."DistributeReports.php";
+            if( ($info = SEEDInput_Str('info')) ) {
+                $o = new DistributeReports($oApp);
+                $o->OutputFaxCover($info);
+            }
             break;
         case 'therapist-emails':
             break;
