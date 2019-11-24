@@ -185,12 +185,20 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX["bOk"] = true;
             break;
         case 'therapist-generate-address-labels':
-            require_once CATSLIB."template_filler.php";
-            $ra = array_chunk($_REQUEST["info"], 5);
+            require_once CATSLIB."DistributeReports.php";
+            // 'info' should be an array but this allows it to be a string too (not sure why that happens sometimes)
+            $info = $_REQUEST["info"];
+            if( !is_array($info) )  $info = [$info];
+            $o = new DistributeReports($oApp);
+            $o->OutputAddressLabels($info);
+            die();
             break;
-        case 'therapist-generate-faxes':
-            require_once CATSLIB."template_filler.php";
-            $ra = array_chunk($_REQUEST["info"], 5);
+        case 'therapist-generate-fax-cover':
+            require_once CATSLIB."DistributeReports.php";
+            if( ($info = SEEDInput_Str('info')) ) {
+                $o = new DistributeReports($oApp);
+                $o->OutputFaxCover($info);
+            }
             break;
         case 'therapist-emails':
             break;
@@ -210,7 +218,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                             $rJX['bOk'] = true;
                         }
                         else{
-                            $rJX['sOut'] = "No Assements";
+                            $rJX['sOut'] = "No Assessments";
                         }
                         break;
                 }
