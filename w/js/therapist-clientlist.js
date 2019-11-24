@@ -111,12 +111,7 @@ function sendCMD(e, command){
             	document.getElementById("messageBox").innerHTML = jsData.raOut.message;
             	$("#messageBox").slideDown(100);
             	if(jsData.raOut.id){
-            		if(jsData.raOut.id == "-1"){
-            			reloadForm();
-            		}
-            		else{
-            			getForm(jsData.raOut.id);
-            		}
+            		getForm(jsData.raOut.id);
             	}
             	hideAlerts();
             }
