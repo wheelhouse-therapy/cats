@@ -35,6 +35,12 @@ $rJX['sOut'] = $cmd;
  */
 list($bOk, $dummy, $rJX['sErr']) = $oApp->sess->IsAllowed( $cmd );
 
+if(!$bOk){
+    // Safety measure incase someone without perms try to run a command.
+    // Since the command processing code below is not garenteed to check for permission.
+    goto done;
+}
+
 switch( $cmd ) {
     case 'appt_newform':
         require_once CATSLIB."calendar.php";
