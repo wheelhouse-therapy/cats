@@ -235,7 +235,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $kClient = SEEDInput_Int('fk_clients2');
             $assessments = new AssessmentsCommon($oApp);
             $asmt = $assessments->GetNewAsmtObject( $p_sAsmtType );
-            $rJX['bOk'] = !$asmt->checkEligibility($kClient, SEEDInput_Str("date"));
+            $rJX['bOk'] = $asmt->checkEligibility($kClient, SEEDInput_Str("date"));
             $rJX['sOut'] = $asmt->getIneligibleMessage();
             break;
         case 'therapist-clientList-form':
