@@ -214,6 +214,7 @@ function loadAsmtResults(key){
         success: function(data, textStatus, jqXHR) {
             var jsData = JSON.parse(data);
             if(jsData.bOk){
+            	document.getElementById('asmtDialog').classList.add("modal-lg");
                 document.getElementById('asmtData').innerHTML = jsData.sOut;
             }
             else{

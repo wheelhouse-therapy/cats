@@ -271,7 +271,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = "
                             <!-- the div that represents the modal dialog -->
                             <div class=\"modal fade\" id=\"asmt_dialog\" role=\"dialog\">
-                                <div class=\"modal-dialog\">
+                                <div class=\"modal-dialog\" id='asmtDialog'>
                                     <div class=\"modal-content\">
                                         <div class=\"modal-header\">
                                             <h4 class=\"modal-title\">Assessment Results for [[client]]</h4>
@@ -295,7 +295,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $raA = $oApp->kfdb->QueryRowsRA("SELECT _key,date,_created,testType FROM `assessments_scores` WHERE fk_clients2 = ".$client_key);
             $s = "";
             foreach($raA as $ra){
-                $s .= "<div onclick='loadAsmtResults({$ra['_key']})'>"
+                $s .= "<div style='cursor: pointer;' onclick='loadAsmtResults({$ra['_key']})'>"
                                .$ra['testType']
                                .": "
                                .AssessmentsCommon::GetAssessmentDate($ra)
