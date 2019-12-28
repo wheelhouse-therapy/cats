@@ -268,24 +268,46 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['bOk'] = true;
             break;
         case "therapist-assessments-clientlist":
-            $rJX['sOut'] = "";
+            $rJX['sOut'] = "
+                            <!-- the div that represents the modal dialog -->
+                            <div class=\"modal fade\" id=\"asmt_dialog\" role=\"dialog\">
+                                <div class=\"modal-dialog\">
+                                    <div class=\"modal-content\">
+                                        <div class=\"modal-header\">
+                                            <h4 class=\"modal-title\">Assessment Results for [[client]]</h4>
+                                        </div>
+                                        <div class=\"modal-body\">
+                                            <div id='asmtData'>
+                                                [[asmts]]
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>";
             $client_key = SEEDInput_Int("fk_clients2");
             if($client_key <= 0){
+                $rJX['sErr'] = "Client Key Must be positive (>0)";
+                $rJX['sOut'] = $cmd;
                 goto done;
             }
+            $raC = $oApp->kfdb->QueryRA("SELECT P.first_name as first_name,P.last_name as last_name FROM people as P, clients2 as C WHERE C.fk_people=P._key AND C._key=$client_key");
+            $rJX['sOut'] = str_replace("[[client]]", $raC['first_name']." ".$raC['last_name'], $rJX['sOut']);
             $raA = $oApp->kfdb->QueryRowsRA("SELECT _key,date,_created,testType FROM `assessments_scores` WHERE fk_clients2 = ".$client_key);
+            $s = "";
             foreach($raA as $ra){
-                $rJX['sOut'] .= "<div>"
+                $s .= "<div onclick='loadAsmtResults({$ra['_key']})'>"
                                .$ra['testType']
                                .": "
                                .AssessmentsCommon::GetAssessmentDate($ra)
                                ."</div>";
             }
+            $rJX['sOut'] = str_replace("[[asmts]]",$s?:"No Assessment Data Recorded",$rJX['sOut']);
             $rJX['bOk'] = $rJX['sOut']?true:false;
             break;
         case "therapist-assessments-results":
             $kA = SEEDInput_Int("kA");
             if($kA <= 0){
+                $rJX['sErr'] = "Assessment Id Must be positive (>0)";
                 goto done;
             }
             $oAC = new AssessmentsCommon($oApp);

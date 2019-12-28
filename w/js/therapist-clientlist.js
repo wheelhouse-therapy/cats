@@ -184,3 +184,44 @@ function initPage() {
 	searchBar.placeholder = "Search...";
 }
 window.addEventListener("DOMContentLoaded", initPage);
+
+function loadAsmtList(key){
+	$.ajax({
+        type: "POST",
+        data: {cmd:'therapist-assessments-clientlist',fk_clients2:key},
+        url: 'jx.php',
+        success: function(data, textStatus, jqXHR) {
+            var jsData = JSON.parse(data);
+            if(jsData.bOk){
+                document.getElementById('modalBox').innerHTML = jsData.sOut;
+                $('#asmt_dialog').modal('show');
+            }
+            else{
+                console.log(jsData.sErr);
+            }
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+}
+
+function loadAsmtResults(key){
+	$.ajax({
+        type: "POST",
+        data: {cmd:'therapist-assessments-results',kA:key},
+        url: 'jx.php',
+        success: function(data, textStatus, jqXHR) {
+            var jsData = JSON.parse(data);
+            if(jsData.bOk){
+                document.getElementById('asmtData').innerHTML = jsData.sOut;
+            }
+            else{
+                console.log(jsData.sErr);
+            }
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+}
