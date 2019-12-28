@@ -1,3 +1,5 @@
+var searchBar;
+
 function connectButton(e,key) {
     $.ajax({
         type: "POST",
@@ -162,3 +164,23 @@ function clientDischargeToggle() {
 	client.classList.toggle('client-discharged');
 	client.classList.toggle('client-normal');
 }
+
+function search() {
+	var query = new RegExp(searchBar.value, "i");
+	var names = document.querySelectorAll(".name");
+	for (var i = 0; i < names.length; i++) {
+		if (!query.test(names[i].innerHTML)) {
+			names[i].parentElement.style.display = "none";
+		}
+		else {
+			names[i].parentElement.style.display = "unset";
+		}
+	}
+}
+
+function initPage() {
+	searchBar = document.getElementById("searchbar");
+	searchBar.addEventListener("input", search);
+	searchBar.placeholder = "Search...";
+}
+window.addEventListener("DOMContentLoaded", initPage);
