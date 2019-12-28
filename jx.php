@@ -267,6 +267,33 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = drawModal($oForm->GetValuesRA(), $clientList->oPeopleDB, $clientList->pro_roles_name );
             $rJX['bOk'] = true;
             break;
+        case "therapist-assessments-clientlist":
+            $rJX['sOut'] = "";
+            $client_key = SEEDInput_Int("fk_clients2");
+            if($client_key <= 0){
+                goto done;
+            }
+            $raA = $oApp->kfdb->QueryRowsRA("SELECT _key,date,_created,testType FROM `assessments_scores` WHERE fk_clients2 = ".$client_key);
+            foreach($raA as $ra){
+                $rJX['sOut'] .= "<div>"
+                               .$ra['testType']
+                               .": "
+                               .AssessmentsCommon::GetAssessmentDate($ra)
+                               ."</div>";
+            }
+            $rJX['bOk'] = $rJX['sOut']?true:false;
+            break;
+        case "therapist-assessments-results":
+            $kA = SEEDInput_Int("kA");
+            if($kA <= 0){
+                goto done;
+            }
+            $oAC = new AssessmentsCommon($oApp);
+            $oAsmt = $oAC->GetAsmtObject( $kA );
+            $rJX['sOut'] = $oAsmt ? $oAsmt->StyleScript() : "";
+            $rJX['sOut'] .= $oAsmt->DrawAsmtResult();
+            $rJX['bOk'] = true;
+            break;
     }
 }
 else if(substr($cmd, 0, 6) == 'admin-'){
