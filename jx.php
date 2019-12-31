@@ -200,7 +200,12 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                 $o->OutputFaxCover($info);
             }
             break;
-        case 'therapist-emails':
+        case 'therapist-generate-cover-letters':
+            require_once CATSLIB."DistributeReports.php";
+            if( ($info = SEEDInput_Str('info')) ) {
+                $o = new DistributeReports($oApp);
+                $o->OutputCoverLetter($info);
+            }
             break;
         case 'therapist--modal':
             $rJX['bOk'] = true;
