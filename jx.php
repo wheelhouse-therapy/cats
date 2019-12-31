@@ -239,6 +239,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = $asmt->getIneligibleMessage();
             break;
         case 'therapist-clientList-form':
+            header("Cache-Control: no-cache");
             require_once CATSLIB.'therapist-clientlist.php';
             $key = SEEDInput_Str("id");
             if(!$key){
@@ -250,7 +251,6 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $clientList = new ClientList($oApp);
             $rJX['sOut'] = $clientList->DrawAjaxForm($pid,$type);
             $rJX['bOk'] = ($rJX['sOut']?true:false);
-            header("Cache-Control: no-cache");
             break;
         case 'therapist--clientModal':
             require_once CATSLIB."client-modal.php" ;
