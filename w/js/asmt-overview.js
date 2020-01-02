@@ -56,7 +56,6 @@ addEventListener("DOMContentLoaded", function() {
 
 		let row = temp.content.cloneNode(true).firstElementChild;
 		var percentile;
-		debugger;
 		if (final) percentile = raTotalsSPM[total];
 		else if (ind == 4) percentile = "N/A";
 		else percentile = raPercentilesSPM[total][percentileKeys[(ind < 4? ind: ind - 1)]];
