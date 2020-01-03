@@ -17,6 +17,7 @@ function getForm(id) {
 			if (responseText.bOk == true) {
 				sidebar.innerHTML = responseText.sOut;
 				sidebar.classList.add("open");
+				updateSidebarVars();
 			}
 			else{
 				sidebar.removeAttribute("data-open-id");

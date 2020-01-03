@@ -3,6 +3,27 @@
 	margin-bottom: 10px;
 }
 
-.search-filtered {
+.search-hidden {
+	display: none;
+}
+
+.filter-hidden {
+	display: none;
+}
+
+.client-discharged {
+	color: #0000008a;
+}
+
+.noAccount {
+	text-align: center;
+	text-align-last: center;
+}
+
+#name-exists {
+	color: red;
+}
+
+#name-exists:not(.shown) {
 	display: none;
 }

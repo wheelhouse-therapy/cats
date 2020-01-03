@@ -1,5 +1,14 @@
 var searchBar;
 
+var normalCheckbox;
+var dischargedCheckbox;
+var normalShown = true;
+var dischargedShown = true;
+
+var sidebar;
+var firstNameInput;
+var lastNameInput;
+
 function connectButton(e,key) {
     $.ajax({
         type: "POST",
@@ -160,20 +169,20 @@ function submitForm(e){
 }
 
 function clientDischargeToggle() {
-	var client = document.querySelector("[data-id=" + document.getElementById('sidebar').dataset.openId + "]");
+	var client = document.querySelector("[data-id=" + sidebar.dataset.openId + "]");
 	client.classList.toggle('client-discharged');
 	client.classList.toggle('client-normal');
 }
 
 function search() {
 	var query = new RegExp(searchBar.value, "i");
-	var names = document.querySelectorAll(".name");
+	var names = document.getElementsByClassName("name");
 	for (var i = 0; i < names.length; i++) {
 		if (!query.test(names[i].innerHTML)) {
-			names[i].parentElement.classList.add("search-filtered");
+			names[i].parentElement.classList.add("search-hidden");
 		}
 		else {
-			names[i].parentElement.classList.remove("search-filtered");
+			names[i].parentElement.classList.remove("search-hidden");
 		}
 	}
 }
@@ -220,10 +229,84 @@ function loadAsmtResults(key){
     });
 }
 
+function filterClients(e){
+    var filterForm = document.getElementById('filterForm');
+    var postData = $(filterForm).serializeArray();
+    var formURL = $(filterForm).attr("action");
+    $.ajax({
+        type: "POST",
+        data: postData,
+        url: formURL,
+        success: function(data, textStatus, jqXHR) {
+            doFilterUpdate();
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+    e && e.preventDefault();
+}
+
+function doFilterUpdate(){
+    var normalClients = document.getElementsByClassName('client-normal');
+    var dischargedClients = document.getElementsByClassName('client-discharged');
+    if (normalCheckbox.checked != normalShown) {
+    	for (var i = 0; i < normalClients.length; i++) {
+    		normalClients[i].classList.toggle("filter-hidden");
+    		normalShown = !normalShown;
+    	}
+    }
+    if (dischargedCheckbox.checked != dischargedShown) {
+    	for (var i = 0; i < dischargedClients.length; i++) {
+    		dischargedClients[i].classList.toggle("filter-hidden");
+    		dischargedShown = !dischargedShown;
+    	}
+    }
+}
+
+function checkNameExists() {
+	var firstName = document.getElementById("sfAp_P_first_name").value;
+	var lastName = document.getElementById("sfAp_P_last_name").value;
+	if (firstName == "" || lastName == "") return;
+	var code = sidebar.dataset.openId;
+	var list;
+	if (code == "C0") {
+		list = document.getElementsByClassName("client");
+	}
+	else if (code == "PI0") {
+		list = document.getElementsByClassName("therapist");
+	}
+	else if (code == "PE0") {
+		list = document.getElementsByClassName("pro");
+	}
+	else {
+		return;
+	}
+	var matching = false;
+	var pattern = new RegExp(firstName + " " + lastName, "i");
+	var names = document.getElementsByClassName("name");
+	for (var i = 0; i < names.length; i++) {
+		if (pattern.test(names[i].innerHTML)) {
+			matching = true;
+		}
+	}
+	if (matching) {
+		document.getElementById("name-exists").classList.add("shown");
+	} else {
+		document.getElementById("name-exists").classList.remove("shown");
+	}
+}
+
 function initPage() {
 	searchBar = document.getElementById("searchbar");
 	searchBar.addEventListener("input", search);
 	searchBar.placeholder = "Search...";
+	
+	normalCheckbox = document.getElementById("normal-checkbox");
+	dischargedCheckbox = document.getElementById("discharged-checkbox");
+	filterClients(null);
+	
+	sidebar = document.getElementById("sidebar");
 }
 
 window.addEventListener("DOMContentLoaded", initPage);
