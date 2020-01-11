@@ -300,7 +300,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $raA = $oApp->kfdb->QueryRowsRA("SELECT _key,date,_created,testType FROM `assessments_scores` WHERE fk_clients2 = ".$client_key);
             $s = "";
             foreach($raA as $ra){
-                $s .= "<div style='cursor: pointer;' onclick='loadAsmtResults({$ra['_key']})'>"
+                $s .= "<div style='cursor: pointer;' onclick='window.location=\"?screen=therapist-assessments&kA={$ra['_key']}\&fk_clients2={$client_key}\"'>"
                                .$ra['testType']
                                .": "
                                .AssessmentsCommon::GetAssessmentDate($ra)
@@ -308,18 +308,6 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             }
             $rJX['sOut'] = str_replace("[[asmts]]",$s?:"No Assessment Data Recorded",$rJX['sOut']);
             $rJX['bOk'] = $rJX['sOut']?true:false;
-            break;
-        case "therapist-assessments-results":
-            $kA = SEEDInput_Int("kA");
-            if($kA <= 0){
-                $rJX['sErr'] = "Assessment Id Must be positive (>0)";
-                goto done;
-            }
-            $oAC = new AssessmentsCommon($oApp);
-            $oAsmt = $oAC->GetAsmtObject( $kA );
-            $rJX['sOut'] = $oAsmt ? $oAsmt->StyleScript() : "";
-            $rJX['sOut'] .= $oAsmt->DrawAsmtResult();
-            $rJX['bOk'] = true;
             break;
     }
 }

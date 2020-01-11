@@ -208,27 +208,6 @@ function loadAsmtList(key){
     });
 }
 
-function loadAsmtResults(key){
-	$.ajax({
-        type: "POST",
-        data: {cmd:'therapist-assessments-results',kA:key},
-        url: 'jx.php',
-        success: function(data, textStatus, jqXHR) {
-            var jsData = JSON.parse(data);
-            if(jsData.bOk){
-            	document.getElementById('asmtDialog').classList.add("modal-lg");
-                document.getElementById('asmtData').innerHTML = jsData.sOut;
-            }
-            else{
-                console.log(jsData.sErr);
-            }
-        },
-        error: function(jqXHR, status, error) {
-            console.log(status + ": " + error);
-        }
-    });
-}
-
 function filterClients(e){
     var filterForm = document.getElementById('filterForm');
     var postData = $(filterForm).serializeArray();
