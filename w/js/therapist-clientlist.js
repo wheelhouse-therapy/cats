@@ -276,6 +276,15 @@ function checkNameExists() {
 	}
 }
 
+/**
+ * @returns boolean - True if browser suppors 'date' input type.
+ */
+function browserSupportsDateInput() {
+    var i = document.createElement("input");
+    i.setAttribute("type", "date");
+    return i.type !== "text";
+}
+
 function initPage() {
 	searchBar = document.getElementById("searchbar");
 	searchBar.addEventListener("input", search);
@@ -286,6 +295,10 @@ function initPage() {
 	filterClients(null);
 	
 	sidebar = document.getElementById("sidebar");
+	
+	if (browserSupportsDateInput()) {
+		document.documentElement.className += ' supports-date';
+	}
 }
 
 window.addEventListener("DOMContentLoaded", initPage);
