@@ -111,6 +111,11 @@ switch( $cmd ) {
         $rJX['bOk'] = true;
         $rJX['sOut'] = $clinic->setImage($img_id,$action=="Restore");
         break;
+    case 'tutorialComplete':
+        require_once CATSLIB.'tutorial.php';
+        $rJX['bOk'] = true;
+        $screen = SEEDInput_Str('screen');
+        TutorialManager::setComplete($oApp, $screen);
 }
 
 if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
