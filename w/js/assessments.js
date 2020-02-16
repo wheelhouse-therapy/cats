@@ -34,7 +34,7 @@ addEventListener("DOMContentLoaded", function() {
 		a.addEventListener("keydown", function(e) {
 			if (!e.key || noAbsorb(e.key)) {return;}
 			if (checkInput(e, this)) {
-				if(document.querySelector("input[name='sAsmtType']").value !== "aasp"){
+				if(typeof invConds !== 'undefined'/*document.querySelector("input[name='sAsmtType']").value !== "aasp"*/){
 					scores[b].innerHTML = getScore(e.key, b);
 					updateTotal(scores, this.section, sectionTotals);
 				}
@@ -52,7 +52,7 @@ addEventListener("DOMContentLoaded", function() {
 			if (!e.data) {
 				e.data = this.value;
 			}
-			if(document.querySelector("input[name='sAsmtType']").value !== "aasp"){
+			if(typeof invConds !== 'undefined'/*document.querySelector("input[name='sAsmtType']").value !== "aasp"*/){
 				scores[b].innerHTML = getScore(e.data, b);
 				updateTotal(scores, this.section, sectionTotals);
 			}
