@@ -285,6 +285,23 @@ function browserSupportsDateInput() {
     return i.type !== "text";
 }
 
+function toggleView(e){
+	$.ajax({
+        type: "POST",
+        data: {cmd:'therapist-clientlist-view',view:e.currentTarget.checked},
+        url: "jx.php",
+        success: function(data, textStatus, jqXHR) {
+        	var jsData = JSON.parse(data);
+            if(jsData.bOk){
+            	document.getElementById('clients').innerHTML = jsData.sOut;
+            } 
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+}
+
 function initPage() {
 	searchBar = document.getElementById("searchbar");
 	searchBar.addEventListener("input", search);

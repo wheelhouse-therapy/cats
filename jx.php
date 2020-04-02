@@ -192,7 +192,13 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $message = sprintf($message,$name,$username,$dob);
             $rJX['bOk'] = mail($email, "CATS Credentials for ".$name."'s Account", $message,"From: developer@catherapyservices.ca");
             break;
-
+        case 'therapist-clientlist-view':
+            $_SESSION['clientListView'] = $_REQUEST['view'] == 'true';
+            $clientList = new ClientList($oApp);
+            $clientList->getAccess(true,@$_SESSION['clientListView']?ClientList::LIMITED_ACCESS:ClientList::QUERY_ACCESS);
+            $rJX['sOut'] = $clientList->drawList(ClientList::CLIENT)[0];
+            $rJX['bOk'] = true;
+            break;
         case 'therapist-clientlistxls':
             require_once CATSLIB."therapist-clientlistxls.php";
             Therapist_ClientList_OutputXLSX( $oApp );
