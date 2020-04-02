@@ -126,6 +126,20 @@ if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
     $o = new Appointments( $oApp );
     $rJX = $o->Cmd( $cmd, $kAppt, $_REQUEST );  // although ajax normally uses POST, use REQUEST here so we can test jx.php with GET e.g. directly in a browser
 }
+else if(substr($cmd,0,7) == 'system-'){
+    switch($cmd){
+        case 'system-footergenerator':
+            $gen = new ImageGenerator($oApp);
+            $rJX['sOut'] = $gen->processCMDs(SEEDInput_Str('action'),SEEDInput_Int('clinic_id'));
+            if($rJX['sOut']){
+                $rJX['bOk'] = TRUE;
+            }
+            else{
+                $rJX['sErr'] = "Unknown CMD";
+            }
+            break;
+    }
+}
 else if(substr($cmd, 0,22) == 'therapist--clientlist-'){
     $clientList = new ClientList($oApp);
     $rJX['raOut'] = $clientList->proccessCommands(substr($cmd, 22));
