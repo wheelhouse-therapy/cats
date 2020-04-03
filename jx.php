@@ -195,7 +195,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
         case 'therapist-clientlist-view':
             $_SESSION['clientListView'] = $_REQUEST['view'] == 'true';
             $clientList = new ClientList($oApp);
-            $clientList->getAccess(true,@$_SESSION['clientListView']?ClientsAccess::LIMITED_ACCESS:ClientsAccess::QUERY_ACCESS);
+            ClientsAccess::getAccess(true,@$_SESSION['clientListView']?ClientsAccess::LIMITED_ACCESS:ClientsAccess::QUERY_ACCESS);
             $rJX['sOut'] = $clientList->drawList(ClientList::CLIENT)[0];
             $rJX['bOk'] = true;
             break;
