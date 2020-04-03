@@ -294,7 +294,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $kfr = $clientList->oPeopleDB->GetKFR(ClientList::CLIENT, $client_key );
             $oForm = new KeyframeForm( $clientList->oPeopleDB->KFRel(ClientList::CLIENT), "A", array("fields"=>array("parents_separate"=>array("control"=>"checkbox"))));
             $oForm->SetKFR($kfr);
-            $rJX['sOut'] = drawModal($oForm->GetValuesRA(), $clientList->oPeopleDB, ClientList::pro_roles_name );
+            $rJX['sOut'] = drawModal($oForm->GetValuesRA(), $clientList->oPeopleDB, ClientList::$pro_roles_name );
             $rJX['bOk'] = true;
             break;
         case "therapist-assessments-clientlist":
