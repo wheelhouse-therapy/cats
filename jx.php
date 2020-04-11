@@ -352,6 +352,18 @@ else if(substr($cmd, 0, 6) == 'admin-'){
                 $oApp->sess->VarUnSet("open");
             }
             break;
+        case 'admin-userform':
+            require_once CATSLIB.'manage_users.php';
+            $manageUsers = new ManageUsers($oApp);
+            $rJX['sOut'] = $manageUsers->manageUser(SEEDInput_Int('uid'));
+            $rJX['bOk'] = $rJX['sOut'] != '';
+            break;
+        case 'admin-userform-submit':
+            require_once CATSLIB.'manage_users.php';
+            $manageUsers = new ManageUsers($oApp);
+            $rJX['raOut'] = $manageUsers->saveForm();
+            $rJX['bOk'] = $rJX['raOut'] != [];
+            break;
     }
 }
 else if( substr($cmd,0,strlen('resourcestag-')) == 'resourcestag-' ) {
