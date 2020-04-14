@@ -1,0 +1,24 @@
+/* ResourcesTags.css
+ *
+ * Styles for the tags that filter files in the Filing Cabinet
+ */
+
+.resources-tag {            /* Every tag and control has these styles */
+    display:inline-block;
+    font-size:9pt; 
+    background-color:#def; 
+    margin:0px 2px; 
+    padding:0px 3px;
+    border:1px solid #aaa; 
+    border-radius:2px;
+}
+
+.resources-tag-new {        /* [+] new tag button */
+}
+
+.resources-tag-new-form {   /* Form containing new tag input control */
+    display:inline-block;
+}
+
+.resources-tag-new-input {  /* New tag input control */
+}

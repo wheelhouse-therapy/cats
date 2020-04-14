@@ -366,18 +366,29 @@ else if(substr($cmd, 0, 6) == 'admin-'){
             break;
     }
 }
-else if( substr($cmd,0,strlen('resourcestag-')) == 'resourcestag-' ) {
-    if( $cmd == 'resourcestag--newtag' ) {
-        $dbFolder = addslashes(SEEDInput_Str('folder'));
-        $dbFilename = addslashes(SEEDInput_Str('filename'));
-        $dbTag = addslashes(SEEDInput_Str('tag'));
+else if( SEEDCore_StartsWith( $cmd, 'resourcestag-' ) ) {
+    $tag = SEEDInput_Str('tag');
+    $dbFolder = addslashes(SEEDInput_Str('folder'));
+    $dbFilename = addslashes(SEEDInput_Str('filename'));
+    $cond = "folder='$dbFolder' AND filename='$dbFilename'";
 
-        $cond = "folder='$dbFolder' AND filename='$dbFilename'";
-        if( $oApp->kfdb->Query1( "SELECT tags FROM resources_files WHERE $cond" ) ) {
-            $oApp->kfdb->Execute( "UPDATE resources_files SET tags=CONCAT(tags,'$dbTag','\t') WHERE $cond" );
-        } else {
-            $oApp->kfdb->Execute( "INSERT INTO resources_files (folder,filename,tags) VALUES ('$dbFolder','$dbFilename','\t$dbTag\t')" );
-        }
+    switch( $cmd ) {
+        case 'resourcestag--newtag':
+            $dbTag = addslashes($tag);
+            if( $oApp->kfdb->Query1( "SELECT tags FROM resources_files WHERE $cond" ) ) {
+                $oApp->kfdb->Execute( "UPDATE resources_files SET tags=CONCAT(tags,'$dbTag','\t') WHERE $cond" );
+            } else {
+                $oApp->kfdb->Execute( "INSERT INTO resources_files (folder,filename,tags) VALUES ('$dbFolder','$dbFilename','\t$dbTag\t')" );
+            }
+            $rJX['bOk'] = true;
+            break;
+        case 'resourcestag--deletetag':
+            // tags are stored \tA\tB\tC\t
+            $resTags = $oApp->kfdb->Query1( "SELECT tags FROM resources_files WHERE $cond" );
+            $resTags = str_replace( "\t$tag\t", "\t", $resTags );
+            $oApp->kfdb->Execute( "UPDATE resources_files SET tags='".addslashes($resTags)."' WHERE $cond" );
+            $rJX['bOk'] = true;
+            break;
     }
 }
 
