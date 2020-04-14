@@ -1,3 +1,5 @@
+var cooldown;
+
 function doUpdateForm() {
     var sel = document.getElementById('mySelect').value;
     if( sel == 'Other' ) {
@@ -13,6 +15,7 @@ function clinicHack(e) {
 }
 
 function getForm(userID){
+	clearTimeout(cooldown);
 	$.ajax({
         type: "POST",
         data: {cmd:'admin-userform',uid:userID},
@@ -64,7 +67,7 @@ function executeCMD(command,userID){
             var jsData = JSON.parse(data);
             if(jsData.bOk){
             	document.getElementById("form").innerHTML = jsData.sOut;
-            	setTimeout(function(){
+            	cooldown = setTimeout(function(){
             		let uid = document.getElementById('uid').value;
             		getForm(uid);
             	}, 5000);
