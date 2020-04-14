@@ -364,6 +364,13 @@ else if(substr($cmd, 0, 6) == 'admin-'){
             $rJX['raOut'] = $manageUsers->saveForm();
             $rJX['bOk'] = $rJX['raOut'] != [];
             break;
+        case 'admin-usercommand':
+            require_once CATSLIB.'manage_users.php';
+            $manageUsers = new ManageUsers($oApp);
+            $action = SEEDInput_Str('action');
+            $uid = SEEDInput_Int('uid');
+            $rJX['sOut'] = $manageUsers->processCommands($action,$uid);
+            $rJX['bOk'] = $rJX['sOut'] != '';
     }
 }
 else if( SEEDCore_StartsWith( $cmd, 'resourcestag-' ) ) {

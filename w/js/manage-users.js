@@ -54,3 +54,24 @@ function submitForm(e){
     });
     e.preventDefault();
 }
+
+function executeCMD(command,userID){
+	$.ajax({
+        type: "POST",
+        data: {cmd:'admin-usercommand',uid:userID,action:command},
+        url: "jx.php",
+        success: function(data, textStatus, jqXHR) {
+            var jsData = JSON.parse(data);
+            if(jsData.bOk){
+            	document.getElementById("form").innerHTML = jsData.sOut;
+            	setTimeout(function(){
+            		let uid = document.getElementById('uid').value;
+            		getForm(uid);
+            	}, 5000);
+            }
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+}
