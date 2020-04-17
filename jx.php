@@ -64,9 +64,20 @@ switch( $cmd ) {
             $ra[explode("_", $key)[3]] = $value;
         }
         if($location = @$ra['location']){
+            $oClinics = new Clinics($oApp);
+            $clinic_key = @$oClinics->getClinicsByName($location)[0];
+            if(!$clinic_key){
+                $clinic_key = @$oClinics->getClinicsByCity($location)[0];
+            }
+            $email = 'cats@catherapyservices.ca';
+            $oClinicsDB = new ClinicsDB($oApp->kfdb);
+            $kfr = $oClinicsDB->GetClinic($clinic_key);
+            if($client_key && $kfr && $kfr->Value('email')){
+                $email = $kfr->Value('email');
+            }
             $message = "Message from:".@$ra['name']."\n\n";
             $message .= @$ra['message'];
-            $rJX['bOk'] = mail($location."@catherapyservices.ca","Message for CATS Therapy",$message,"From: ".@$ra['email']);
+            $rJX['bOk'] = mail($email,"Message for CATS Therapy",$message,"From: ".@$ra['email']);
         }
         else{
             $rJX['sErr'] = "Please Select a location";
@@ -116,6 +127,7 @@ switch( $cmd ) {
         $rJX['bOk'] = true;
         $screen = SEEDInput_Str('screen');
         TutorialManager::setComplete($oApp, $screen);
+        break;
 }
 
 if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
