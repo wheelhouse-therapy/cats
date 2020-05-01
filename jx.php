@@ -128,6 +128,35 @@ switch( $cmd ) {
         $screen = SEEDInput_Str('screen');
         TutorialManager::setComplete($oApp, $screen);
         break;
+    case 'loadMenu':
+        if(!$oApp->sess->IsLogin()){
+            $rJX['sErr'] = "<div class='alert alert-danger'><strong>An Error Occured:</strong>Session Expired</div>";
+            goto done;
+        }
+        $menu = SEEDInput_Str('screen');
+        preg_match('/(?\'perm\'\w+)(?\'level\'-*)\w*/', $menu,$matches);
+        $perm = $matches['perm'];
+        switch($matches['level']){
+            case '---':
+                $rJX['bOk'] = $oApp->sess->CanAdmin($perm);
+                $rJX['sErr'] = "Requires admin permission";
+                break;
+            case '--':
+                $rJX['bOk'] = $oApp->sess->CanWrite($perm);
+                $rJX['sErr'] = "Requires write permission";
+                break;
+            case '-':
+            default:
+                $rJX['bOk'] = $oApp->sess->CanRead($perm);
+                $rJX['sErr'] = "Requires read permission";
+                break;
+        }
+        $rJX['sErr'] = "<div class='alert alert-danger'><strong>An Error Occured:</strong>{$rJX['sErr']}</div>";
+        $oUI = new CATS_MainUI( $oApp );
+        $rJX['sOut'] = $oUI->Screen();
+        $oHistory = new ScreenManager($oApp);
+        $oHistory->restoreScreen(-1);
+        break;
 }
 
 if( substr( $cmd, 0, 9 ) == 'catsappt-' ) {
