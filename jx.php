@@ -53,7 +53,24 @@ switch( $cmd ) {
             $rJX['sErr'] = "Unspecified client";
         }
         break;
-
+    case 'clinicImg':
+        $img_id = $_REQUEST['image_ID'];
+        $action = $_REQUEST['action'];
+        $clinic = new Clinics($oApp);
+        switch ($img_id){
+            case "slogo":
+                $img_id = Clinics::LOGO_SQUARE;
+                break;
+            case "wlogo":
+                $img_id = Clinics::LOGO_WIDE;
+                break;
+            case "footer":
+                $img_id = Clinics::FOOTER;
+                break;
+        }
+        $rJX['bOk'] = true;
+        $rJX['sOut'] = $clinic->setImage($img_id,$action=="Restore");
+        break;
     case 'contact':
         $rJX['sOut'] = "Thank You";
         $array = array_filter($_REQUEST, function($key) {
@@ -83,51 +100,6 @@ switch( $cmd ) {
             $rJX['sErr'] = "Please Select a location";
         }
         break;
-
-    case 'support':
-        $people = (new PeopleDB($oApp))->getKFRCond("P","uid='{$oApp->sess->GetUID()}'");
-        if($people && $email = $people->Value("email")){
-            $rJX['bOk'] = mail("developer@catherapyservices.ca",SEEDInput_Str('supportType')." from ".$people->Expand("[[first_name]] [[last_name]]"),SEEDInput_Str('supportDesc'),"From: ".$email);
-        }
-        else {
-            $rJX['sErr'] = "You must have an associated person record with an email address set in order to use the support request feature";
-        }
-        break;
-    case 'test':
-        $test = SEEDInput_Str('test');
-        if( $test == 'good' ) {
-            $rJX['bOk'] = true;
-            $rJX['sOut'] = "<h3>Hello world!</h3>";
-        } else {
-            $rJX['bOk'] = false;
-            $rJX['sOut'] = "<h3>I'm so sorry!</h3>";
-            $rJX['sErr'] = "That was bad";
-        }
-        goto done;
-    case 'clinicImg':
-        $img_id = $_REQUEST['image_ID'];
-        $action = $_REQUEST['action'];
-        $clinic = new Clinics($oApp);
-        switch ($img_id){
-            case "slogo":
-                $img_id = Clinics::LOGO_SQUARE;
-                break;
-            case "wlogo":
-                $img_id = Clinics::LOGO_WIDE;
-                break;
-            case "footer":
-                $img_id = Clinics::FOOTER;
-                break;
-        }
-        $rJX['bOk'] = true;
-        $rJX['sOut'] = $clinic->setImage($img_id,$action=="Restore");
-        break;
-    case 'tutorialComplete':
-        require_once CATSLIB.'tutorial.php';
-        $rJX['bOk'] = true;
-        $screen = SEEDInput_Str('screen');
-        TutorialManager::setComplete($oApp, $screen);
-        break;
     case 'loadMenu':
         if(!$oApp->sess->IsLogin()){
             $rJX['sErr'] = "<div class='alert alert-danger'><strong>An Error Occured:</strong>Session Expired</div>";
@@ -156,6 +128,32 @@ switch( $cmd ) {
         $rJX['sOut'] = $oUI->Screen();
         $oHistory = new ScreenManager($oApp);
         $oHistory->restoreScreen(-1);
+        break;
+    case 'support':
+        $people = (new PeopleDB($oApp))->getKFRCond("P","uid='{$oApp->sess->GetUID()}'");
+        if($people && $email = $people->Value("email")){
+            $rJX['bOk'] = mail("developer@catherapyservices.ca",SEEDInput_Str('supportType')." from ".$people->Expand("[[first_name]] [[last_name]]"),SEEDInput_Str('supportDesc'),"From: ".$email);
+        }
+        else {
+            $rJX['sErr'] = "You must have an associated person record with an email address set in order to use the support request feature";
+        }
+        break;
+    case 'test':
+        $test = SEEDInput_Str('test');
+        if( $test == 'good' ) {
+            $rJX['bOk'] = true;
+            $rJX['sOut'] = "<h3>Hello world!</h3>";
+        } else {
+            $rJX['bOk'] = false;
+            $rJX['sOut'] = "<h3>I'm so sorry!</h3>";
+            $rJX['sErr'] = "That was bad";
+        }
+        goto done;
+    case 'tutorialComplete':
+        require_once CATSLIB.'tutorial.php';
+        $rJX['bOk'] = true;
+        $screen = SEEDInput_Str('screen');
+        TutorialManager::setComplete($oApp, $screen);
         break;
 }
 
@@ -199,6 +197,98 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut']=utf8_encode($rJX['sOut']);
             $rJX['bOk'] = $rJX['sOut']?true:false;
             break;
+        case 'therapist-assessment-check':
+            $p_sAsmtType = SEEDInput_Str('sAsmtType');
+            $kClient = SEEDInput_Int('fk_clients2');
+            $assessments = new AssessmentsCommon($oApp);
+            $asmt = $assessments->GetNewAsmtObject( $p_sAsmtType );
+            $rJX['bOk'] = $asmt->checkEligibility($kClient, SEEDInput_Str("date"));
+            $rJX['sOut'] = $asmt->getIneligibleMessage();
+            break;
+        case "therapist-assessments-clientlist":
+            $rJX['sOut'] = "
+                            <!-- the div that represents the modal dialog -->
+                            <div class=\"modal fade\" id=\"asmt_dialog\" role=\"dialog\">
+                                <div class=\"modal-dialog\" id='asmtDialog'>
+                                    <div class=\"modal-content\">
+                                        <div class=\"modal-header\">
+                                            <h4 class=\"modal-title\">Assessment Results for [[client]]</h4>
+                                        </div>
+                                        <div class=\"modal-body\">
+                                            <div id='asmtData'>
+                                                [[asmts]]
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>";
+            $client_key = SEEDInput_Int("fk_clients2");
+            if($client_key <= 0){
+                $rJX['sErr'] = "Client Key Must be positive (>0)";
+                $rJX['sOut'] = $cmd;
+                goto done;
+            }
+            $raC = $oApp->kfdb->QueryRA("SELECT P.first_name as first_name,P.last_name as last_name FROM people as P, clients2 as C WHERE C.fk_people=P._key AND C._key=$client_key");
+            $rJX['sOut'] = str_replace("[[client]]", $raC['first_name']." ".$raC['last_name'], $rJX['sOut']);
+            $raA = $oApp->kfdb->QueryRowsRA("SELECT _key,date,_created,testType FROM `assessments_scores` WHERE fk_clients2 = ".$client_key);
+            $s = "";
+            foreach($raA as $ra){
+                $s .= "<div style='cursor: pointer;' onclick='window.location=\"?screen=therapist-assessments&kA={$ra['_key']}\&client_key={$client_key}\"'>"
+                .$ra['testType']
+                .": "
+                    .AssessmentsCommon::GetAssessmentDate($ra)
+                    ."</div>";
+            }
+            $rJX['sOut'] = str_replace("[[asmts]]",$s?:"No Assessment Data Recorded",$rJX['sOut']);
+            $rJX['bOk'] = $rJX['sOut']?true:false;
+            break;
+        case 'therapist-clientlist-view':
+            $_SESSION['clientListView'] = $_REQUEST['view'] == 'true';
+            $clientList = new ClientList($oApp);
+            ClientsAccess::getAccess(true,@$_SESSION['clientListView']?ClientsAccess::LIMITED:ClientsAccess::QUERY);
+            $rJX['sOut'] = $clientList->drawList(ClientList::CLIENT)[0];
+            $rJX['bOk'] = true;
+            break;
+        case 'therapist-clientlistxls':
+            require_once CATSLIB."therapist-clientlistxls.php";
+            Therapist_ClientList_OutputXLSX( $oApp );
+            exit;
+            break;
+        case 'therapist-clientList-sort':
+            //Store the clientlist sort params in the session variable
+            $oApp->sess->VarSet("clientlist-normal", SEEDInput_Str("clientlist-normal",''));
+            $oApp->sess->VarSet("clientlist-discharged", SEEDInput_Str("clientlist-discharged",''));
+            $rJX['bOk'] = true;
+            break;
+        case 'therapist-clientList-form':
+            header("Cache-Control: no-cache");
+            require_once CATSLIB.'therapist-clientlist.php';
+            $key = SEEDInput_Str("id");
+            if(!$key){
+                $rJX['bOk'] = false;
+                $rJX['sErr'] = "Missing Key";
+                goto done;
+            }
+            list($type,$pid) = ClientList::parseID($key);
+            $clientList = new ClientList($oApp);
+            $rJX['sOut'] = $clientList->DrawAjaxForm($pid,$type);
+            $rJX['bOk'] = ($rJX['sOut']?true:false);
+            break;
+        case 'therapist--clientModal':
+            require_once CATSLIB."client-modal.php" ;
+            $client_key = SEEDInput_Int("client_key");
+            if($client_key <= 0){
+                $rJX['bOk'] = false;
+                $rJX['sErr'] = "Client Key must be positive";
+                goto done;
+            }
+            $clientList = new ClientList($oApp);
+            $kfr = $clientList->oPeopleDB->GetKFR(ClientList::CLIENT, $client_key );
+            $oForm = new KeyframeForm( $clientList->oPeopleDB->KFRel(ClientList::CLIENT), "A", array("fields"=>array("parents_separate"=>array("control"=>"checkbox"))));
+            $oForm->SetKFR($kfr);
+            $rJX['sOut'] = drawModal($oForm->GetValuesRA(), $clientList->oPeopleDB, ClientList::$pro_roles_name );
+            $rJX['bOk'] = true;
+            break;
         case 'therapist---credentials':
             $clientId = $_POST['client'];
             $peopleDB = new PeopleDB($oApp);
@@ -232,18 +322,6 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             send:
             $message = sprintf($message,$name,$username,$dob);
             $rJX['bOk'] = mail($email, "CATS Credentials for ".$name."'s Account", $message,"From: developer@catherapyservices.ca");
-            break;
-        case 'therapist-clientlist-view':
-            $_SESSION['clientListView'] = $_REQUEST['view'] == 'true';
-            $clientList = new ClientList($oApp);
-            ClientsAccess::getAccess(true,@$_SESSION['clientListView']?ClientsAccess::LIMITED:ClientsAccess::QUERY);
-            $rJX['sOut'] = $clientList->drawList(ClientList::CLIENT)[0];
-            $rJX['bOk'] = true;
-            break;
-        case 'therapist-clientlistxls':
-            require_once CATSLIB."therapist-clientlistxls.php";
-            Therapist_ClientList_OutputXLSX( $oApp );
-            exit;
             break;
         case 'therapist-distribute-reports-update-client':
             require_once CATSLIB."DistributeReports.php";
@@ -295,85 +373,15 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                 }
             }
             break;
-        case 'therapist-clientList-sort':
-            //Store the clientlist sort params in the session variable
-            $oApp->sess->VarSet("clientlist-normal", SEEDInput_Str("clientlist-normal",''));
-            $oApp->sess->VarSet("clientlist-discharged", SEEDInput_Str("clientlist-discharged",''));
-            $rJX['bOk'] = true;
-            break;
-        case 'therapist-assessment-check':
-            $p_sAsmtType = SEEDInput_Str('sAsmtType');
-            $kClient = SEEDInput_Int('fk_clients2');
-            $assessments = new AssessmentsCommon($oApp);
-            $asmt = $assessments->GetNewAsmtObject( $p_sAsmtType );
-            $rJX['bOk'] = $asmt->checkEligibility($kClient, SEEDInput_Str("date"));
-            $rJX['sOut'] = $asmt->getIneligibleMessage();
-            break;
-        case 'therapist-clientList-form':
-            header("Cache-Control: no-cache");
-            require_once CATSLIB.'therapist-clientlist.php';
-            $key = SEEDInput_Str("id");
-            if(!$key){
-                $rJX['bOk'] = false;
-                $rJX['sErr'] = "Missing Key";
+        case 'therapist-resource-upload':
+            if(!$oApp->sess->IsLogin()){
+                $rJX['sErr'] = "<strong>An Error Occured:</strong>Session Expired";
                 goto done;
             }
-            list($type,$pid) = ClientList::parseID($key);
-            $clientList = new ClientList($oApp);
-            $rJX['sOut'] = $clientList->DrawAjaxForm($pid,$type);
+            $rJX['sErr'] = "<strong>An Unexpected Error Occured:</strong>Upload was not successful. Please inform the developers of error immediately";
+            $oFC = new FilingCabinetUpload( $oApp );
+            $rJX['sOut'] = $oFC->UploadToPending();
             $rJX['bOk'] = ($rJX['sOut']?true:false);
-            break;
-        case 'therapist--clientModal':
-            require_once CATSLIB."client-modal.php" ;
-            $client_key = SEEDInput_Int("client_key");
-            if($client_key <= 0){
-                $rJX['bOk'] = false;
-                $rJX['sErr'] = "Client Key must be positive";
-                goto done;
-            }
-            $clientList = new ClientList($oApp);
-            $kfr = $clientList->oPeopleDB->GetKFR(ClientList::CLIENT, $client_key );
-            $oForm = new KeyframeForm( $clientList->oPeopleDB->KFRel(ClientList::CLIENT), "A", array("fields"=>array("parents_separate"=>array("control"=>"checkbox"))));
-            $oForm->SetKFR($kfr);
-            $rJX['sOut'] = drawModal($oForm->GetValuesRA(), $clientList->oPeopleDB, ClientList::$pro_roles_name );
-            $rJX['bOk'] = true;
-            break;
-        case "therapist-assessments-clientlist":
-            $rJX['sOut'] = "
-                            <!-- the div that represents the modal dialog -->
-                            <div class=\"modal fade\" id=\"asmt_dialog\" role=\"dialog\">
-                                <div class=\"modal-dialog\" id='asmtDialog'>
-                                    <div class=\"modal-content\">
-                                        <div class=\"modal-header\">
-                                            <h4 class=\"modal-title\">Assessment Results for [[client]]</h4>
-                                        </div>
-                                        <div class=\"modal-body\">
-                                            <div id='asmtData'>
-                                                [[asmts]]
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>";
-            $client_key = SEEDInput_Int("fk_clients2");
-            if($client_key <= 0){
-                $rJX['sErr'] = "Client Key Must be positive (>0)";
-                $rJX['sOut'] = $cmd;
-                goto done;
-            }
-            $raC = $oApp->kfdb->QueryRA("SELECT P.first_name as first_name,P.last_name as last_name FROM people as P, clients2 as C WHERE C.fk_people=P._key AND C._key=$client_key");
-            $rJX['sOut'] = str_replace("[[client]]", $raC['first_name']." ".$raC['last_name'], $rJX['sOut']);
-            $raA = $oApp->kfdb->QueryRowsRA("SELECT _key,date,_created,testType FROM `assessments_scores` WHERE fk_clients2 = ".$client_key);
-            $s = "";
-            foreach($raA as $ra){
-                $s .= "<div style='cursor: pointer;' onclick='window.location=\"?screen=therapist-assessments&kA={$ra['_key']}\&client_key={$client_key}\"'>"
-                               .$ra['testType']
-                               .": "
-                               .AssessmentsCommon::GetAssessmentDate($ra)
-                               ."</div>";
-            }
-            $rJX['sOut'] = str_replace("[[asmts]]",$s?:"No Assessment Data Recorded",$rJX['sOut']);
-            $rJX['bOk'] = $rJX['sOut']?true:false;
             break;
     }
 }
