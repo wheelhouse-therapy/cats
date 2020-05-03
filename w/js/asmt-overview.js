@@ -1,5 +1,4 @@
-var invConds;
-var noCount;
+var inverted, secBounds, noCount;
 addEventListener("DOMContentLoaded", function() {
 	var secs = ["Social Participation", "Vision", "Hearing", "Touch", "Taste/Smell",
 		"Body Awareness", "Balance and Motion", "Planning", "Total"];
@@ -7,25 +6,19 @@ addEventListener("DOMContentLoaded", function() {
 	var resultsBySection = [[], [], [], [], [], [], [], []];
 	var secTotals = Array(8).fill(0);
 	var percentiles = [];
-	var secBounds;
 	
 	switch (AssmtType) {
 	case "spm":
-		invConds = [{
-			type: "<",
-			value: 10
-		}, {
-			type: "===",
-			value: 56
-		}];
+		inverted = function(i) {
+			return (i < 10) || (i == 56);
+		}
 		secBounds = [10, 21, 29, 40, 45, 55, 66];
 		noCount = [0, 6];
 		break;
 	case "spmc":
-		invConds = [{
-			type: "<",
-			value: 10
-		}];
+		inverted = function(i) {
+			return (i < 10);
+		}
 		secBounds = [10, 17, 24, 32, 36, 43, 52];
 		noCount = [0, 6];
 	}
@@ -51,14 +44,14 @@ addEventListener("DOMContentLoaded", function() {
 		var final = false;
 		if (ind == 8) {final = true;}
 		var total;
-		if (final) total = addUp(secTotals);
+		if (final) {total = addUp(secTotals);}
 		else total = secTotals[ind];
 
 		let row = temp.content.cloneNode(true).firstElementChild;
 		var percentile;
-		if (final) percentile = raTotalsSPM[total];
-		else if (ind == 4) percentile = "N/A";
-		else percentile = raPercentilesSPM[total][percentileKeys[(ind < 4? ind: ind - 1)]];
+		if (final) {percentile = raTotalsSPM[total];}
+		else if (ind == 4) {percentile = "N/A";}
+		else {percentile = raPercentilesSPM[total][percentileKeys[(ind < 4? ind: ind - 1)]];}
 		percentiles.push(percentile);
 		let classToAdd = false;
 		switch (interp(percentile)) {
@@ -104,19 +97,10 @@ function getScore(char, index) {
 			return 1;
 		}
 	}();
-	if (doInv(index)) {
+	if (inverted(index)) {
 		x = 5 - x;
 	}
 	return x;
-}
-
-function doInv(value) {
-	for (var cond of invConds.values()) {
-		var str = "return " + value + cond.type + cond.value +";";
-		if (new Function(str)())
-			return true;
-	}
-	return false;
 }
 
 function addUp(secTots) {

@@ -1,4 +1,4 @@
-var invConds;
+var inverted;
 var secs;
 addEventListener("DOMContentLoaded", function() {
 	var inputs = document.body.querySelectorAll("input.score-item");
@@ -7,21 +7,16 @@ addEventListener("DOMContentLoaded", function() {
 	
 	switch (document.querySelector("input[name='sAsmtType']").value) {
 	case "spm":
-		invConds = [{
-			type: "<",
-			value: 10
-		}, {
-			type: "===",
-			value: 56
-		}];
+		inverted = function(i) {
+			return (i < 10) || (i == 56);
+		}
 		secs = [10, 21, 29, 40, 45, 55, 66];
 		cols.splice(4, 0, "");
 		break;
 	case "spmc":
-		invConds = [{
-			type: "<",
-			value: 10
-		}];
+		inverted = function(i) {
+			return (i < 10);
+		}
 		secs = [10, 17, 24, 32, 36, 43, 52];
 		cols.splice(4, 0, "");
 	}
@@ -31,10 +26,13 @@ addEventListener("DOMContentLoaded", function() {
 			if (b < secs[val]) {a.section = val; break;}
 		}
 		if (a.section === undefined) {a.section = 7;}
+		if(typeof inverted !== 'undefined' && a.value !== ""/*document.querySelector("input[name='sAsmtType']").value !== "aasp"*/){
+			scores[b].innerHTML = getScore(a.value, b);
+		}
 		a.addEventListener("keydown", function(e) {
 			if (!e.key || noAbsorb(e.key)) {return;}
 			if (checkInput(e, this)) {
-				if(typeof invConds !== 'undefined'/*document.querySelector("input[name='sAsmtType']").value !== "aasp"*/){
+				if(typeof inverted !== 'undefined'/*document.querySelector("input[name='sAsmtType']").value !== "aasp"*/){
 					scores[b].innerHTML = getScore(e.key, b);
 					updateTotal(scores, this.section, sectionTotals);
 				}
@@ -52,7 +50,7 @@ addEventListener("DOMContentLoaded", function() {
 			if (!e.data) {
 				e.data = this.value;
 			}
-			if(typeof invConds !== 'undefined'/*document.querySelector("input[name='sAsmtType']").value !== "aasp"*/){
+			if(typeof inverted !== 'undefined'/*document.querySelector("input[name='sAsmtType']").value !== "aasp"*/){
 				scores[b].innerHTML = getScore(e.data, b);
 				updateTotal(scores, this.section, sectionTotals);
 			}
@@ -60,6 +58,7 @@ addEventListener("DOMContentLoaded", function() {
 		})
 		a.addEventListener("paste", function(e) {e.preventDefault();});
 	});
+	updateAllTotals(scores, sectionTotals);
 });
 	
 
@@ -90,19 +89,20 @@ function getScore(char, index) {
 			return 1;
 		}
 	}();
-	if (doInv(index)) {
+	if (inverted(index)) {
 		x = 5 - x;
 	}
 	return x;
 }
 function updateTotal(scores, section, sectionTotals) {
+	debugger;
 	var secCount = 0;
 	var count = 0;
 	var last = true;
 	scores.forEach(function(a) {
 		let sec = a.previousElementSibling.section;
 		let score = Number(a.innerHTML);
-		if (sec !== 0 && sec !== 7)
+		if (sec !== "0" && sec !== "7")
 			count += score;
 		if (sec === section) {
 			secCount += score;
@@ -114,20 +114,16 @@ function updateTotal(scores, section, sectionTotals) {
 	}
 	document.getElementById("total").innerHTML = "Total score: " + count;
 	if (last) {
-		if (section == 4) {return;}
-		debugger;
+		if (section == "4") {return;}
 		var percentile = raPercentilesSPM[secCount][cols[section]];
 		if (!percentile) {return;}
-		if( sectionTotals[section] ) {
+		if (sectionTotals[section]) {
 			sectionTotals[section].innerHTML += " (" + percentile + "%).";
 		}
 	}
 }
-function doInv(value) {
-	for (var cond of invConds.values()) {
-		var str = "return " + value + cond.type + cond.value +";";
-		if (new Function(str)())
-			return true;
+function updateAllTotals(scores, sectionTotals) {
+	for (var i = 0; i < secs.length; i++) {
+		updateTotal(scores, i.toString(), sectionTotals);
 	}
-	return false;
 }
