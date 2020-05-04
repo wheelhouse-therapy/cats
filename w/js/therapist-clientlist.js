@@ -168,6 +168,40 @@ function submitForm(e){
     e.preventDefault();
 }
 
+function submitSidebarForm(e){
+	$("#messageBox").slideUp(100);
+	var formData = new FormData(e.currentTarget);
+	formData.append("action",e.submitter.value);
+	formData.set("cmd","therapist--clientlist-"+formData.get('cmd'));
+    $.ajax({
+        type: "POST",
+        data: formData,
+        url: "jx.php",
+        cache       : false,
+        contentType : false,
+        processData : false,
+        success: function(data, textStatus, jqXHR) {
+        	var jsData = JSON.parse(data);
+            if(jsData.bOk){
+            	document.getElementById("messageBox").innerHTML = jsData.raOut.message;
+            	$("#messageBox").slideDown(100);
+            	document.getElementById(jsData.raOut.listId).innerHTML = jsData.raOut.list;
+            	if(jsData.raOut.id){
+            		getForm(jsData.raOut.id);
+            	}
+            	else{
+            		closeSidebar();
+            	}
+            	hideAlerts();
+            } 
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+    e.preventDefault();
+}
+
 function clientDischargeToggle() {
 	var client = document.querySelector("[data-id=" + sidebar.dataset.openId + "]");
 	client.classList.toggle('client-discharged');
@@ -315,6 +349,28 @@ function initPage() {
 	
 	if (browserSupportsDateInput()) {
 		document.documentElement.className += ' supports-date';
+	}
+}
+
+function updateAge(e) {
+	if (e.currentTarget.validity.valid) {
+		var parts = e.currentTarget.value.split("-");
+		var year = parts[0], month = parts[1], day = parts[2];
+		var now = new Date();
+		var curYear = now.getFullYear(), curMonth = now.getMonth() + 1, curDay = now.getDate();
+		
+		var ageMonth = curMonth - month, ageYear = curYear - year, ageDay = curDay - day;
+		if (ageDay < 0) {
+			ageMonth -= 1;
+		}
+		if (ageMonth < 0) {
+			ageYear -= 1;
+			ageMonth += 12;
+		}
+		document.getElementById("age").innerHTML = ageYear + " Years, " + ageMonth + " Months";
+	}
+	else {
+		document.getElementById("age").innerHTML = "Invalid date format";
 	}
 }
 
