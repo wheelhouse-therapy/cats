@@ -206,6 +206,12 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = $asmt->getIneligibleMessage();
             break;
         case "therapist-assessments-clientlist":
+            $client_key = SEEDInput_Int("fk_clients2");
+            if($client_key <= 0){
+                $rJX['sErr'] = "Client Key Must be positive (>0)";
+                $rJX['sOut'] = $cmd;
+                goto done;
+            }
             $rJX['sOut'] = "
                             <!-- the div that represents the modal dialog -->
                             <div class=\"modal fade\" id=\"asmt_dialog\" role=\"dialog\">
@@ -219,21 +225,18 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                                                 [[asmts]]
                                             </div>
                                         </div>
+                                        <div class=\"modal-footer\">
+                                            <a href='?screen=therapist-assessments&client_key={$client_key}'><button>Add New Assessment</button></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>";
-            $client_key = SEEDInput_Int("fk_clients2");
-            if($client_key <= 0){
-                $rJX['sErr'] = "Client Key Must be positive (>0)";
-                $rJX['sOut'] = $cmd;
-                goto done;
-            }
             $raC = $oApp->kfdb->QueryRA("SELECT P.first_name as first_name,P.last_name as last_name FROM people as P, clients2 as C WHERE C.fk_people=P._key AND C._key=$client_key");
             $rJX['sOut'] = str_replace("[[client]]", $raC['first_name']." ".$raC['last_name'], $rJX['sOut']);
             $raA = $oApp->kfdb->QueryRowsRA("SELECT _key,date,_created,testType FROM `assessments_scores` WHERE fk_clients2 = ".$client_key);
             $s = "";
             foreach($raA as $ra){
-                $s .= "<div style='cursor: pointer;' onclick='window.location=\"?screen=therapist-assessments&kA={$ra['_key']}\&client_key={$client_key}\"'>"
+                $s .= "<div style='cursor: pointer;' onclick='window.location=\"?screen=therapist-assessments&kA={$ra['_key']}&client_key={$client_key}\"'>"
                 .$ra['testType']
                 .": "
                     .AssessmentsCommon::GetAssessmentDate($ra)
