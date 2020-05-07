@@ -29,14 +29,12 @@
         formNew.submit( function(e) {
             e.preventDefault();
             let tag = $(this).find('input').val();
-            let folder = $(this).parent().data('folder');
-            let filename = $(this).parent().data('filename');
+            let id = $(this).parent().data('id');
             
-            if( tag && folder && filename ) {
+            if( tag && id ) {
                 SEEDJXAsync2( "jx.php", 
                               { cmd:"resourcestag--newtag", 
-                                folder:folder, 
-                                filename:filename, 
+                                id:id, 
                                 tag:tag }, 
                               function(){}, function(){} );
 
