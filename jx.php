@@ -400,7 +400,11 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                     if($oRR->getSubDirectory()){
                         $dir .= '/'.$oRR->getSubDirectory();
                     }
-                    $rJX['sOut'] .= "<div><a href='?dir={$oRR->getDirectory()}'>{$oRR->getFile()}</a> in {$dir}</div>";
+                    $href = "dir={$oRR->getDirectory()}";
+                    if($oRR->getDirectory() == "reports"){
+                        $href = "screen=therapist-reports";
+                    }
+                    $rJX['sOut'] .= "<div><a href='?{$href}'>{$oRR->getFile()}</a> in {$dir}</div>";
                 }
             }
             $rJX['bOk'] = true;
