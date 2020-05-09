@@ -1,7 +1,7 @@
 span #upload-file-button {
 	font-size: 16px;
 }
-#upload-file-selector:valid ~ span #upload-file-button {
+#fileToUpload:valid ~ span #upload-file-button {
 	background-color: #4CAF50;
 	border-color: #4CAF50;
 	color: white;
