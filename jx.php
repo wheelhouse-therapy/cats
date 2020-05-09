@@ -388,7 +388,8 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                 if($ra->getSubDirectory()){
                     $dir .= '/'.$ra->getSubDirectory();
                 }
-                $rJX['sOut'] = "<div><a href='?dir={$ra->getDirectory()}'>{$ra->getFile()}</a> in {$dir}</div>";
+                $href = FilingCabinet::GetAccessor($oRR);
+                $rJX['sOut'] = "<div><a href='{$href}'>{$ra->getFile()}</a> in {$dir}</div>";
             }
             else if($ra == NULL){
                 $rJX['sOut'] = "No Results";
@@ -400,11 +401,8 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                     if($oRR->getSubDirectory()){
                         $dir .= '/'.$oRR->getSubDirectory();
                     }
-                    $href = "dir={$oRR->getDirectory()}";
-                    if($oRR->getDirectory() == "reports"){
-                        $href = "screen=therapist-reports";
-                    }
-                    $rJX['sOut'] .= "<div><a href='?{$href}'>{$oRR->getFile()}</a> in {$dir}</div>";
+                    $href = FilingCabinet::GetAccessor($oRR);
+                    $rJX['sOut'] .= "<div><a href='{$href}'>{$oRR->getFile()}</a> in {$dir}</div>";
                 }
             }
             $rJX['bOk'] = true;
