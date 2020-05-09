@@ -336,22 +336,6 @@ function toggleView(e){
     });
 }
 
-function initPage() {
-	searchBar = document.getElementById("searchbar");
-	searchBar.addEventListener("input", search);
-	searchBar.placeholder = "Search...";
-	
-	normalCheckbox = document.getElementById("normal-checkbox");
-	dischargedCheckbox = document.getElementById("discharged-checkbox");
-	filterClients(null);
-	
-	sidebar = document.getElementById("sidebar");
-	
-	if (browserSupportsDateInput()) {
-		document.documentElement.className += ' supports-date';
-	}
-}
-
 function updateAge(e) {
 	if (e.currentTarget.validity.valid) {
 		var parts = e.currentTarget.value.split("-");
@@ -371,6 +355,22 @@ function updateAge(e) {
 	}
 	else {
 		document.getElementById("age").innerHTML = "Invalid date format";
+	}
+}
+
+function initPage() {
+	searchBar = document.getElementById("searchbar");
+	searchBar.addEventListener("input", search);
+	searchBar.placeholder = "Search...";
+	
+	normalCheckbox = document.getElementById("normal-checkbox");
+	dischargedCheckbox = document.getElementById("discharged-checkbox");
+	filterClients(null);
+	
+	sidebar = document.getElementById("sidebar");
+	
+	if (browserSupportsDateInput()) {
+		document.documentElement.className += ' supports-date';
 	}
 }
 
