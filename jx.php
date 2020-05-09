@@ -376,6 +376,35 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                 }
             }
             break;
+        case 'therapist-resource-search':
+            if(!$oApp->sess->IsLogin()){
+                $rJX['sErr'] = "<strong>An Error Occured:</strong>Session Expired";
+                goto done;
+            }
+            $search = SEEDInput_Str("search");
+            $ra = ResourceRecord::GetRecordFromGlobalSearch($oApp, $search);
+            if($ra instanceof ResourceRecord){
+                $dir = FilingCabinet::GetDirInfo($ra->getDirectory())['name'];
+                if($ra->getSubDirectory()){
+                    $dir .= '/'.$ra->getSubDirectory();
+                }
+                $rJX['sOut'] = "<div><a href='?dir={$ra->getDirectory()}'>{$ra->getFile()}</a> in {$dir}</div>";
+            }
+            else if($ra == NULL){
+                $rJX['sOut'] = "No Results";
+            }
+            else{
+                $rJX['sOut'] = "";
+                foreach($ra as $oRR){
+                    $dir = FilingCabinet::GetDirInfo($oRR->getDirectory())['name'];
+                    if($oRR->getSubDirectory()){
+                        $dir .= '/'.$oRR->getSubDirectory();
+                    }
+                    $rJX['sOut'] .= "<div><a href='?dir={$oRR->getDirectory()}'>{$oRR->getFile()}</a> in {$dir}</div>";
+                }
+            }
+            $rJX['bOk'] = true;
+            break;
         case 'therapist-resource-upload':
             if(!$oApp->sess->IsLogin()){
                 $rJX['sErr'] = "<strong>An Error Occured:</strong>Session Expired";
