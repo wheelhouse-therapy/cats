@@ -5,4 +5,5 @@ span #upload-file-button {
 	background-color: #4CAF50;
 	border-color: #4CAF50;
 	color: white;
+	border-style: solid;
 }
