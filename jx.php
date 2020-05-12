@@ -388,7 +388,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                 if($ra->getSubDirectory()){
                     $dir .= '/'.$ra->getSubDirectory();
                 }
-                $href = FilingCabinet::GetAccessor($oRR);
+                $href = FilingCabinet::GetAccessor($ra);
                 $rJX['sOut'] = "<div><a href='{$href}'>{$ra->getFile()}</a> in {$dir}</div>";
             }
             else if($ra == NULL){
