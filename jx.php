@@ -331,6 +331,10 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX["sOut"] = drawForm($oApp,$oApp->sess->SmartGPC("idOut"));
             $rJX["bOk"] = true;
             break;
+        case 'therapist-fcd-canEmail':
+            $kClient = SEEDInput_Int('client');
+            $rJX['bOk'] = (new PeopleDB($oApp))->GetKFR(ClientList::CLIENT, $kClient)->Value('P_email')?true:false;
+            break;
         case 'therapist-generate-address-labels':
             require_once CATSLIB."DistributeReports.php";
             // 'info' should be an array but this allows it to be a string too (not sure why that happens sometimes)
