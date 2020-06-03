@@ -1,0 +1,8 @@
+.folder-contents {
+	transition: height 0.3s;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+.folder.collapsed .folder-contents {
+	height: 0 !important;
+}
