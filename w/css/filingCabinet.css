@@ -16,4 +16,18 @@
 }
 .folder-title {
 	font-size: 20pt;
+	user-select: none;
+	moz-user-select: none;
+	webkit-user-select: none;
+	cursor: default;
+	position: relative;
+}
+.folder-icon {
+	position: absolute;
+	top: 50%;
+	left: 2px;
+	transform: translate(0, -50%);
+}
+.folder-title-span {
+	margin-left: 40px;
 }
