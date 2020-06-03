@@ -27,6 +27,8 @@
 	top: 50%;
 	left: 2px;
 	transform: translate(0, -50%);
+	moz-transform: translate(0, -50%);
+	webkit-transform: translate(0, -50%);
 }
 .folder-title-span {
 	margin-left: 40px;
