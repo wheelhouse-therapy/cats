@@ -14,11 +14,11 @@ function clinicHack(e) {
 	$("select",e.currentTarget.form).prop("disabled", false);
 }
 
-function getForm(userID){
+function getForm(staffKey){
 	clearTimeout(cooldown);
 	$.ajax({
         type: "POST",
-        data: {cmd:'admin-userform',uid:userID},
+        data: {cmd:'admin-userform',staff_key:staffKey},
         url: "jx.php",
         success: function(data, textStatus, jqXHR) {
             var jsData = JSON.parse(data);
@@ -68,7 +68,7 @@ function executeCMD(command,userID){
             if(jsData.bOk){
             	document.getElementById("form").innerHTML = jsData.sOut;
             	cooldown = setTimeout(function(){
-            		let uid = document.getElementById('uid').value;
+            		let staff_key = document.getElementById('staff_key').value;
             		getForm(uid);
             	}, 5000);
             }
@@ -77,4 +77,22 @@ function executeCMD(command,userID){
             console.log(status + ": " + error);
         }
     });
+}
+
+function cloneRecord(e,userID){
+    $.ajax({
+        type: "POST",
+        data: {cmd:'admin-userclone',uid:userID},
+        url: "jx.php",
+        success: function(data, textStatus, jqXHR) {
+        	var jsData = JSON.parse(data);
+            if(jsData.bOk){
+            	document.getElementById("form").innerHTML = jsData.sOut;
+            }
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+    e.preventDefault();
 }
