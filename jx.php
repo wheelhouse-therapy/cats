@@ -442,7 +442,7 @@ else if(substr($cmd, 0, 6) == 'admin-'){
         case 'admin-userform':
             require_once CATSLIB.'manage_users.php';
             $manageUsers = new ManageUsers($oApp);
-            $rJX['sOut'] = $manageUsers->manageUser(SEEDInput_Int('uid'));
+            $rJX['sOut'] = $manageUsers->manageUser(SEEDInput_Int('staff_key'));
             $rJX['bOk'] = $rJX['sOut'] != '';
             break;
         case 'admin-userform-submit':
@@ -458,6 +458,14 @@ else if(substr($cmd, 0, 6) == 'admin-'){
             $uid = SEEDInput_Int('uid');
             $rJX['sOut'] = $manageUsers->processCommands($action,$uid);
             $rJX['bOk'] = $rJX['sOut'] != '';
+            break;
+        case 'admin-userclone':
+            require_once CATSLIB.'manage_users.php';
+            $manageUsers = new ManageUsers($oApp);
+            $uid = SEEDInput_Int('uid');
+            $rJX['sOut'] = $manageUsers->manageUser(0,true,$uid);
+            $rJX['bOk'] = $rJX['sOut'] != '';
+            break;
     }
 }
 else if( SEEDCore_StartsWith( $cmd, 'resourcestag-' ) ) {
