@@ -33,3 +33,12 @@
 .folder-title-span {
 	margin-left: 40px;
 }
+.file-preview-container {
+	display:inline-block;
+	margin-right:10px;
+	border: solid 2px;
+	padding:5px;
+	padding-bottom:0px;
+	width: 200px;
+	vertical-align: top;
+}
