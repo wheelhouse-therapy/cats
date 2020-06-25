@@ -130,8 +130,8 @@ switch( $cmd ) {
         $oHistory->restoreScreen(-1);
         break;
     case 'support':
-        $people = (new PeopleDB($oApp))->getKFRCond("P","uid='{$oApp->sess->GetUID()}'");
-        if($people && $email = $people->Value("email")){
+        $people = (new ManageUsers($oApp))->getClinicRecord($oApp->sess->getUID());
+        if($people && $email = $people->Value("P_email")){
             $rJX['bOk'] = mail("developer@catherapyservices.ca",SEEDInput_Str('supportType')." from ".$people->Expand("[[first_name]] [[last_name]]"),SEEDInput_Str('supportDesc'),"From: ".$email);
         }
         else {
