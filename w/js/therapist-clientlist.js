@@ -108,6 +108,7 @@ function modalLoaded() {
     $("#contact_dialog").on("hidden.bs.modal", function(){
         reloadForm();
     });
+    setTimeout(function() {$(".searchable").selectize()}, 1);
 }
 
 function sendCMD(e, command){
