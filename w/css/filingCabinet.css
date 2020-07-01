@@ -14,6 +14,10 @@
 	margin-top: 5px;
 	padding: 5px;
 }
+.folder.empty {
+	border-color: grey;
+	color: grey;
+}
 .folder-title {
 	font-size: 20pt;
 	user-select: none;
