@@ -24,7 +24,7 @@ $rJX = array( 'bOk' => false,
 
 $cmd = SEEDInput_Str('cmd');
 $rJX['sOut'] = $cmd;
-$rJX['raOut'][] = $cmd;
+$rJX['raOut'] = $_REQUEST;
 
 /* The permission level of ajax commands is defined by the format of the command.
  *
@@ -35,11 +35,10 @@ $rJX['raOut'][] = $cmd;
  * Commands with no hyphens are available to everyone.
  */
 list($bOk, $dummy, $rJX['sErr']) = $oApp->sess->IsAllowed( $cmd );
-
+if(CATS_SYSADMIN){var_dump($bOk);}
 if(!$bOk){
     // Safety measure incase someone without perms try to run a command.
     // Since the command processing code below is not garenteed to check for permission.
-    if(CATS_SYSADMIN){echo "Escaping to done. NO PERMISSION";}
     goto done;
 }
 
