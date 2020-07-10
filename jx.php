@@ -275,7 +275,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             }
             list($type,$pid) = ClientList::parseID($key);
             $clientList = new ClientList($oApp);
-            $rJX['sOut'] = $clientList->DrawAjaxForm($pid,$type);
+            $rJX['raOut'] = $clientList->DrawAjaxForm($pid,$type);
             $rJX['bOk'] = ($rJX['sOut']?true:false);
             break;
         case 'therapist--clientModal':
