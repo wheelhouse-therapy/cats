@@ -2,6 +2,7 @@ function submitForm(e){
 	var formData = new FormData(document.getElementById('upload-file-form'));
 	formData.append("cmd","therapist-resource-upload");
 	e.currentTarget.parentElement.innerHTML = "<button><i class='fa fa-sync-alt fa-spin'></i> Uploading</button>";
+	debugger;
 	$.ajax({
         type: "POST",
         data: formData,
