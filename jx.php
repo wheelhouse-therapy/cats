@@ -24,7 +24,8 @@ $rJX = array( 'bOk' => false,
 
 $cmd = SEEDInput_Str('cmd');
 $rJX['sOut'] = $cmd;
-$rJX['raOut'] = $_REQUEST;
+$rJX['raOut']['args'] = $_REQUEST;
+$rJX['raOut']['files'] = $_FILES;
 
 /* The permission level of ajax commands is defined by the format of the command.
  *
