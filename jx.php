@@ -35,7 +35,6 @@ $rJX['raOut'] = $_REQUEST;
  * Commands with no hyphens are available to everyone.
  */
 list($bOk, $dummy, $rJX['sErr']) = $oApp->sess->IsAllowed( $cmd );
-if(CATS_SYSADMIN){var_dump($bOk);}
 if(!$bOk){
     // Safety measure incase someone without perms try to run a command.
     // Since the command processing code below is not garenteed to check for permission.
