@@ -19,7 +19,7 @@ require_once "_start.php" ;
 $rJX = array( 'bOk' => false,
               'sOut' => "",
               'raOut' => array(),
-              'sErr' => "",
+              'sErr' => "no command",
 );
 
 $cmd = SEEDInput_Str('cmd');
