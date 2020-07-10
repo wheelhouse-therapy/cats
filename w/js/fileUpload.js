@@ -10,6 +10,7 @@ function submitForm(e){
         processData : false,
         url: 'jx.php',
         success: function(data, textStatus, jqXHR) {
+        	debugger;
             var jsData = JSON.parse(data)
             if(jsData.bOk){
 				document.getElementById('uploadForm').innerHTML = jsData.sOut;

@@ -19,11 +19,12 @@ require_once "_start.php" ;
 $rJX = array( 'bOk' => false,
               'sOut' => "",
               'raOut' => array(),
-              'sErr' => "no command",
+              'sErr' => "",
 );
 
 $cmd = SEEDInput_Str('cmd');
 $rJX['sOut'] = $cmd;
+$rJX['raOut'][] = $cmd;
 
 /* The permission level of ajax commands is defined by the format of the command.
  *
