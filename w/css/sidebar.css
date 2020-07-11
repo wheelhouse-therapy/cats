@@ -1,3 +1,7 @@
+:root {
+	--tab-color: lightgrey;
+	--tab-rounding: 8px;
+}
 .slider {
 	transition: width 0.3s ease-out;
 	width: 0;
@@ -36,10 +40,17 @@
 	z-index: 1;
 	background-color: white;
 	height: 100%;
-	padding-top: 70px;
+	padding-top: 71px;
 }
 #sidebar.open {
 	width: 50%;
+}
+#sidebar-container {
+	position: absolute;
+	width: 100%;
+	border: 1px solid #aaa;
+	padding: 10px 20px;
+	padding-bottom: 0;
 }
 .close-sidebar {
 	position: absolute;
@@ -59,4 +70,36 @@
 	border: 2px solid green;
 	background-color: lightgreen;
 	border-radius: 5px;
+}
+table.sidebar-table {
+	margin-bottom: 0;
+}
+#tabs {
+	display: inline-block;
+	box-sizing: border-box;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	width: 100%;
+	min-height: 30px;
+}
+.tab {
+	display: inline-block;
+	min-width: 20%;
+	padding: 5px 10px;
+	height: 100%;
+	background-color: var(--tab-color);
+	vertical-align: middle;
+	text-align: center;
+	border: 1px solid var(--tab-color);
+	border-bottom: none;
+	border-radius: var(--tab-rounding) var(--tab-rounding) 0 0;
+	box-sizing: border-box;
+	cursor: default;
+	user-select: none;
+}
+.tab.active-tab {
+	background-color: white;
+}
+#save-button {
+	margin-right: 10px;
 }
