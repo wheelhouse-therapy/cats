@@ -7,3 +7,23 @@ span #upload-file-button {
 	color: white;
 	border-style: solid;
 }
+#progress-bar {
+	margin-top: 10px;
+	margin-right: 5px;
+	width: 150px;
+	height: 20px;
+	border: 1px solid black;
+	display: inline-block;
+}
+#filled-bar {
+	background-color: #00e600;
+	height: 100%;
+}
+#upload-bar:not(.uploading) {
+	display: none;
+}
+#uploading-text {
+	width: 80px;
+	text-align: center;
+	display: inline-block;
+}
