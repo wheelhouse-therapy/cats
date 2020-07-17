@@ -3,6 +3,7 @@ function submitForm(e){
 	var formData = new FormData(document.getElementById('upload-file-form'));
 	formData.append("cmd","therapist-resource-upload");
 	e.currentTarget.parentElement.innerHTML = "<button id='uploading-button'><i class='fa fa-sync-alt fa-spin'></i> <span id='uploading-text'>Uploading</span></button>";
+	debugger;
 	currentUpload = $.ajax({
 		xhr: function() {
 			var xhr = new window.XMLHttpRequest();
@@ -40,6 +41,7 @@ function submitForm(e){
         processData : false,
         url: 'jx.php',
         success: function(data, textStatus, jqXHR) {
+        	debugger;
             var jsData = JSON.parse(data);
             if(jsData.bOk){
 				document.getElementById('uploadForm').innerHTML = jsData.sOut;
@@ -51,6 +53,7 @@ function submitForm(e){
             }
         },
         error: function(jqXHR, status, error) {
+        	debugger;
             console.log(status + ": " + error);
         }
     });
