@@ -1,7 +1,6 @@
 var currentUpload;
 function submitForm(e){
 	var formData = new FormData(document.getElementById('upload-file-form'));
-	formData.append("cmd","therapist-resource-upload");
 	e.currentTarget.parentElement.innerHTML = "<button id='uploading-button'><i class='fa fa-sync-alt fa-spin'></i> <span id='uploading-text'>Uploading</span></button>";
 	debugger;
 	currentUpload = $.ajax({
