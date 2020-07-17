@@ -49,11 +49,12 @@ function submitForm(e){
             }
             else{
             	document.getElementById('uploadForm').innerHTML = "<div class='alert alert-danger'>"+jsData.sErr+"</div>"
-            	document.getElementById("progress-percentage").innerHTML = "Error";
+            	//document.getElementById("progress-percentage").innerHTML = "Error";
             }
         },
         error: function(jqXHR, status, error) {
         	debugger;
+        	document.getElementById('uploadForm').innerHTML = "<div class='alert alert-danger'>An error has occured while uploading. Contact the development team about this error (Code 413)</div>"
             console.log(status + ": " + error);
         }
     });
