@@ -182,6 +182,11 @@ function submitSidebarForm(e){
         contentType : false,
         processData : false,
         success: function(data, textStatus, jqXHR) {
+        	if(jqXHR.status === 205){
+        		var location = jqXHR.getResponseHeader('Location');
+        		window.location.replace(location);
+        		return;
+        	}
         	var jsData = JSON.parse(data);
             if(jsData.bOk){
             	document.getElementById("messageBox").innerHTML = jsData.raOut.message;
