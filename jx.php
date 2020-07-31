@@ -293,6 +293,21 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = drawModal($oForm->GetValuesRA(), $clientList->oPeopleDB, ClientList::$pro_roles_name );
             $rJX['bOk'] = true;
             break;
+        case 'therapist--staffModal':
+            require_once CATSLIB."client-modal.php" ;
+            $client_key = SEEDInput_Int("client_key");
+            if($client_key <= 0){
+                $rJX['bOk'] = false;
+                $rJX['sErr'] = "Client Key must be positive";
+                goto done;
+            }
+            $clientList = new ClientList($oApp);
+            $kfr = $clientList->oPeopleDB->GetKFR(ClientList::CLIENT, $client_key );
+            $oForm = new KeyframeForm( $clientList->oPeopleDB->KFRel(ClientList::CLIENT), "A", array("fields"=>array("parents_separate"=>array("control"=>"checkbox"))));
+            $oForm->SetKFR($kfr);
+            $rJX['sOut'] = drawStaffModal($oForm->GetValuesRA(), $clientList->oPeopleDB, $oApp );
+            $rJX['bOk'] = true;
+            break;
         case 'therapist---credentials':
             $clientId = $_POST['client'];
             $peopleDB = new PeopleDB($oApp);

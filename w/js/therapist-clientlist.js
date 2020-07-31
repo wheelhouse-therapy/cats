@@ -30,6 +30,29 @@ function connectButton(e,key) {
         }
     });
 }
+
+function connectStaffButton(e,key) {
+    $.ajax({
+        type: "POST",
+        data: {cmd:'therapist--staffModal',client_key:key},
+        url: 'jx.php',
+        success: function(data, textStatus, jqXHR) {
+            var jsData = JSON.parse(data);
+            if(jsData.bOk){
+                document.getElementById('modalBox').innerHTML = jsData.sOut;
+                $('#staff_dialog').modal('show');
+                staffModalLoaded();
+            }
+            else{
+                console.log(jsData.sErr);
+            }
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+}
+
 function sendcreds(e){
     e.preventDefault();
     var credsDiv = document.getElementById('credsDiv');
@@ -106,6 +129,33 @@ function modalLoaded() {
         $("#contact_form").submit();
     });
     $("#contact_dialog").on("hidden.bs.modal", function(){
+        reloadForm();
+    });
+    setTimeout(function() {$(".searchable").selectize()}, 1);
+}
+
+function staffModalLoaded() {
+    $("#staff_form").on("submit", function(e) {
+        var postData = $(this).serializeArray();
+        var formURL = $(this).attr("action");
+        $.ajax({
+            type: "POST",
+            data: postData,
+            url: formURL,
+            success: function(data, textStatus, jqXHR) {
+                $('#staff_dialog').modal('hide');
+            },
+            error: function(jqXHR, status, error) {
+                console.log(status + ": " + error);
+            }
+        });
+        e.preventDefault();
+    });
+    
+    $("#submitStaffForm").on('click', function() {
+        $("#staff_form").submit();
+    });
+    $("#staff_dialog").on("hidden.bs.modal", function(){
         reloadForm();
     });
     setTimeout(function() {$(".searchable").selectize()}, 1);
