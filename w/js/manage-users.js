@@ -69,7 +69,7 @@ function executeCMD(command,userID){
             	document.getElementById("form").innerHTML = jsData.sOut;
             	cooldown = setTimeout(function(){
             		let staff_key = document.getElementById('staff_key').value;
-            		getForm(uid);
+            		getForm(staff_key);
             	}, 5000);
             }
         },
@@ -95,4 +95,8 @@ function cloneRecord(e,userID){
         }
     });
     e.preventDefault();
+}
+
+function addSync(element){
+	element.innerHTML = "<i class='fa fa-sync-alt fa-spin'></i>"+element.innerHTML;
 }
