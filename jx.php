@@ -293,6 +293,18 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = drawModal($oForm->GetValuesRA(), $clientList->oPeopleDB, ClientList::$pro_roles_name );
             $rJX['bOk'] = true;
             break;
+        case 'therapist-resourceDetails':
+            $oRR = ResourceRecord::GetRecordByID($oApp, SEEDInput_Int('rrid'));
+            if($oRR){
+                $oRR->setDescription(SEEDInput_Str("description"));
+                $rJX['sOut'] = "Details Added";
+                $rJX['sErr'] = "Could not add details (Code 504-{$oRR->getID()})";
+                $rJX['bOk'] = $oRR->StoreRecord();
+            }
+            else{
+                $rJX['sErr'] = "Could not find the resource (Code 404-{SEEDInput_Int('rrid')})";
+            }
+            break;
         case 'therapist--staffModal':
             require_once CATSLIB."client-modal.php" ;
             $client_key = SEEDInput_Int("client_key");

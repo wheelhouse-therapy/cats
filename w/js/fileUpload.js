@@ -69,3 +69,38 @@ function cancelUpload(e) {
 	currentUpload.abort();
 	resetForm();
 }
+
+function addDetails() {
+	$('#details_dialog').modal('show');
+}
+
+function closeDetails(){
+	$('#details_dialog').modal('hide');
+}
+
+function submitModal(e){
+	var formData = new FormData(e.currentTarget.form);
+    $.ajax({
+        type: "POST",
+        data: formData,
+        cache       : false,
+        contentType : false,
+        processData : false,
+        url: "jx.php",
+        success: function(data, textStatus, jqXHR) {
+            var jsData = JSON.parse(data);
+            if(jsData.bOk){
+            	document.getElementById("details_body").innerHTML = "<div class='alert alert-success'>"+jsData.sOut+"</div>";
+            }
+            else{
+            	document.getElementById("details_body").innerHTML = "<div class='alert alert-danger'>"+jsData.sErr+"</div>";
+            }
+            document.getElementById("details_submit").outerHTML = "";
+            document.getElementById("details_button").outerHTML = "";
+        },
+        error: function(jqXHR, status, error) {
+            console.log(status + ": " + error);
+        }
+    });
+    e.preventDefault();
+}
