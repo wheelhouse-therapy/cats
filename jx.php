@@ -297,6 +297,9 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $oRR = ResourceRecord::GetRecordByID($oApp, SEEDInput_Int('rrid'));
             if($oRR){
                 $oRR->setDescription(SEEDInput_Str("description"));
+                if(SEEDInput_Str("created_by")){
+                    $oRR->addTag("Created By: ".SEEDInput_Str("created_by"));
+                }
                 $rJX['sOut'] = "Details Added";
                 $rJX['sErr'] = "Could not add details (Code 504-{$oRR->getID()})";
                 $rJX['bOk'] = $oRR->StoreRecord();
