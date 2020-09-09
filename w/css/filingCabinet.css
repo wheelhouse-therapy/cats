@@ -39,10 +39,24 @@
 }
 .file-preview-container {
 	display:inline-block;
-	margin-right:10px;
+	position: relative;
+	margin:10px 10px 10px 0px;
 	border: solid 2px;
 	padding:5px;
 	padding-bottom:0px;
 	width: 200px;
 	vertical-align: top;
+}
+.badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 10px 10px;
+  border-radius: 50%;
+}
+.badge0 {
+  background-color: red;
+}
+.badge1 {
+  background-color: orange;
 }
