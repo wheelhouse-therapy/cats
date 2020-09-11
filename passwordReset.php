@@ -8,7 +8,7 @@ if( @$_SERVER['REQUEST_METHOD'] == 'POST' ) {
     exit;
 }
 
-echo "<head><link rel='icon' href='https://catherapyservices.ca/wp-content/uploads/2018/08/cropped-cats_icon-32x32.jpg' sizes='32x32'>";
+echo "<head><link rel='icon' href='https://catherapyservices.ca/wp-content/uploads/2018/08/cropped-cats_icon-32x32.jpg' sizes='32x32'><script src='".W_CORE_URL."js/SEEDCore.js'></script></head>";
 echo "<div style='position:absolute; top:5px; left:5px;'><a href='./'><img src='".CATS_LOGO."' style='max-width:300px;float:left;'/></a></div>";
 
 $oUserDB = new SEEDSessionAccountDB($oApp->kfdb, 1);
@@ -25,7 +25,7 @@ if(SEEDInput_Str("reset") && isset($_SESSION['passwrdReset']) && $oUserDB->GetUs
                ."Your password has been reset to 'cats'. You will be prompted to change it the next time you log in.\n"
                ."\nThanks for using the CATS system.\n"
                ."CATS Dev Team";
-       if(mail($ra['email'], "Password Reset Request", SEEDCore_ArrayExpand($raUser[1], $body))){
+       if(mail($ra['email'], "Password Reset Request", SEEDCore_ArrayExpand($raUser, $body))){
            $oUserDB->ChangeUserPassword($raUser[0], "cats");
            echo "Password Reset Email Sent.";   
        }
