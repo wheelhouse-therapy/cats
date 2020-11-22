@@ -444,11 +444,11 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             break;
         case 'therapist-resource-upload':
             if(!$oApp->sess->IsLogin()){
-                $rJX['sErr'] = "<strong>An Error Occured:</strong>Session Expired";
+                $rJX['sErr'] = "<strong>An Error Occurred:</strong>Session Expired";
                 goto done;
             }
             $rJX['sErr'] = "<strong>An Unexpected Error Occured:</strong>Upload was not successful. Please inform the developers of error immediately";
-            $oFC = new FilingCabinetUpload( $oApp );
+            $oFC = new FilingCabinetUpload( $oApp, 'general' );     // the cabinet doesn't really matter because the file just goes to pending anyway
             $rJX['sOut'] = $oFC->UploadToPending();
             $rJX['bOk'] = ($rJX['sOut']?true:false);
             break;
