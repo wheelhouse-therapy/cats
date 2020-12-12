@@ -14,6 +14,12 @@
 
 define( "SEEDROOT",          "/home/cats/seeds/" );        // where you cloned the seeds repo, e.g. seeds/seedcore. Must have a trailing slash.
 define( "CATSLIB",           "/home/cats/catslib/" );      // where you cloned the catslib repo. Must have a trailing slash
+
+// These are defaults: uncomment to change
+// define( "CATSDIR",     "./" );  // filesystem root for cats code (e.g. could be absolute like /home/cats/public_html/cats/)
+// define( "CATSDIR_URL", "./" );  // http link to root of cats code (can't be the same as CATSDIR if absolute as above)
+
+
 define( "CATSDIR_CONFIG",    "/home/cats/cats_config/" );  // where you make a dir to put config files in, e.g. google security files
 define( "CATSDIR_LOG",       "/home/cats/cats_log/" );     // where you make a dir to put log files in
 define( "CATSDIR_FILES",     "/home/cats/cats_files/" );   // where CATS will save files
