@@ -54,9 +54,15 @@
   padding: 10px 10px;
   border-radius: 50%;
 }
-.badge0 {
+.badge3 {
+  background-color: red;
+}
+.badge2 {
   background-color: red;
 }
 .badge1 {
+  background-color: orange;
+}
+.badge0 {
   background-color: orange;
 }
