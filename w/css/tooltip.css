@@ -13,7 +13,7 @@
     padding: 5px 0;
     position: absolute;
     z-index: 1;
-    top: 150%;
+    top: calc(100% + 5px);
     left: 50%;
     margin-left: -60px;
 	transition: opacity 0.5s;
