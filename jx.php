@@ -90,10 +90,11 @@ switch( $cmd ) {
             $email = 'cats@catherapyservices.ca';
             $oClinicsDB = new ClinicsDB($oApp->kfdb);
             $kfr = $oClinicsDB->GetClinic($clinic_key);
-            if($client_key && $kfr && $kfr->Value('email')){
+            if($clinic_key && $kfr && $kfr->Value('email')){
                 $email = $kfr->Value('email');
             }
-            $message = "Message from:".@$ra['name']."\n\n";
+            $message = "Message from:".@$ra['name']."\n";
+            $message = "Location:".@$ra['location'];
             $message .= @$ra['message'];
             $rJX['bOk'] = mail($email,"Message for CATS Therapy",$message,"From: ".@$ra['email']);
         }
