@@ -31,7 +31,7 @@ else{
 $bodyText = <<<BodyText
 Hello CATS crew!
 This is your bi-weekly email to let you know what has been uploaded to the back end.\n
-The following resources are new or revised in the last 2 weeks (14 days):
+The following resources are new or revised in the last week:
 [[RecordBody]]
 Enjoy!
 CATS Developer Team
