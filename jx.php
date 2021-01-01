@@ -461,14 +461,14 @@ else if(substr($cmd, 0, 6) == 'admin-'){
             // This Handles changes in resource trees that are open
             // under manage resources.
             // This is important since the server should reopen open resource trees automaticly on page reload
-            if(SEEDInput_Get("open")['plain']){
-                $oApp->sess->SmartGPC('open');
+            if( ($p = SEEDInput_Str("open")) ){
+                (new FilingCabinetTools($oApp))->TreeListSet($p);
             }
             else{
                 // The User has closed all the trees.
                 // Unset the session variable so that we dont reopen trees which the user has closed
                 // On the next reload
-                $oApp->sess->VarUnSet("open");
+                (new FilingCabinetTools($oApp))->TreeCloseAll();
             }
             break;
         case 'admin-userform':
