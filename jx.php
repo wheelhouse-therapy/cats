@@ -94,7 +94,7 @@ switch( $cmd ) {
                 $email = $kfr->Value('email');
             }
             $message = "Message from:".@$ra['name']."\n";
-            $message = "Location:".@$ra['location'];
+            $message = "Location:".@$ra['location']."\n";
             $message .= @$ra['message'];
             $rJX['bOk'] = mail($email,"Message for CATS Therapy",$message,"From: ".@$ra['email']);
         }
