@@ -83,7 +83,7 @@ $bodyText = str_replace("[[RecordBody]]",$recordBody, $bodyText);
 $bodyHTML = str_replace("[[RecordHTML]]",$recordHTML, $bodyHTML);
 
 $to = "cheshire@catherapyservices.ca";
-if($counter >= 0){
+if($counter > 0){
     SEEDEmailSend(["resources@catherapyservices.ca","CATS Resource System"], "", "New resources for you!", $bodyText,$bodyHTML,['reply-to'=>"developer@catherapyservices.ca","bcc"=>[$to]]);
     output("Email Sent");
 }
