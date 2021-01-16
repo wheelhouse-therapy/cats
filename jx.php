@@ -344,7 +344,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $accountDB = new SEEDSessionAccountDB($oApp->kfdb,$oApp->sess->GetUID());
             $message = "Here are the credentials to sign in to %s's account.\r\nUsername: %s\r\nPassword: %s\r\n Thanks for using CATS";
             if(($account = $accountDB->GetKUserFromEmail($username)) != 0){
-                list($k,$user,$meta) = $accountDB->GetUserInfo($account);
+                $user = $accountDB->GetUserInfo($account)[1];
                 $dob = $user['password'];
                 goto send;
             }
@@ -524,5 +524,4 @@ else if( SEEDCore_StartsWith( $cmd, 'resourcestag-' ) ) {
 done:
 
 echo json_encode($rJX);
-
-?>
+$dummy;
