@@ -10,7 +10,7 @@ Thanks!
 Sue + Alison
 Message;
 
-if(php_sapi_name() !== 'cli'){
+if(php_sapi_name() !== 'cli' && strrpos(php_sapi_name(), "cgi") === false){
     die("Can only be run by cli");
 }
 
