@@ -90,10 +90,11 @@ switch( $cmd ) {
             $email = 'cats@catherapyservices.ca';
             $oClinicsDB = new ClinicsDB($oApp->kfdb);
             $kfr = $oClinicsDB->GetClinic($clinic_key);
-            if($client_key && $kfr && $kfr->Value('email')){
+            if($clinic_key && $kfr && $kfr->Value('email')){
                 $email = $kfr->Value('email');
             }
-            $message = "Message from:".@$ra['name']."\n\n";
+            $message = "Message from:".@$ra['name']."\n";
+            $message = "Location:".@$ra['location']."\n";
             $message .= @$ra['message'];
             $rJX['bOk'] = mail($email,"Message for CATS Therapy",$message,"From: ".@$ra['email']);
         }
@@ -343,7 +344,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $accountDB = new SEEDSessionAccountDB($oApp->kfdb,$oApp->sess->GetUID());
             $message = "Here are the credentials to sign in to %s's account.\r\nUsername: %s\r\nPassword: %s\r\n Thanks for using CATS";
             if(($account = $accountDB->GetKUserFromEmail($username)) != 0){
-                list($k,$user,$meta) = $accountDB->GetUserInfo($account);
+                $user = $accountDB->GetUserInfo($account)[1];
                 $dob = $user['password'];
                 goto send;
             }
@@ -460,14 +461,14 @@ else if(substr($cmd, 0, 6) == 'admin-'){
             // This Handles changes in resource trees that are open
             // under manage resources.
             // This is important since the server should reopen open resource trees automaticly on page reload
-            if(SEEDInput_Get("open")['plain']){
-                $oApp->sess->SmartGPC('open');
+            if( ($p = SEEDInput_Str("open")) ){
+                (new FilingCabinetTools($oApp))->TreeListSet($p);
             }
             else{
                 // The User has closed all the trees.
                 // Unset the session variable so that we dont reopen trees which the user has closed
                 // On the next reload
-                $oApp->sess->VarUnSet("open");
+                (new FilingCabinetTools($oApp))->TreeCloseAll();
             }
             break;
         case 'admin-userform':
@@ -529,5 +530,4 @@ else if( SEEDCore_StartsWith( $cmd, 'resourcestag-' ) ) {
 done:
 
 echo json_encode($rJX);
-
-?>
+$dummy;

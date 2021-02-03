@@ -58,7 +58,7 @@ $email_processor = array( 'receiptsEmail' => "Your Email",
                           'resourcePSW'   => "Your Email PSW"
                         );
 
-
+$email_processor; // Make eclipse happy
 /* Several file/dir locations are assumed in catslib/_config.php, e.g. CATSDIR_IMG but they can be overridden if you specify them below.
  * Put installation-specific definitions here, instead of in a cloned file, so they are not checked into git.
  */
