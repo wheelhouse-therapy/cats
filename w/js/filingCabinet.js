@@ -32,6 +32,42 @@ function hideEmptyFolders() {
 	}
 }
 
+function contextMenuHandler(target, button) {
+	switch (button.dataset.action) {
+	case "rename":
+		let newName = prompt("Enter a new name for the file:");
+		let invalidRegex = /[\\/:*?"<>|]/;
+		if (invalidRegex.test(newName)) {
+			alert("The characters \\ / : * ? \" < > | are not allowed in filenames");
+			return;
+		}
+		let extensionRegex = /(\.docx|\.doc|\.pdf|\.rtf|\.txt)$/;
+		if (!extensionRegex.test(newName)) {
+			let fileParts = target.children[2].lastElementChild.innerText.split(".");
+			let oldExtension = "." + fileParts[fileParts.length - 1];
+			newName += oldExtension;
+		}
+		$.ajax({
+			url: 'jx.php',
+			data: {
+				cmd: "admin-rename-resource",
+				id: target.id,
+				to: newName
+			},
+			dataType: "json",
+			success: function(data) {
+				if (!data.bOk) {
+					alert("Failed to rename the resource");
+				}
+				else {
+					target.children[2].lastElementChild.innerHTML = data.sOut;
+				}
+			}
+		});
+	}
+	console.log(target.id, button.dataset.action);
+}
+
 addEventListener("DOMContentLoaded", () => {
 	var list = document.querySelectorAll(".folder-title");
 	for (var i = 0; i < list.length; i++) {

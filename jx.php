@@ -497,6 +497,12 @@ else if(substr($cmd, 0, 6) == 'admin-'){
             $rJX['sOut'] = $manageUsers->manageUser(0,true,$uid);
             $rJX['bOk'] = $rJX['sOut'] != '';
             break;
+        case 'admin-rename-resource':
+            require_once CATSLIB.'FilingCabinet/FilingCabinet.php';
+            $record = ResourceRecord::GetRecordByID($oApp, SEEDInput_Str('id'));
+            $rJX['bOk'] = $record->rename(SEEDInput_Str('to')) && $record->StoreRecord();
+            $rJX['sOut'] = $record->getFile();
+            break;
     }
 }
 else if( SEEDCore_StartsWith( $cmd, 'resourcestag-' ) ) {
