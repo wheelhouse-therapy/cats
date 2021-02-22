@@ -40,7 +40,7 @@
 	z-index: 1;
 	background-color: white;
 	height: 100%;
-	padding-top: 71px;
+	padding-top: 120px;    /* this is the max-height of the logo, which is the max-height of the cats_header */
 }
 #sidebar.open {
 	width: 50%;
