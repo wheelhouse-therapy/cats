@@ -504,6 +504,23 @@ else if(substr($cmd, 0, 6) == 'admin-'){
             $rJX['bOk'] = $record->rename(SEEDInput_Str('to')) && $record->StoreRecord();
             $rJX['sOut'] = $record->getFile();
             break;
+        case 'admin-delete-resource':
+            require_once CATSLIB.'FilingCabinet/FilingCabinet.php';
+            $record = ResourceRecord::GetRecordByID($oApp, SEEDInput_Str('id'));
+            $rJX['bOk'] = $record->DeleteRecord();
+            break;
+        case 'admin-reorder-resource-left':
+            require_once CATSLIB.'FilingCabinet/FilingCabinet.php';
+            $record = ResourceRecord::GetRecordByID($oApp, SEEDInput_Str('id'));
+            $record->moveLeft();
+            $rJX['bOk'] = true;
+            break;
+        case 'admin-reorder-resource-right':
+            require_once CATSLIB.'FilingCabinet/FilingCabinet.php';
+            $record = ResourceRecord::GetRecordByID($oApp, SEEDInput_Str('id'));
+            $record->moveRight();
+            $rJX['bOk'] = true;
+            break;
     }
 }
 else if( SEEDCore_StartsWith( $cmd, 'resourcestag-' ) ) {
