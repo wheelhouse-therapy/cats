@@ -33,8 +33,9 @@
 	position: fixed;
 	right: 0;
 	top: 0;
-	transition: width 0.3s ease-out;
-	width: 0;
+	transition: transform 0.3s ease-out;
+	width: 50%;
+	transform: translateX(100%);
 	box-sizing: border-box;
 	overflow: auto;
 	z-index: 1;
@@ -43,7 +44,7 @@
 	padding-top: 120px;    /* this is the max-height of the logo, which is the max-height of the cats_header */
 }
 #sidebar.open {
-	width: 50%;
+	transform: translateX(0);
 }
 #sidebar-container {
 	position: absolute;
