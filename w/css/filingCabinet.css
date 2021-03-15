@@ -47,6 +47,13 @@
 	width: 200px;
 	vertical-align: top;
 }
+.badge-folder {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  padding: 10px 10px;
+  border-radius: 50%;
+}
 .badge {
   position: absolute;
   top: -10px;
