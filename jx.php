@@ -48,7 +48,7 @@ switch( $cmd ) {
         if( ($clientId = @$_POST['cid']) ) {
             $o = new Calendar( $oApp );
             $o->createAppt($_POST);
-            $rJX['sOut'] = (new ClientsDB($oApp->kfdb))->getClient($clientId)->Value("client_name");
+            $rJX['sOut'] = (new PeopleDB($oApp))->GetKFR(ClientList::CLIENT,$clientId)->Value("client_name");
             $rJX['bOk'] = true;
         } else {
             $rJX['sErr'] = "Unspecified client";

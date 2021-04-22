@@ -9,7 +9,7 @@ function DrawInvoice( $apptId )
     $oApptDB = new AppointmentsDB( $oApp );   // for appointments saved in cats_appointments
     
     if( !($kfrAppt = $oApptDB->KFRel()->GetRecordFromDBKey( $apptId )) ) goto done;
-    $client = (new ClientsDB($oApp->kfdb))->GetClient($kfrAppt->Value('fk_clients'));
+    $client = (new PeopleDB($oApp))->GetKFR(ClientList::CLIENT,$kfrAppt->Value('fk_clients'));
     $ra = array(
         'client-name' => $client->Expand('[[client_first_name]] [[client_last_name]]'),
         'client-addr' => $client->Value('address'),
