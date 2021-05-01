@@ -453,6 +453,11 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $rJX['sOut'] = $oFC->UploadToPending();
             $rJX['bOk'] = ($rJX['sOut']?true:false);
             break;
+        case 'therapist--watchedVideo':
+            $rrid = SEEDInput_Int("rrid");
+            $oWatchList = new VideoWatchList($oApp, $oApp->sess->GetUID());
+            $rJX['bOk'] = $oWatchList->markAsWatched($rrid);
+            break;
     }
 }
 else if(substr($cmd, 0, 6) == 'admin-'){
