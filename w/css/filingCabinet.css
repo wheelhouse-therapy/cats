@@ -76,3 +76,10 @@
 .badge0 {
   background-color: orange;
 }
+
+.watched-banner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	max-height: 50%;
+}
