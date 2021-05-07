@@ -71,6 +71,7 @@ function sendcreds(e){
         }
     });
 }
+
 function doUpdateForm() {
     var sel = document.getElementById('mySelect').value;
     if( sel == 'Other' ) {
@@ -81,6 +82,7 @@ function doUpdateForm() {
         document.getElementById('other').disabled = true;
     }
 }
+
 function inSchool() {
     var checkBox = document.getElementById('schoolBox');
     var text = document.getElementById('schoolField');
@@ -95,9 +97,21 @@ function inSchool() {
        hidden.disabled = false;
     }
  }
+ 
+ function parentsSeparate(){
+ 	var checkBox = document.getElementById('separateBox');
+    var row = document.getElementById('additionalAddress');
+    if (checkBox.checked == true){
+	     row.style.display = '';
+    } else {
+	     row.style.display = 'none';
+    }
+ }
+ 
 function clinicHack(e) {
 	$("select",e.currentTarget.form).prop("disabled", false);
 }
+
 function updateAccountStyle(){
     var select = document.getElementById('newAccount');
     if(select.selectedOptions[0].value == 0){
@@ -106,7 +120,8 @@ function updateAccountStyle(){
     else{
         select.className = '';
     }
- }
+}
+
 function modalLoaded() {
     $("#contact_form").on("submit", function(e) {
         var postData = $(this).serializeArray();
