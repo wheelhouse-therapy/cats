@@ -81,10 +81,7 @@ function loadSidebar(data) {
 	tabContent.innerHTML = tabData[activeTab.id];
 }
 function changeTab(e) {
-	var target = e.target;
-	while (!target.classList.contains("tab")) {
-		target = target.parentElement;
-	}
+	var target = e.currentTarget;
 	activeTab.classList.remove("active-tab");
 	target.classList.add("active-tab");
 	activeTab = target;
