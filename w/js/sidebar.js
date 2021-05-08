@@ -45,7 +45,7 @@ function closeSidebar() {
 	sidebarDiv.classList.remove("open");
 	if (selected){
 		selected.classList.remove("selected");
-		selected = null;
+		selected = undefined;
 	}
 }
 
@@ -81,11 +81,14 @@ function loadSidebar(data) {
 	tabContent.innerHTML = tabData[activeTab.id];
 }
 function changeTab(e) {
-	var name = e.target.id;
+	var target = e.target;
+	while (!target.classList.contains("tab")) {
+		target = target.parentElement;
+	}
 	activeTab.classList.remove("active-tab");
-	e.target.classList.add("active-tab");
-	activeTab = e.target;
-	tabContent.innerHTML = tabData[name];
+	target.classList.add("active-tab");
+	activeTab = target;
+	tabContent.innerHTML = tabData[target.id];
 }
 
 window.addEventListener("DOMContentLoaded", function() {
