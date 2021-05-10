@@ -42,6 +42,9 @@ function contextMenuHandler(target, button) {
 	switch (button.dataset.action) {
 	case "rename":
 		let newName = prompt("Enter a new name for the file:");
+		if(!newName){
+			return;
+		}
 		let invalidRegex = /[\\/:*?"<>|]/;
 		if (invalidRegex.test(newName)) {
 			alert("The characters \\ / : * ? \" < > | are not allowed in filenames");
