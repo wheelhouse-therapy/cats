@@ -232,6 +232,7 @@ if( !$oApp->sess->IsLogin() ) {
         <form style='margin:auto;border:1px solid gray; width:33%; padding: 10px; padding-top: 0px; border-radius:10px; background-color:#65CDF5; margin-top:10em;' method='post'>"
          ."<h1 style=\"text-align:center; font-family: 'Lato', sans-serif; font-weight: 300; font-size: 30pt\">Login to CATS</h1>"
          ."<input type='hidden' name='timezone' id='timezone'>"
+         ."<input type='hidden' name='login' vaue='true'>"
          ."<input type='text' placeholder='Username' style='display:block; font-family: \"Lato\", sans-serif; font-weight: 400; margin:auto; border-radius:5px; border-style: inset outset outset inset; background-color:#87d8f7;' name='seedsession_uid' />"
          ."<br />"
          ."<input type='password' placeholder='Password' style='display:block; font-family: \"Lato\", sans-serif; font-weight: 400; margin:auto; border-radius:5px; border-style: inset outset outset inset; background-color:#87d8f7;' name='seedsession_pwd' />"
@@ -282,6 +283,12 @@ if(is_numeric($oApp->sess->SmartGPC('timezone'))){
 
 if($oApp->sess->VarGet('timezone')){
     date_default_timezone_set($oApp->sess->VarGet('timezone'));
+}
+
+if(SEEDInput_Get("login") && !$oApp->sess->SmartGPC("screen")){
+    header("HTTP/1.1 303 SEE OTHER");
+    header("Location: ".CATSDIR."home");
+    exit();
 }
 
 $oUI = new CATS_MainUI( $oApp );
