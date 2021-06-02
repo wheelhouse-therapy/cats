@@ -228,7 +228,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
                                             </div>
                                         </div>
                                         <div class=\"modal-footer\">
-                                            <a href='?screen=therapist-assessments&client_key={$client_key}'><button>Add New Assessment</button></a>
+                                            <a href='".CATSDIR."therapist-assessments&client_key={$client_key}'><button>Add New Assessment</button></a>
                                         </div>
                                     </div>
                                 </div>
@@ -238,7 +238,7 @@ else if( substr($cmd, 0, 10) == 'therapist-'){
             $raA = $oApp->kfdb->QueryRowsRA("SELECT _key,date,_created,testType FROM `assessments_scores` WHERE fk_clients2 = ".$client_key);
             $s = "";
             foreach($raA as $ra){
-                $s .= "<div style='cursor: pointer;' onclick='window.location=\"?screen=therapist-assessments&kA={$ra['_key']}&client_key={$client_key}\"'>"
+                $s .= "<div style='cursor: pointer;' onclick='window.location=\"".CATSDIR."therapist-assessments&kA={$ra['_key']}&client_key={$client_key}\"'>"
                 .$ra['testType']
                 .": "
                     .AssessmentsCommon::GetAssessmentDate($ra)

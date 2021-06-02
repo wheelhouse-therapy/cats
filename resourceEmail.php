@@ -6,7 +6,7 @@ const templateTEXT = <<<ResourceTextTemplate
 ResourceTextTemplate;
 
 const templateHTML = <<<ResourceHTMLTemplate
-<a href='https://catherapyservices.ca/cats?screen=[[CABINET]]&dir=[[DIR]]'>[[TITLE]]</a>
+<a href='https://catherapyservices.ca/cats/[[CABINET]]&dir=[[DIR]]'>[[TITLE]]</a>
 		-- Uploaded By: [[UPLOADER]]<br />
 ResourceHTMLTemplate;
 
