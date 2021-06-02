@@ -3,3 +3,7 @@
 	RewriteRule (jx)\.php - [E=noabort:1]
 	RewriteRule (jx)\.php - [E=noconntimeout:1]
 </IfModule>
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^(.*)$ ?screen=$1 [QSA]
