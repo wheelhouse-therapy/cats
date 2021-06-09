@@ -25,7 +25,7 @@ if(SEEDInput_Str("reset") && isset($_SESSION['passwrdReset']) && $oUserDB->GetUs
                ."Your password has been reset to 'cats'. You will be prompted to change it the next time you log in.\n"
                ."\nThanks for using the CATS system.\n"
                ."CATS Dev Team";
-       if(mail($ra['email'], "Password Reset Request", SEEDCore_ArrayExpand($raUser, $body))){
+               if(mail($ra['email'], "Password Reset Request", SEEDCore_ArrayExpand($raUser, $body),"From: developer@catherapyservices.ca")){
            $oUserDB->ChangeUserPassword($raUser[0], "cats");
            echo "Password Reset Email Sent.";   
        }
