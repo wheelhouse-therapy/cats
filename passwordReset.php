@@ -18,7 +18,7 @@ if(SEEDInput_Str("reset") && isset($_SESSION['passwrdReset']) && $oUserDB->GetUs
     $raUser = $oUserDB->GetUserInfo($_SESSION['passwrdReset']['uid'])[1];
     $username = $_SESSION['passwrdReset']['uid'];
     $oPeopleDB = new PeopleDB( $oApp );
-    $ra = $oPeopleDB->KFDB()->QueryRA("SELECT A.* FROM `people` as A, seedsession_users as B WHERE A.uid=B._key AND B.email='".$username."'");
+    $ra = $oPeopleDB->KFDB()->QueryRA("SELECT A.* FROM `people` as A, SEEDSession_Users as B WHERE A.uid=B._key AND B.email='".$username."'");
     if($ra['email']){
         $body = "Hi [[realname]],\n"
                ."A Password reset request was recieved for your account:[[email]].\n"
