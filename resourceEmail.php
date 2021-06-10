@@ -2,12 +2,12 @@
 require_once '_start.php';
 
 const templateTEXT = <<<ResourceTextTemplate
-[[TITLE]] --- Uploaded By: [[UPLOADER]]\n
+[[TITLE]] --- Tagged as: [[TAGS]]\n
 ResourceTextTemplate;
 
 const templateHTML = <<<ResourceHTMLTemplate
-<a href='https://catherapyservices.ca/cats/[[CABINET]]&dir=[[DIR]]'>[[TITLE]]</a>
-		-- Uploaded By: [[UPLOADER]]<br />
+<a href='https://catherapyservices.ca/cats/[[CABINET]]?dir=[[DIR]]'>[[TITLE]]</a>
+		-- Tagged as: [[TAGS]]<br />
 ResourceHTMLTemplate;
 
 function output(String $msg){
@@ -35,8 +35,8 @@ $recordHTML = "";
 $counter = 0;
 
 foreach (ResourceRecord::GetResourcesByNewness($oApp) as $oRR){
-    $recordBody .= str_replace(["[[TITLE]]","[[UPLOADER]]"], [$oRR->getFile(),$oRR->getUploader(true)['realname']], templateTEXT);
-    $recordHTML .= str_replace(["[[CABINET]]","[[DIR]]","[[TITLE]]","[[UPLOADER]]"], [getScreen($oRR),$oRR->getDirectory(),$oRR->getFile(),$oRR->getUploader(true)['realname']], templateHTML);
+    $recordBody .= str_replace(["[[TITLE]]","[[TAGS]]"], [$oRR->getFile(),implode(",", $oRR->getTags())], templateTEXT);
+    $recordHTML .= str_replace(["[[CABINET]]","[[DIR]]","[[TITLE]]","[[TAGS]]"], [getScreen($oRR),$oRR->getDirectory(),$oRR->getFile(),implode(",", $oRR->getTags())], templateHTML);
     $counter++;
 }
 
