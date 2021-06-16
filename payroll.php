@@ -15,7 +15,7 @@ if(php_sapi_name() !== 'cli' && strrpos(php_sapi_name(), "cgi") === false){
 }
 
 $clinics = new Clinics($oApp);
-$manageUsers = new ManageUsers($oApp);
+$manageUsers = new ManageUsers2($oApp);
 
 $indentLevel = 0;
 function outputString($msg){

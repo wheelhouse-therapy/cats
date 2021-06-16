@@ -132,8 +132,7 @@ switch( $cmd ) {
         $oHistory->restoreScreen(-1);
         break;
     case 'support':
-        $people = (new ManageUsers($oApp))->getClinicRecord($oApp->sess->getUID());
-        if($people && $email = $people->Value("P_email")){
+        if($people && $email = (new ManageUsers2($oApp))->getEmail($oApp->sess->getUID())){
             $rJX['bOk'] = mail("developer@catherapyservices.ca",SEEDInput_Str('supportType')." from ".$people->Expand("[[first_name]] [[last_name]]"),SEEDInput_Str('supportDesc'),"From: ".$email);
         }
         else {
@@ -178,6 +177,16 @@ else if(substr($cmd,0,7) == 'system-'){
             else{
                 $rJX['sErr'] = "Unknown CMD";
             }
+            break;
+        case 'system-updateprofile':
+            require_once CATSLIB.'manage_users.php';
+            $uid = SEEDInput_Int('uid');
+            if($uid != $oApp->sess->GetUID()){
+                goto done;
+            }
+            $manageUsers = new ManageUsers2($oApp);
+            $manageUsers->processCommands("updateprofile");
+            $rJX['bOk'] = true;
             break;
     }
 }
@@ -502,6 +511,16 @@ else if(substr($cmd, 0, 6) == 'admin-'){
             $uid = SEEDInput_Int('uid');
             $rJX['sOut'] = $manageUsers->manageUser(0,true,$uid);
             $rJX['bOk'] = $rJX['sOut'] != '';
+            break;
+        case 'admin-updateprofile':
+            require_once CATSLIB.'manage_users.php';
+            $uid = SEEDInput_Int('uid');
+            if($uid <= 0){
+                goto done;
+            }
+            $manageUsers = new ManageUsers2($oApp);
+            $manageUsers->processCommands("updateprofile");
+            $rJX['bOk'] = true;
             break;
         case 'admin-rename-resource':
             require_once CATSLIB.'FilingCabinet/FilingCabinet.php';
