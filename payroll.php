@@ -33,7 +33,7 @@ function handleClinic($key){
     global $manageUsers;
     $users = $clinics->getUsersInClinic($key);
     foreach($users as $user){
-        $raData = $manageUsers->getClinicRecord($user['_key'])->ValuesRA();
+        $raData = $manageUsers->getClinicProfile($user['_key'])['kfr']->ValuesRA();
         if($raData['fk_people']){
             if(@$raData['P_email']){
                 SEEDEmailSend(["payroll@catherapyservices.ca","CATS Payroll"], $raData['P_email'], "Payroll Reminder", MESSAGE,"",['reply-to'=>"developer@catherapyservices.ca"]);
