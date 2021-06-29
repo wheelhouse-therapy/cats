@@ -6,7 +6,7 @@ const templateTEXT = <<<ResourceTextTemplate
 ResourceTextTemplate;
 
 const templateHTML = <<<ResourceHTMLTemplate
-<a href='https://catherapyservices.ca/cats/[[CABINET]]?dir=[[DIR]]'>[[TITLE]]</a>
+<a href='https://catherapyservices.ca/cats/[[ACCESSOR]]'>[[TITLE]]</a>
 		-- Tagged as: [[TAGS]]<br />
 ResourceHTMLTemplate;
 
@@ -36,7 +36,7 @@ $counter = 0;
 
 foreach (ResourceRecord::GetResourcesByNewness($oApp) as $oRR){
     $recordBody .= str_replace(["[[TITLE]]","[[TAGS]]"], [$oRR->getFile(),implode(",", $oRR->getTags())], templateTEXT);
-    $recordHTML .= str_replace(["[[CABINET]]","[[DIR]]","[[TITLE]]","[[TAGS]]"], [getScreen($oRR),$oRR->getDirectory(),$oRR->getFile(),implode(",", $oRR->getTags())], templateHTML);
+    $recordHTML .= str_replace(["[[ACCESSOR]]","[[TITLE]]","[[TAGS]]"], [FilingCabinet::GetAccessor($oRR),$oRR->getFile(),implode(",", $oRR->getTags())], templateHTML);
     $counter++;
 }
 
