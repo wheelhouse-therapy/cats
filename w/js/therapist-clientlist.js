@@ -146,7 +146,7 @@ function modalLoaded() {
     $("#contact_dialog").on("hidden.bs.modal", function(){
         reloadForm();
     });
-    setTimeout(function() {$(".searchable").selectize()}, 1);
+    setTimeout(function() {$(".searchable").select2({placeholder:'Select Provider',allowClear:true});}, 1);
 }
 
 function staffModalLoaded() {
@@ -173,7 +173,7 @@ function staffModalLoaded() {
     $("#staff_dialog").on("hidden.bs.modal", function(){
         reloadForm();
     });
-    setTimeout(function() {$(".searchable").selectize()}, 1);
+    setTimeout(function() {$(".searchable").select2({placeholder:'Select Provider',allowClear:true});}, 1);
 }
 
 function sendCMD(e, command){
